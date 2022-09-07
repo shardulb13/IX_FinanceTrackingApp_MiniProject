@@ -1,0 +1,69 @@
+<div class="mx-auto col-sm-8 m-3">
+    <h2>Add Expenses</h2>
+    <div>
+        <div class="mb-3" (mouseleave)=" mouseleavefunc($event)">
+            <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
+                <span>Select People</span>
+                
+                <!-- <span *ngIf="checkedList.length>0">{{allUsers.userName}}</span> -->
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <span *ngIf="selectedlist.length>0"> <strong> Selected People:</strong> {{selectedlist.join(',')}}</span>
+            <div class="drop-show" *ngIf="showDropDown">
+                <label class="form-label" *ngFor="let a of allUsers">
+                    <input type="checkbox" [(ngModel)]="a.checked"
+                        (change)="getSelectedValue(a.checked,a.userName,a.id)" />
+                    <span>{{a.userName}}</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="expform">
+        <!-- <button class="btn btn-primary" (click)="addMultipleUserId()">Add Peoples</button> -->
+        <div formArrayName="UserId">
+            <!-- <div class="user">
+                <span *ngFor="let id of MultipleUserId.controls let i = index" [formGroupName]="i">
+                    <select name="allusers" class="select">
+                        <option *ngFor="let user of allUsers" [value]="user.id">{{user.userName}}</option>
+                    </select>
+                </span>
+            </div> -->
+           
+
+            <!-- <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings"
+                [data]="dropdownlist" fromControlName="selectedItems">
+            </ng-multiselect-dropdown> -->
+
+            <!-- <select name="allusers" class="form-control" >
+                <option *ngFor="let title of allUsers" [value]="title.id"  >{{title.userName}}</option>
+            </select> -->
+        </div>
+       
+        <div>
+            <label for="expName" class="form-label">Expense Name</label>
+            <input type="text" class="form-control" placeholder="Name" formControlName="ExpenseName">
+        </div>
+        <div>
+            <label for="expAmount" class="form-label">Amount</label>
+            <input type="text" class="form-control" placeholder="Amount" formControlName="Amount">
+        </div>
+        <div>
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" placeholder="Date" formControlName="ExpenseDate">
+        </div>
+        <div>
+            <label for="paidby" class="form-label">Paid By</label>
+            <select name="allusers" class="form-control" formControlName="PaidBy">
+                <option *ngFor="let users of allUsers" [value]="users.userName">{{users.userName}}</option>
+            </select>
+
+        </div>
+
+        <div class="mt-2">
+            <button class="btn btn-success me-2" (click)="addExpense()">Add Data</button>
+        </div>
+    </form>
+</div>
+
+
+    

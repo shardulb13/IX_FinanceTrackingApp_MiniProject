@@ -1,0 +1,18 @@
+.sidebar{
+    height: 90.5vh;
+    // width: 20vw;
+  }
+  a{
+      font-size: 1.2rem;
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
+  a:hover{
+    text-decoration: underline;
+  }
+  a:active{
+    text-decoration: underline;
+    color: red;
+  }

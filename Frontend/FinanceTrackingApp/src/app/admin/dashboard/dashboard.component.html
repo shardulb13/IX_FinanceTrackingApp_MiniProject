@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="card m-2" style="width: 12rem;">
+        <div class="card-body">
+          <h5 class="card-title">Total Expenses</h5>
+          <p class="card-text" style="color: blue;">{{this.result}}/-</p>
+        </div>
+    </div>
+    <div class="card m-2" style="width: 12rem;">
+        <div class="card-body">
+          <h5 class="card-title">Owed Amount</h5>
+          <p class="card-text" style="color: green;">{{this.OweAmount}}/-</p>
+        </div>
+    </div>
+    <div class="card m-2" style="width: 12rem;">
+        <div class="card-body">
+          <h5 class="card-title">Lent Amount</h5>
+          <p class="card-text" style="color: red;">Red</p>
+        </div>
+    </div>
+</div>
+ <button (click)="paidby()">OweAmount</button>
+<!-- <button (click)="getAllExpensesUserIDs()">Total</button>  -->
+
+
