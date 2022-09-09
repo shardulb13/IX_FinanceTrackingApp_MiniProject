@@ -11,7 +11,11 @@ export class DashboardComponent implements OnInit {
   allExpense:any=[];
   allUsers: any=[];
   result=0;
-  OweAmount = 0;
+  oweAmount:number = 0;
+  lentAmount:number =0;
+  breakdownAmt:number=0;
+  arrayofowe:any=[];
+  paidBy!:any;
   
   constructor(private authService: AuthenticationService, private expService: ExpenseService ) {}
 
@@ -19,12 +23,27 @@ export class DashboardComponent implements OnInit {
     this.expService.getAllExpenses().subscribe(res => {
       this.allExpense = res;
       console.log("All Expenses Filtered", this.allExpense);
+      
       this.authService.getCurrentUserDetails().subscribe(res =>{
         this.currentUser = res;
        
       for(let i =0; i<= this.allExpense.length; i++){
-        this.result += this.allExpense[i].amount;
+        if(this.allExpense[i].paidBy == this.currentUser.userName){
+          this.result += this.allExpense[i].amount;
+        }
+        if(this.allExpense[i].paidBy == this.currentUser.userName){
+          console.log("Usernames matched");
+          let temp = (this.oweAmount + this.allExpense[i].amount)/this.allExpense[i].userId.length * (this.allExpense[i].userId.length-1);
+          this.oweAmount = Math.floor(temp);
+          console.log("Denyache Paise", this.oweAmount);
+        }
+        else if(this.allExpense[i].paidBy != this.currentUser.UserName){
+          let lentTemp = (this.allExpense[i].amount)/ this.allExpense[i].userId.length;
+          this.lentAmount += Math.floor(lentTemp);
+          console.log("Mala deyache paise", this.lentAmount);
+        }
       }
+   
       });
    });
 
@@ -38,13 +57,39 @@ export class DashboardComponent implements OnInit {
 
 
 
-  paidby(){
+  // paidby(){
+  //   for(var i=0; i<this.allExpense.length; i++){
+  //       if(this.allExpense[i].paidBy.toLowerCase() == this.currentUser.userName.toLowerCase()){
+  //         console.log("Usernames matched");
+  //         let temp = (this.oweAmount + this.allExpense[i].amount)/this.allExpense[i].userId.length * (this.allExpense[i].userId.length-1);
+  //         this.oweAmount = Math.floor(temp);
+  //         console.log("Denyache Paise", this.oweAmount);
+  //       }
+  //       else{
+  //         let lentTemp = (this.lentAmount + this.allExpense[i].amount)/ this.allExpense[i].userId.length;
+  //         this.lentAmount = Math.floor(lentTemp);
+  //         console.log("Mala deyache paise", this.lentAmount);
+  //       }
+  //   }
+  // }
+
+  getpaidbyId(){
     for(var i=0; i<this.allExpense.length; i++){
-        if(this.allExpense[i].paidBy.toLowerCase() == this.currentUser.userName.toLowerCase()){
-          console.log("Usernames matched");
-          this.OweAmount = this.OweAmount + this.allExpense[i].amount/this.allExpense[i].userId.length;
-          console.log("Denyache Paise", this.OweAmount);
-        }
+      this.paidBy = this.allExpense[i].paidBy;
+      console.log("Got the paidby id", this.paidBy);
     }
   }
+  checkname(){
+    for(var i=0; i<this.allExpense.length; i++){
+        if(this.paidBy== this.allExpense[i].userId){
+          let tempbreakdownamt = this.allExpense[i].amount/this.allExpense[i].userId.length;
+          this.breakdownAmt = tempbreakdownamt;
+          this.arrayofowe.push(this.allExpense[i].userName + this.breakdownAmt);
+          console.log("Array madhe store kela", this.arrayofowe);
+          console.log("Mala tula evdhe deyache ahet" + this.allExpense[i].userName + this.breakdownAmt );
+        }
+
+      }
+    }
+  
 }

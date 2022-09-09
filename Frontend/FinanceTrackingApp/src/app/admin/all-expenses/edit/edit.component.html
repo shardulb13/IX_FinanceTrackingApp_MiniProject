@@ -38,7 +38,7 @@
         <div>
             <label for="paidby" class="form-label">Paid By</label>
             <select name="allusers" class="form-control" formControlName="PaidBy">
-                <option *ngFor="let users of allUsers" [value]="users.userName">{{users.userName}}</option>
+                <option *ngFor="let users of allUsers" [value]="users.id">{{users.userName}}</option>
             </select>
 
         </div>

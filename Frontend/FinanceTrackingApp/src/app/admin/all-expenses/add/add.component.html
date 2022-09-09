@@ -1,5 +1,6 @@
 <div class="mx-auto col-sm-8 m-3">
     <h2>Add Expenses</h2>
+    <!-- <button class="btn btn-primary" (click)="default()">Default</button> -->
     <div>
         <div class="mb-3" (mouseleave)=" mouseleavefunc($event)">
             <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
@@ -12,7 +13,7 @@
             <div class="drop-show" *ngIf="showDropDown">
                 <label class="form-label" *ngFor="let a of allUsers">
                     <input type="checkbox" [(ngModel)]="a.checked"
-                        (change)="getSelectedValue(a.checked,a.userName,a.id)" />
+                        (change)="getSelectedValue(a.checked,a.userName,a.id)" [defaultChecked]="this.checkedList[0]">
                     <span>{{a.userName}}</span>
                 </label>
             </div>
@@ -54,7 +55,7 @@
         <div>
             <label for="paidby" class="form-label">Paid By</label>
             <select name="allusers" class="form-control" formControlName="PaidBy">
-                <option *ngFor="let users of allUsers" [value]="users.userName">{{users.userName}}</option>
+                <option *ngFor="let users of allUsers" [value]="users.id">{{users.userName}}</option>
             </select>
 
         </div>

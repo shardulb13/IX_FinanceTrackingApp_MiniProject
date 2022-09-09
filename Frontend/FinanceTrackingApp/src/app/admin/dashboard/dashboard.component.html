@@ -8,17 +8,25 @@
     <div class="card m-2" style="width: 12rem;">
         <div class="card-body">
           <h5 class="card-title">Owed Amount</h5>
-          <p class="card-text" style="color: green;">{{this.OweAmount}}/-</p>
+          <p class="card-text" style="color: green;">{{this.oweAmount}}/-</p>
         </div>
     </div>
     <div class="card m-2" style="width: 12rem;">
         <div class="card-body">
           <h5 class="card-title">Lent Amount</h5>
-          <p class="card-text" style="color: red;">Red</p>
+          <p class="card-text" style="color: red;">{{this.lentAmount}}/-</p>
         </div>
     </div>
 </div>
- <button (click)="paidby()">OweAmount</button>
+
+<div>
+  <ul>
+    <li >
+    <p>{{allExpense.userName}} owes me this much amount {{this.breakdownAmt}}</p>
+    </li>
+  </ul>
+</div>
+ <button (click)="checkname()">ListAmount</button>
 <!-- <button (click)="getAllExpensesUserIDs()">Total</button>  -->
 
 

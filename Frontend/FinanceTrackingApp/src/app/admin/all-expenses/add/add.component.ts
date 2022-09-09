@@ -90,7 +90,15 @@ export class AddComponent implements OnInit {
         this.checkedList.splice(index,1);
         this.selectedlist.splice(index1,1);
     }
-    this.currentSelected = {checked : status,name:value};
+    // this.currentSelected = {checked : status,name:value};
+  }
+  default(){
+    for(let i =0; i<this.allUsers.length; i++){
+      if(this.currentUserDetails.id == this.allUsers[i].id){
+        this.checkedList.push(this.allUsers[i].id);
+        console.log("Added id", this.checkedList);
+      }
+    }
   }
 
   mouseleavefunc(e:any){
