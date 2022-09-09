@@ -4,7 +4,7 @@ namespace FinanceTrackingWebAPI.Model
 {
     public class Register
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }

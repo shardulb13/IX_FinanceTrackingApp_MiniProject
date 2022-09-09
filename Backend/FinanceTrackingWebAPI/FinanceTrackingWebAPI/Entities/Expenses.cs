@@ -22,7 +22,11 @@ namespace FinanceTrackingWebAPI.Entities
         public int Amount { get; set; }
 
         [Required]
-        public string PaidBy { get; set; }
+
+            [ForeignKey("ApplicationUser")]
+            public string PaidBy { get; set; }
+            public ApplicationUser ApplicationUser { get; set; }
+
 
         [Required]
         public int CreatedBy { get; set; }

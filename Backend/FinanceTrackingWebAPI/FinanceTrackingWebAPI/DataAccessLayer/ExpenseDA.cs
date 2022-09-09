@@ -11,6 +11,8 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
     public interface IExpenseDA
     {
         IEnumerable<User_ExpenseDTO> Expenses(string userid);
+
+        //Task<User_ExpenseDTO> CheckPaidBy (string userid);
         Task<Expenses> Expenses(Expenses expense);
         Task<User_Expenses> Expenses(User_Expenses userExpense);
         //Task<User_Expenses> UpdateExpenses(User_Expenses userExpense);
@@ -54,6 +56,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
 
         public IEnumerable<User_ExpenseDTO> Expenses(string userid)
         {
+            var data = _context.User_Expenses.Select(o => o.ApplicationUser.UserName);
 
             var joinresult = _context.Expenses.Select(o=> new User_ExpenseDTO
             {
@@ -61,7 +64,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 expenseName = o.ExpenseName,
                 amount = o.Amount,
                 date = o.ExpenseDate,
-                paidby = o.PaidBy,
+                paidby = o.ApplicationUser.UserName,
                 userIds= o.User_Expenses.Select(ue=> ue.UserId).ToList()
             });
             //return joinresult;
@@ -72,6 +75,23 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             }
             return null;
         }
+        //public Task<User_ExpenseDTO> CheckPaidBy(string userid)
+        //{
+        //    var joinresult = _context.Expenses.Select(o => new User_ExpenseDTO
+        //    {
+        //        expenseId = o.ExpensesId,
+        //        expenseName = o.ExpenseName,
+        //        amount = o.Amount,
+        //        date = o.ExpenseDate,
+        //        paidby = o.PaidBy,
+        //        userIds = o.User_Expenses.Select(ue => ue.UserId).ToList()
+        //    });
+
+        //    var result = joinresult.Where(a=> a.paidby == userid).FirstOrDefault();
+
+
+        //}
+
 
 
         public async Task<Expenses> UpdateExpenses(Expenses expenses)
