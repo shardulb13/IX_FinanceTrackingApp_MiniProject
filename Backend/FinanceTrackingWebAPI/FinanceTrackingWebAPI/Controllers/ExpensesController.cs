@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FinanceTrackingWebAPI.Controllers
@@ -24,7 +25,7 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpGet]
         public IActionResult AllExpenses()
         {
-            string userId = User.Claims.First(o => o.Type == "UserID").Value;
+            string userId = User.FindFirstValue(ClaimTypes.Name);
             return Ok(_expenseService.Expenses(userId));
         }
 

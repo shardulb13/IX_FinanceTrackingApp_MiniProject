@@ -65,9 +65,11 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 amount = o.Amount,
                 date = o.ExpenseDate,
                 paidby = o.ApplicationUser.UserName,
-                userIds= o.User_Expenses.Select(ue=> ue.UserId).ToList()
+                //userIds= o.User_Expenses.Select(ue=> ue.UserId).ToList(),
+                userIds= o.User_Expenses.Select(un=> un.ApplicationUser.UserName).ToList()
+
             });
-            //return joinresult;
+            return joinresult;
             var res = joinresult.Where(a => a.userIds.Contains(userid)).ToList();
             if (res != null)
             {
