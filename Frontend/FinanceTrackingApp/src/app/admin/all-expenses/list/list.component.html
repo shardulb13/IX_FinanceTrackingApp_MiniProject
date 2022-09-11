@@ -6,25 +6,24 @@
         <table class="table text-center">
             <thead class="sticky-top bg-white">
                 <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Name</th>
                     <th>Date</th>
                     <th>Amount</th>
                     <th>PaidBy</th>
-                    <!-- <th>User ID</th> -->
+                    <th>Users</th>
                     <!-- <th>Friends ID</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let exp of expenses ;let i=index">
-                    <td>{{exp.expensesId}}</td>
+                    <!-- <td>{{exp.expensesId}}</td> -->
                     <td>{{exp.expenseName}}</td>
                     <td>{{exp.expenseDate}}</td>
                     <td>{{exp.amount}}</td>
                     <td>{{exp.paidBy}}</td>
-                    <!-- <td>{{exp.userId}}</td> -->
-                    <!-- <td>{{exp.friendsID}}</td> -->
+                    <td>{{exp.userId}}</td>
                     <td>
                         <button class="btn btn-info me-2"(click)="edit(exp.expensesId)">Edit</button>
                         <button class="btn btn-danger"(click)="deleteExpense(exp.expensesId)">Delete</button>

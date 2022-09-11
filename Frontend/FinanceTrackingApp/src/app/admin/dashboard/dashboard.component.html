@@ -1,32 +1,44 @@
-<div class="container">
-    <div class="card m-2" style="width: 12rem;">
+<div class="container mt-3">
+    <div class="card m-2" style="width: 12rem; background-color: rgb(115, 184, 249); ">
         <div class="card-body">
           <h5 class="card-title">Total Expenses</h5>
-          <p class="card-text" style="color: blue;">{{this.result}}/-</p>
+          <p class="card-text" style="font-weight: bold;">{{this.result}} <span><i class="fa fa-inr" aria-hidden="true"></i></span></p>
         </div>
     </div>
-    <div class="card m-2" style="width: 12rem;">
+    <div class="card m-2" style="width: 12rem; background-color: rgb(66, 162, 128); ">
         <div class="card-body">
-          <h5 class="card-title">Owed Amount</h5>
-          <p class="card-text" style="color: green;">{{this.oweAmount}}/-</p>
+          <h5 class="card-title">Owe Amount</h5>
+          <p class="card-text" style="font-weight: bold;">{{this.oweAmount}} <span><i class="fa fa-inr" aria-hidden="true"></i></span></p>
         </div>
     </div>
-    <div class="card m-2" style="width: 12rem;">
+    <div class="card m-2" style="width: 12rem; background-color: rgb(197, 82, 82);">
         <div class="card-body">
           <h5 class="card-title">Lent Amount</h5>
-          <p class="card-text" style="color: red;">{{this.lentAmount}}/-</p>
+          <p class="card-text" style="font-weight: bold;">{{this.lentAmount}} <span><i class="fa fa-inr" aria-hidden="true"></i></span></p>
         </div>
     </div>
 </div>
 
-<div>
-  <ul>
-    <li >
-    <p>{{allExpense.userName}} owes me this much amount {{this.breakdownAmt}}</p>
-    </li>
-  </ul>
+<div class="d-flex justify-content-evenly mt-5">
+  <div class="container1">
+    <h2 class="m-2">Owe Details</h2>
+    <ul *ngFor="let items of showOweAmount; let i = index">
+      <li>
+        
+     For {{items.ExpenseName}} {{items.userName}} owes me <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{items.amount}}
+      </li>
+    </ul>
+  </div>
+  <div class="container1">
+    <h2 class="m-2">Lent Details</h2>
+    <ul>
+      <!-- <li *ngFor="let items of showOweAmount; ">
+     For {{items.ExpenseName}} {{items.userName}} owes me this much amount {{items.amount}}
+      </li> -->
+    </ul>
+  </div>
 </div>
- <button (click)="checkname()">ListAmount</button>
+ <!-- <button (click)="">ListAmount</button> -->
 <!-- <button (click)="getAllExpensesUserIDs()">Total</button>  -->
 
 
