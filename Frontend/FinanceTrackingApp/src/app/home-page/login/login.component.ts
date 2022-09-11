@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { retry } from 'rxjs';
 import { AuthenticationService } from 'src/core/services/authentication.service';
 import { TokenService } from 'src/core/services/token.service';
 
@@ -16,10 +17,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.LoginForm = this.fb.group({
       UserName:['',[Validators.required]],
-      Password:['',[Validators.required,Validators.pattern(/^[A-Za-z0-9@]{8,15}$/)]]
+      Password:['',[Validators.required]]
     })
   }
 
+  get form(){
+    return this.LoginForm.controls;
+  }
   signup(){
     this.route.navigate(['register']);
   }

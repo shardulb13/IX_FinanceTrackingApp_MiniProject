@@ -3,3 +3,11 @@
     justify-content: center;
     flex-wrap: wrap;
 }
+.detailscontainer{
+  overflow: auto;
+  max-height: 300px;
+}
+
+li{
+    list-style-type:square;
+}

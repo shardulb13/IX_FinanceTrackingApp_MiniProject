@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { AuthenticationService } from 'src/core/services/authentication.service';
@@ -26,17 +26,14 @@ export class AddComponent implements OnInit {
   constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private router: Router) {}
   
   ngOnInit(): void {
-   
     this.expform = new FormGroup({
-      ExpenseName : new FormControl(''),
-      ExpenseDate : new FormControl(''),   
-      Amount: new FormControl(''),
-      PaidBy: new FormControl(''),
+      ExpenseName : new FormControl('', [Validators.required]),
+      ExpenseDate : new FormControl('', [Validators.required]),   
+      Amount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+      PaidBy: new FormControl('',[Validators.required]),
       IsActive: new FormControl(true),
-      // UserId: new FormArray([this.checkedList]),
       UserId: new FormControl(this.checkedList)
-    });        
-
+    });       
 
     this.authService.getCurrentUserDetails().subscribe(res =>{
       this.currentUserDetails = res;
@@ -47,22 +44,10 @@ export class AddComponent implements OnInit {
       console.log("All users",res)
       this.allUsers = res;
     });
-
-    
-    // this.dropdownSettings = {
-    //   singleSelection: false,
-    //   idField: 'item_id',
-    //   textField: 'item_text',
-    //   selectAllText: 'Select All',
-    //   unSelectAllText: 'UnSelect All',
-    //   itemsShowLimit: 3,
-    //   allowSearchFilter: true
-    // };
-    
   }
 
-  formvalue(){
-    console.log(this.expform.value);
+  get form(){
+    return this.expform.controls;
   }
 
   addExpense(){

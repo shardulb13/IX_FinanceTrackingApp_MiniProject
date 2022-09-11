@@ -13,55 +13,40 @@
             <div class="drop-show" *ngIf="showDropDown">
                 <label class="form-label" *ngFor="let a of allUsers">
                     <input type="checkbox" [(ngModel)]="a.checked"
-                        (change)="getSelectedValue(a.checked,a.userName,a.id)" [defaultChecked]="this.checkedList[0]">
-                    <span>{{a.userName}}</span>
+                        (change)="getSelectedValue(a.checked,a.userName,a.id)">
+                   <span>{{a.userName}}</span>
                 </label>
             </div>
         </div>
+       
     </div>
     <form [formGroup]="expform">
-        <!-- <button class="btn btn-primary" (click)="addMultipleUserId()">Add Peoples</button> -->
-        <div formArrayName="UserId">
-            <!-- <div class="user">
-                <span *ngFor="let id of MultipleUserId.controls let i = index" [formGroupName]="i">
-                    <select name="allusers" class="select">
-                        <option *ngFor="let user of allUsers" [value]="user.id">{{user.userName}}</option>
-                    </select>
-                </span>
-            </div> -->
-           
-
-            <!-- <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings"
-                [data]="dropdownlist" fromControlName="selectedItems">
-            </ng-multiselect-dropdown> -->
-
-            <!-- <select name="allusers" class="form-control" >
-                <option *ngFor="let title of allUsers" [value]="title.id"  >{{title.userName}}</option>
-            </select> -->
-        </div>
-       
         <div>
             <label for="expName" class="form-label">Expense Name</label>
             <input type="text" class="form-control" placeholder="Name" formControlName="ExpenseName">
+            <span class="alert" *ngIf="form['ExpenseName']?.errors?.['required'] && form['ExpenseName']?.touched">Expense Name is required</span>
         </div>
         <div>
             <label for="expAmount" class="form-label">Amount</label>
             <input type="text" class="form-control" placeholder="Amount" formControlName="Amount">
+            <span class="alert" *ngIf="form['Amount']?.errors?.['required'] && form['Amount']?.touched">Amount is required</span>
+            <span class="alert" *ngIf="form['Amount']?.errors?.['pattern']">Only Numbers Allowed</span>
         </div>
         <div>
             <label for="date" class="form-label">Date</label>
             <input type="date" class="form-control" placeholder="Date" formControlName="ExpenseDate">
+            <span class="alert" *ngIf="form['ExpenseDate']?.errors?.['required'] && form['ExpenseDate']?.touched">Date is required</span>
         </div>
         <div>
             <label for="paidby" class="form-label">Paid By</label>
             <select name="allusers" class="form-control" formControlName="PaidBy">
                 <option *ngFor="let users of allUsers" [value]="users.id">{{users.userName}}</option>
             </select>
-
+            <span class="alert" *ngIf="form['PaidBy']?.errors?.['required'] && form['PaidBy']?.touched">Select paidby user</span> 
         </div>
 
         <div class="mt-2">
-            <button class="btn btn-success me-2" (click)="addExpense()">Add Data</button>
+            <button class="btn btn-success me-2" [disabled]="!expform.valid"(click)="addExpense()">Add Data</button>
         </div>
     </form>
 </div>

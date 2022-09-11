@@ -12,9 +12,12 @@ export class DashboardComponent implements OnInit {
   allUsers: any=[];
   result=0;
   temp=0;
+  lentTemp=0;
   oweAmount:number = 0;
   lentAmount:number =0;
   arrayofowe:any=[];
+  arrayoflent:any=[];
+  showLentAmount:any=[];
   showOweAmount:any=[];
   
   constructor(private authService: AuthenticationService, private expService: ExpenseService ) {}
@@ -39,29 +42,43 @@ export class DashboardComponent implements OnInit {
           console.log("Array of owe amount", this.arrayofowe);  
 
           for(let j = 0; j< this.arrayofowe.length; j++){
-            if(this.arrayofowe[j].toLowerCase() == this.currentUser.userName.toLowerCase()){
-              console.log("Found Matching ids in the array");
-            }
-            else{
+            if(this.arrayofowe[j].toLowerCase() != this.currentUser.userName.toLowerCase()){
               this.showOweAmount.push({'userName':this.arrayofowe[j],'amount':Math.floor(this.temp), 'ExpenseName':this.allExpense[i].expenseName});
               // this.showOweAmount.push();
               console.log("Unmatched id", this.arrayofowe[j] + "owes me" + this.temp);
               console.log("Array madhe kiti ahe", this.showOweAmount);
               console.log(this.showOweAmount.userName + "owes me" + this.showOweAmount.amount);
             }
+              console.log("Found Matching ids in the array");
            }
         }
         
         else{
-          let lentTemp = (this.allExpense[i].amount)/ this.allExpense[i].userId.length;
-          this.lentAmount += Math.floor(lentTemp);
+          this.lentTemp = (this.allExpense[i].amount)/ this.allExpense[i].userId.length;
+          this.lentAmount += Math.floor(this.lentTemp);
           console.log("Mala deyache paise", this.lentAmount);
+          this.arrayoflent = this.allExpense[i].userId;
+          console.log("Mala"+ this.arrayoflent +"Amount"+this.lentAmount);
+          console.log("Array of owe amount", this.lentAmount);  
+          for(let j = 0; j< this.arrayoflent.length; j++){
+            // if(this.arrayoflent[j].toLowerCase() == this.currentUser.userName.toLowerCase()){
+             
+            //   console.log("Found Matching ids in the array");
+            // }
+             if(this.allExpense[i].paidBy == this.arrayoflent[j]){
+              this.showLentAmount.push({'userName':this.arrayoflent[j],'amount':Math.floor(this.lentTemp), 'ExpenseName':this.allExpense[i].expenseName});
+              console.log("Unmatched id", this.arrayofowe[j] + "owes me" + this.lentTemp);
+              console.log("Array madhe kiti ahe", this.showOweAmount);
+              console.log(this.showOweAmount.userName + "owes me" + this.showOweAmount.amount);
+              console.log("unmatched user id");
+              
+            }
+           }
           
         }
       }
-   
       });
-   });
+    });
 
    this.authService.getAllUsers().subscribe(res=>{
     this.allUsers = res;

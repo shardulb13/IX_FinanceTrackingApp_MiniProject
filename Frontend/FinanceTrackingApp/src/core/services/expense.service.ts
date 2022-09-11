@@ -11,22 +11,22 @@ export class ExpenseService {
   constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
 
   getAllExpenses():Observable<any>{
-    const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
-    return this.httpClient.get(this.baseApiUrl,{headers: headers});
+    // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
+    return this.httpClient.get(this.baseApiUrl);
   }
 
   AddExpenses(data:any):Observable<any>{
-    const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
-    return this.httpClient.post(this.baseApiUrl, data, {headers:headers});
+    // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
+    return this.httpClient.post(this.baseApiUrl, data);
   }
 
   DeleteExpense(id:number):Observable<any>{
-    const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
-    return this.httpClient.delete(`${this.baseApiUrl}/${id}`,{headers:headers});
+    // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
+    return this.httpClient.delete(`${this.baseApiUrl}/${id}`);
   }
 
   updateExpense(data:any):Observable<any>{
-    const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
-    return this.httpClient.put(`${this.baseApiUrl}`, data, {headers:headers});
+    // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
+    return this.httpClient.put(`${this.baseApiUrl}`, data);
   }
 }

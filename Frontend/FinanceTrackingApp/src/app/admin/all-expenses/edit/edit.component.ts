@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/core/services/authentication.service';
 import { ExpenseService } from 'src/core/services/expense.service';
@@ -23,13 +23,11 @@ export class EditComponent implements OnInit {
   ngOnInit(): void {
     this.expform = new FormGroup({
       ExpensesId: new FormControl(''),
-      ExpenseName : new FormControl(''),
-      ExpenseDate : new FormControl(''),   
-      Amount: new FormControl(''),
-      PaidBy: new FormControl(''),
+      ExpenseName : new FormControl('', [Validators.required]),
+      ExpenseDate : new FormControl('', [Validators.required]),   
+      Amount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+      PaidBy: new FormControl('',[Validators.required]),
       IsActive: new FormControl(true),
-      // UserId: new FormArray([this.checkedList]),
-      // UserId: new FormControl(this.checkedList)
     });     
     this.authService.getAllUsers().subscribe(res =>{
       console.log("All users",res)
@@ -52,6 +50,10 @@ export class EditComponent implements OnInit {
 
     this.id = this.activatedroute.snapshot.paramMap.get('id');
       console.log("got id:", this.id);
+  }
+
+  get form(){
+    return this.expform.controls;
   }
 
   getSelectedValue(status:Boolean,value:String, id:string){
