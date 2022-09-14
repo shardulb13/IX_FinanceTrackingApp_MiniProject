@@ -1,0 +1,32 @@
+<div class="add-button">
+    <button class="btn btn-primary my-4" routerLink="dashboard">Group Dashboard</button>
+    <!-- <button class="btn btn-secondary ms-4 m-4" routerLink="groupExpense">Group Expenses</button> -->
+    <button class="btn btn-success m-4" routerLink="addGroup">Create Group</button>
+</div>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table text-center">
+            <thead class="sticky-top bg-white">
+                <tr>
+                    <!-- <th>ID</th> -->
+                    <th>Group Name</th>
+                    <th>Users</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let grp of listOfGroups ;let i=index">
+                    <!-- <td>{{exp.expensesId}}</td> -->
+                    <td>{{grp.groupName}}</td>
+                    <td>{{grp.userId}}</td>
+                    <td>
+                        <button class="btn btn-info me-2" (click)="edit(grp.id)">Edit</button>
+                        <button class="btn btn-danger me-2" (click)="deleteGroup(grp.id)">Delete</button>
+                        <button class="btn btn-secondary"(click)="view(grp.id)">View</button>
+                    </td>
+                </tr>
+    
+            </tbody>
+        </table>
+    </div>
+</div>

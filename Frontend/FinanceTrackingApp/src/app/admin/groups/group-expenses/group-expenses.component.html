@@ -1,0 +1,21 @@
+<div class="container">
+    <h2 class="text-center m-2">Group Expenses</h2>
+    <table class="table text-center table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>PaidBy</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let groups of groupExpenses; let i =index">
+                <td>{{groups.expenseName}}</td>
+                <td>{{groups.amount}}</td>
+                <td>{{groups.expenseDate}}</td>
+                <td>{{groups.paidBy}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

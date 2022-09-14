@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/core/services/authentication.service';
 import { ExpenseService } from 'src/core/services/expense.service';
 
@@ -18,7 +19,8 @@ export class EditComponent implements OnInit {
   currentSelected :any= {};
   showDropDown!:boolean;
   id!:any;
-  constructor(private authService: AuthenticationService, private expenseService:ExpenseService,private activatedroute: ActivatedRoute, private route: Router) { }
+  date!:string;
+  constructor(private authService: AuthenticationService, private expenseService:ExpenseService,private activatedroute: ActivatedRoute, private route: Router, private toastrService:ToastrService) { }
 
   ngOnInit(): void {
     this.expform = new FormGroup({
@@ -50,6 +52,9 @@ export class EditComponent implements OnInit {
 
     this.id = this.activatedroute.snapshot.paramMap.get('id');
       console.log("got id:", this.id);
+      
+    this.date = new Date().toISOString().slice(0,10);
+    console.log(this.date);
   }
 
   get form(){
@@ -76,8 +81,12 @@ export class EditComponent implements OnInit {
 
   updateExpense(){
     this.expenseService.updateExpense(this.expform.value).subscribe(res=>{
-      alert("Data Updated Successfully");
-      this.route.navigate(['admin/allexpenses'])
+      // alert("Data Updated Successfully");
+      this.toastrService.success("Expense Updated Successfully");
+      this.route.navigate(['user/allexpenses'])
+    },
+    err=>{
+      this.toastrService.error("Something went wrong");
     })
   }
 }

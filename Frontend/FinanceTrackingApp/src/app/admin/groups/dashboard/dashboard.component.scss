@@ -3,11 +3,7 @@
     justify-content: center;
     flex-wrap: wrap;
 }
-.card{
-  overflow: auto;
-  max-height: 200px;
-}
-
-li{
-    list-style-type:square;
+.dashboard{
+    overflow: auto;
+    max-height: 85vh;
 }

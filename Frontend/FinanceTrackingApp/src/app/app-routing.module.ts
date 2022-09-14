@@ -8,7 +8,7 @@ const routes: Routes = [
     loadChildren: () => import('./home-page/home-page.module').then(m => m.HomePageModule)
   },
   {
-    path: 'admin',
+    path: 'user',
     canActivate:[TokenauthGuard],
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
   }

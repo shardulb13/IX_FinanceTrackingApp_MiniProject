@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { retry } from 'rxjs';
 import { AuthenticationService } from 'src/core/services/authentication.service';
 import { TokenService } from 'src/core/services/token.service';
@@ -12,7 +13,8 @@ import { TokenService } from 'src/core/services/token.service';
 })
 export class LoginComponent implements OnInit {
   LoginForm:FormGroup = new FormGroup({});
-  constructor(private route: Router, private fb: FormBuilder, private auth: AuthenticationService, private tokenService: TokenService) { }
+  isAlert:boolean = true;
+  constructor(private route: Router, private fb: FormBuilder, private auth: AuthenticationService, private tokenService: TokenService, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.LoginForm = this.fb.group({
@@ -31,15 +33,16 @@ export class LoginComponent implements OnInit {
   loginDetails(){
     console.log(this.LoginForm.value);
     this.auth.loginDetails(this.LoginForm.value).subscribe(res => {
+    this.toastrService.success("Login Successful");
       if(res){
-        alert('Login Successful');
         console.log(res.token);
         this.tokenService.setToken(res.token);
-        this.route.navigate(['admin/allexpenses']);
+        this.route.navigate(['user/allexpenses']);
       }
     },
     err =>{
-      alert('Invalid Login Details');
+      this.toastrService.error("Invalid Login Details");
+      // alert('Invalid Login Details');
     })
   }
 }

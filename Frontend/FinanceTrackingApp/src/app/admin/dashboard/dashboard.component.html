@@ -1,17 +1,18 @@
+<button class="btn btn-primary mt-4 mx-3" (click)="settle()">Settle All Expense</button>
 <div class="container mt-3">
-    <div class="card m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
+    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
         <div class="card-body">
           <h5 class="card-title">Total Expenses</h5>
           <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{this.result}}/- </p>
         </div>
     </div>
-    <div class="card m-2" style="width: 12rem; background-color: rgb(153, 240, 210); ">
+    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210); ">
         <div class="card-body">
           <h5 class="card-title">Owe Amount</h5>
           <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{this.oweAmount}}/-</p>
         </div>
     </div>
-    <div class="card m-2" style="width: 12rem; background-color: rgb(244, 169, 169);">
+    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169);">
         <div class="card-body">
           <h5 class="card-title">Settle Amount</h5>
           <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{this.lentAmount}}/-</p>
@@ -20,8 +21,8 @@
 </div>
 
 <div class="d-flex justify-content-evenly mt-5">
-  <div class="detailscontainer">
-    <h2 class="m-2">Owe Details</h2>
+  <div class="card p-4 shadow-sm" >
+    <h2 class="m-2 sticky-top bg-white">Owe Details</h2>
     <ul *ngFor="let items of showOweAmount; let i = index">
       <li>
         For <strong>{{items.ExpenseName}} </strong> {{items.userName}} owes me <span><i class="fa fa-inr" aria-hidden="true"></i></span>
@@ -29,7 +30,7 @@
       </li>
     </ul>
   </div>
-  <div class="detailscontainer">
+  <div class="card p-4 shadow-sm">
     <h2 class="m-2 sticky-top bg-white">Settle Details</h2>
     <ul *ngFor="let items of showLentAmount; let i = index">
       <li>

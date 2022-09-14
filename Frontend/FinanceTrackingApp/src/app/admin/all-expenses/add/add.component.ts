@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 // import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { AuthenticationService } from 'src/core/services/authentication.service';
 import { ExpenseService } from 'src/core/services/expense.service';
+import { GroupsService } from 'src/core/services/groups.service';
 
 @Component({
   selector: 'app-add',
@@ -23,7 +25,11 @@ export class AddComponent implements OnInit {
   paidby:any;
   useridarray:any=[];
   formarr:any= [];
-  constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private router: Router) {}
+  date! :string;
+  usersGroup:any=[];
+  paidBylist:any=[];
+  constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private router: Router, private toastrService: ToastrService,
+    private groupService: GroupsService) {}
   
   ngOnInit(): void {
     this.expform = new FormGroup({
@@ -31,6 +37,7 @@ export class AddComponent implements OnInit {
       ExpenseDate : new FormControl('', [Validators.required]),   
       Amount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
       PaidBy: new FormControl('',[Validators.required]),
+      GroupId: new FormControl(''),
       IsActive: new FormControl(true),
       UserId: new FormControl(this.checkedList)
     });       
@@ -44,6 +51,14 @@ export class AddComponent implements OnInit {
       console.log("All users",res)
       this.allUsers = res;
     });
+    
+    this.date = new Date().toISOString().slice(0,10);
+    console.log(this.date);
+    
+    this.groupService.getGroups().subscribe(res=>{
+      this.usersGroup = res;
+      console.log("Users Group", this.usersGroup);
+    })
   }
 
   get form(){
@@ -53,12 +68,16 @@ export class AddComponent implements OnInit {
   addExpense(){
     this.expenseService.AddExpenses(this.expform.value).subscribe(res =>{
     console.log(res);
-    alert("Expense Added Successfully");
-    this.router.navigate(['admin/allexpenses']);
-
+    // alert("Expense Added Successfully");
+    this.toastrService.success("Expenes Added Successfully");
+    if(this.expform.controls['GroupId'].value > 0){
+      this.router.navigate(['user/groups']);
+    }
+    this.router.navigate(['user/allexpenses']);
     },
     err=>{
-      alert("Something went wrong");
+      // alert("Something went wrong");
+      this.toastrService.error("Something went wrong");
     });
     console.log("Form Details",this.expform.value);
     console.log(this.checkedList);
@@ -90,4 +109,21 @@ export class AddComponent implements OnInit {
     this.showDropDown = false;
     console.log("mouse enter");
   }
+
+  // onchange(event:any){
+  //   if(this.expform.controls['GroupId'].value > 0){
+  //     for(let i=0; i<this.usersGroup.length; i++){
+  //       for(let j=0; j<this.usersGroup[i].userId.length; j++){
+  //         for(let k=0; k<this.allUsers.length; k++){
+  //           if(this.allUsers[k].userName == this.usersGroup[j].userId){
+  //             console.log("UserNames Matched");
+  //             this.paidBylist.push({'id':this.allUsers[i].id}, {'userName':this.allUsers[i].userName});
+  //             console.log("Id", this.paidBylist);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }    
+  // }
+
 }

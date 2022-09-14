@@ -1,12 +1,9 @@
 <div class="mx-auto col-sm-8 m-3">
-    <h2>Add Expenses</h2>
-    <!-- <button class="btn btn-primary" (click)="default()">Default</button> -->
+    <h2>Add Expense</h2>
     <div>
         <div class="mb-3" (mouseleave)=" mouseleavefunc($event)">
             <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
                 <span>Select People</span>
-                
-                <!-- <span *ngIf="checkedList.length>0">{{allUsers.userName}}</span> -->
                 <i class="fa fa-angle-down"></i>
             </button>
             <span *ngIf="selectedlist.length>0"> <strong> Selected People:</strong> {{selectedlist.join(',')}}</span>
@@ -18,9 +15,16 @@
                 </label>
             </div>
         </div>
-       
+       OR
     </div>
     <form [formGroup]="expform">
+        <div>
+            <label for="group" class="form-label">Select Group</label>
+            <select name="group" class="form-control" formControlName="GroupId">
+                <option *ngFor="let users of usersGroup" [value]="users.id">{{users.groupName}}</option>
+            </select>
+            <span class="alert" *ngIf="form['PaidBy']?.errors?.['required'] && form['PaidBy']?.touched">Select paidby user</span> 
+        </div>
         <div>
             <label for="expName" class="form-label">Expense Name</label>
             <input type="text" class="form-control" placeholder="Name" formControlName="ExpenseName">
@@ -34,7 +38,7 @@
         </div>
         <div>
             <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" placeholder="Date" formControlName="ExpenseDate">
+            <input type="date"  max="{{this.date}}" class="form-control" placeholder="Date" formControlName="ExpenseDate">
             <span class="alert" *ngIf="form['ExpenseDate']?.errors?.['required'] && form['ExpenseDate']?.touched">Date is required</span>
         </div>
         <div>
@@ -46,7 +50,7 @@
         </div>
 
         <div class="mt-2">
-            <button class="btn btn-success me-2" [disabled]="!expform.valid"(click)="addExpense()">Add Data</button>
+            <button class="btn btn-success me-2" [disabled]="!expform.valid"(click)="addExpense()">Add Expense</button>
         </div>
     </form>
 </div>

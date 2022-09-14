@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { __param } from 'tslib';
 import { TokenService } from './token.service';
 
 @Injectable({
@@ -28,5 +29,11 @@ export class ExpenseService {
   updateExpense(data:any):Observable<any>{
     // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
     return this.httpClient.put(`${this.baseApiUrl}`, data);
+  }
+
+  getExpensebyGroup(index: any):Observable<any>{
+    const url = "http://localhost:46079/api/Expenses/GroupExpenses"
+    const options = {params: new HttpParams().set('groupId', index)}
+    return this.httpClient.get(url,options);
   }
 }

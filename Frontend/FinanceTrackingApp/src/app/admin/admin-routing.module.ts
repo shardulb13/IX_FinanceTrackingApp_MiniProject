@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('./all-expenses/all-expenses.module').then(m => m.AllExpensesModule)
       },
       {
+        path: 'groups',
+        loadChildren: () => import('./groups/groups.module').then(m => m.GroupsModule)
+      },
+      {
         path: 'dashboard', component: DashboardComponent
       }
     ]

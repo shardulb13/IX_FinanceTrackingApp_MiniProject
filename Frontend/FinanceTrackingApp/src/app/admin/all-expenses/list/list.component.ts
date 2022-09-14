@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/core/services/authentication.service';
 import { ExpenseService } from 'src/core/services/expense.service';
+import { GroupsService } from 'src/core/services/groups.service';
 
 @Component({
   selector: 'app-list',
@@ -11,7 +13,9 @@ import { ExpenseService } from 'src/core/services/expense.service';
 export class ListComponent implements OnInit {
   expenses: any =[];
   allUsers:any =[];
-  constructor(private expenseService: ExpenseService, private authService: AuthenticationService, private route: Router) { }
+  allGroups:any=[];
+  constructor(private expenseService: ExpenseService, private authService: AuthenticationService, private route: Router, private toastrService: ToastrService,
+    private groupService: GroupsService) { }
 
   ngOnInit(): void {
     this.expenseService.getAllExpenses().subscribe(res => {
@@ -24,6 +28,12 @@ export class ListComponent implements OnInit {
       this.allUsers = res;
       console.log("All users", this.allUsers);
     });
+
+    this.groupService.getGroups().subscribe(res =>{
+      console.log(res);
+      this.allGroups = res;
+      console.log("All groups", this.allGroups);
+    }); 
   }
 
   getNames(){
@@ -39,14 +49,25 @@ export class ListComponent implements OnInit {
 
   deleteExpense(id:number){
     this.expenseService.DeleteExpense(id).subscribe(res=>{
-      alert("Expense Deleted Successfully");
+      // alert("Expense Deleted Successfully");
+      this.toastrService.error("Expense Deleted Successfully");
       this.ngOnInit();
     },
     err=>{
-      alert("Error in deleting Expense")
+      // alert("Error in deleting Expense")
+      this.toastrService.error("Error in deleting Expense");
     })
   }
   edit(id:number){
-    this.route.navigate([`admin/allexpenses/edit/${id}`]);
+    this.route.navigate([`user/allexpenses/edit/${id}`]);
+  }
+
+  getGroupExpense(){
+    for(let i=0;i<this.allGroups.length; i++){
+      console.log("Group Expense id", this.allGroups[i].id);
+      this.expenseService.getExpensebyGroup(this.allGroups[i].id).subscribe(res =>{
+        console.log("Group Expenses", res);
+      });
+    }
   }
 }

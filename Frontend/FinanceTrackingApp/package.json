@@ -21,6 +21,7 @@
     "@ng-select/ng-select": "^9.0.2",
     "bootstrap": "^5.2.0",
     "ng-multiselect-dropdown": "^1.0.0-beta.19",
+    "ngx-toastr": "^14.0.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.4"

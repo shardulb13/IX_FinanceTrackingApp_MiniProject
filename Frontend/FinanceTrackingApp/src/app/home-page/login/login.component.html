@@ -16,4 +16,13 @@
       <div>
         <p>Dont have an account? <span><a id="links" (click)="signup()" >Sign Up</a></span></p>
       </div>
+
+      <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" (show)="this.isAlert">
+        <div class="d-flex">
+          <div class="toast-body">
+            Hello, world! This is a toast message.
+          </div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
 </form>
