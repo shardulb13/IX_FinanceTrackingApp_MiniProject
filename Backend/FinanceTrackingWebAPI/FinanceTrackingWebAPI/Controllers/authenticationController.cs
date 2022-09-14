@@ -40,7 +40,6 @@ namespace FinanceTrackingWebAPI.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim("UserID", user.Id.ToString()),
-                    new Claim("Username", user.UserName.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 

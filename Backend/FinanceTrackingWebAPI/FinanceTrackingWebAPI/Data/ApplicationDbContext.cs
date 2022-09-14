@@ -15,22 +15,24 @@ namespace FinanceTrackingWebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User_Expenses>().HasOne(e => e.Expenses).WithMany(ue => ue.User_Expenses)
+            builder.Entity<UserExpenses>().HasOne(e => e.Expenses).WithMany(ue => ue.User_Expenses)
                 .HasForeignKey(e => e.ExpenseId).OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<User_Expenses>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.User_Expenses)
+            builder.Entity<UserExpenses>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.User_Expenses)
                 .HasForeignKey(e => e.UserId);
 
-            //builder.Ignore<IdentityUserLogin<string>>();
-            //builder.Ignore<IdentityUserRole<string>>();
-            //builder.Ignore<IdentityUserToken<string>>();
-            //builder.Ignore<IdentityUserClaim<string>>();
-            //builder.Ignore<IdentityUser<string>>();
-            //builder.Ignore<ApplicationUser>();
+            builder.Entity<UsersGroup>().HasOne(e => e.Groups).WithMany(ue => ue.UsersGroup)
+            .HasForeignKey(e => e.GroupId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UsersGroup>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.UsersGroup)
+                .HasForeignKey(e => e.UserId);
+
             base.OnModelCreating(builder);
         }
         public DbSet<Expenses> Expenses { get; set; }
-        public DbSet<User_Expenses> User_Expenses { get; set; }
+        public DbSet<UserExpenses> UserExpenses { get; set; }
         public DbSet<Groups> Groups { get; set; }
+        public DbSet<UsersGroup> UsersGroup { get; set; }
+
     }
 }

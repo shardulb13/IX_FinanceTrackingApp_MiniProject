@@ -23,9 +23,9 @@ namespace FinanceTrackingWebAPI.Entities
 
         [Required]
 
-            [ForeignKey("ApplicationUser")]
-            public string PaidBy { get; set; }
-            public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string PaidBy { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
 
         [Required]
@@ -40,10 +40,7 @@ namespace FinanceTrackingWebAPI.Entities
         [Required, DefaultValue(true)]
         public bool IsActive { get; set; }
 
-
-       
-        //public string UserID { get; set; }
-        public List<User_Expenses> User_Expenses { get; set; }
+        public List<UserExpenses> User_Expenses { get; set; }
 
 
     }

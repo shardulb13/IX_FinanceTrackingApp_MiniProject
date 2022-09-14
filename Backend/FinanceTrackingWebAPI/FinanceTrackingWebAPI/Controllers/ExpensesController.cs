@@ -1,10 +1,7 @@
 ﻿using FinanceTrackingWebAPI.Model;
 using FinanceTrackingWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -45,7 +42,7 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ExpensesModel> DeleteExpense (int id)
         {
-            return await _expenseService.Delete(id);
+            return await _expenseService.Delete(id); 
         }
     }
 }

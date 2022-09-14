@@ -7,8 +7,10 @@ namespace FinanceTrackingWebAPI.Authentication
 {
     public class ApplicationUser : IdentityUser
     {
-        public List<User_Expenses> User_Expenses { get; set; }
+        public List<UserExpenses> User_Expenses { get; set; }
 
-  
+        public List<UsersGroup> UsersGroup { get; set; }
+
+
     }
 }

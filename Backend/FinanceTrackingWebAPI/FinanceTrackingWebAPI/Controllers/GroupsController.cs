@@ -1,13 +1,17 @@
 ﻿using FinanceTrackingWebAPI.Model;
 using FinanceTrackingWebAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FinanceTrackingWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GroupsController : ControllerBase
     {
         private readonly IGroupService _groupService;
@@ -16,28 +20,47 @@ namespace FinanceTrackingWebAPI.Controllers
             _groupService = groupService;
         }
         [HttpGet]
-        public IActionResult AllGroups()
+        public IActionResult Groups()
         {
-            return Ok(_groupService.Groups());
+            string userId = User.FindFirstValue(ClaimTypes.Name);
+            return Ok(_groupService.Groups(userId));
         }
 
         [HttpPost]
-        public async Task<GroupsModel> AddGroups(GroupsModel obj)
+        public async Task< IActionResult> AddGroups(GroupModel groupModel)
         {
-
-            return await _groupService.Groups(obj);
+            try
+            {
+                return Ok(await _groupService.Group(groupModel));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Group Creation Failed" });
+            }
         }
 
-        [HttpPut("{id}")]
-        public async Task<GroupsModel> UpdateGroup(GroupsModel obj, int id)
+        [HttpPut]
+        public async Task<IActionResult> UpdateGroup(GroupModel groupModel)
         {
-            return await _groupService.Groups(obj, id);
+            try
+            {
+                return Ok(await _groupService.UpdateGroup(groupModel));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Id not Found" });
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<GroupsModel> DeleteGroup(int id)
+        public bool DeleteGroup(int id)
         {
-            return await _groupService.Delete(id);
+            var deleteGroup = _groupService.Delete(id);
+            if (deleteGroup)
+            {
+                return true;
+            }
+            return false;
         }
 
     }
