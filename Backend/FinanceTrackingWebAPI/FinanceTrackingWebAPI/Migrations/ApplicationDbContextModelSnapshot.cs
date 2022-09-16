@@ -139,30 +139,20 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("GroupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserExpenses", b =>
+            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.User_Expenses", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -181,29 +171,7 @@ namespace FinanceTrackingWebAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserExpenses");
-                });
-
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UsersGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UsersGroup");
+                    b.ToTable("User_Expenses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -355,36 +323,29 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Navigation("Groups");
                 });
 
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserExpenses", b =>
+            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Groups", b =>
+                {
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.User_Expenses", b =>
                 {
                     b.HasOne("FinanceTrackingWebAPI.Entities.Expenses", "Expenses")
-                        .WithMany("userExpenses")
+                        .WithMany("User_Expenses")
                         .HasForeignKey("ExpenseId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "ApplicationUser")
-                        .WithMany("userExpenses")
+                        .WithMany("User_Expenses")
                         .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Expenses");
-                });
-
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UsersGroup", b =>
-                {
-                    b.HasOne("FinanceTrackingWebAPI.Entities.Groups", "Groups")
-                        .WithMany("UsersGroup")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "ApplicationUser")
-                        .WithMany("UsersGroup")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -440,19 +401,12 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Authentication.ApplicationUser", b =>
                 {
-                    b.Navigation("userExpenses");
-
-                    b.Navigation("UsersGroup");
+                    b.Navigation("User_Expenses");
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Expenses", b =>
                 {
                     b.Navigation("userExpenses");
-                });
-
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Groups", b =>
-                {
-                    b.Navigation("UsersGroup");
                 });
 #pragma warning restore 612, 618
         }

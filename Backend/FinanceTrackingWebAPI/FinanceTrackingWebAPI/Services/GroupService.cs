@@ -1,7 +1,6 @@
 ﻿using FinanceTrackingWebAPI.DataAccessLayer;
 using FinanceTrackingWebAPI.Entities;
 using FinanceTrackingWebAPI.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,93 +9,90 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IGroupService
     {
-        IEnumerable<GroupDTO> Groups(string userId);
-        Task<int> Group(GroupDTO groups);
-        Task<GroupDTO> Group(int id);
-        Task<int> UpdateGroup(GroupDTO groups);
-        bool Delete(int id);
+        IEnumerable<GroupsModel> Groups();
+        Task<GroupsModel> Groups(GroupsModel obj);
+        Task<GroupsModel> Group(int id);
+        Task<GroupsModel> Groups(GroupsModel obj, int id);
+        Task<GroupsModel> Delete(int id);
     }
     public class GroupService : IGroupService
     {
-        private readonly IGroupDA _groupDA;
+        private readonly IGroupDA _groupService;
         public GroupService(IGroupDA groupService)
         {
-            _groupDA = groupService;
+            _groupService = groupService;
         }
 
-        public bool Delete(int id)
+        public async Task<GroupsModel> Delete(int id)
         {
-            var deleteData = _groupDA.Delete(id);
-            if (deleteData)
+            var deleteData = await _groupService.Delete(id);
+            if (deleteData != null)
             {
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<GroupDTO> Group(int id)
-        {
-            var result = await _groupDA.Group(id);
-            if (result != null)
-            {
-                return new GroupDTO
+                return new GroupsModel
                 {
-                    Id = result.Id,
-                    GroupName = result.GroupName,
-                    //UserId = result.UserId
+                    Id = deleteData.Id
                 };
             }
             return null;
         }
 
-        public IEnumerable<GroupDTO> Groups(string userId)
+        public async Task<GroupsModel> Group(int id)
         {
-            var result = _groupDA.Groups(userId);
+            var result = await _groupService.Group(id);
             if (result != null)
             {
-                return (from grp in result
-                        select new GroupDTO
+                return new GroupsModel
+                {
+                    Id = result.Id,
+                    GroupName = result.GroupName,
+                    UserId = result.UserId
+                };
+            }
+            return null;
+        }
+
+        public IEnumerable<GroupsModel> Groups()
+        {
+            var result = _groupService.Groups();
+            if (result != null)
+            {
+                return (from exp in result
+                        select new GroupsModel
                         {
-                            Id = grp.groupId,
-                            GroupName = grp.groupName,
-                            UserId = grp.userIds
+                          Id=exp.Id,
+                          GroupName=exp.GroupName,
+                          UserId=exp.UserId
                         }).ToList();
             }
             return null;
         }
 
-        public async Task<int> Group(GroupDTO groupModel)
+        public async Task<GroupsModel> Groups(GroupsModel obj)
         {
-            var group = new Groups
+            var expense = new Groups
             {
-                GroupName = groupModel.GroupName,
-                CreatedBy = groupModel.Id,
-                CreatedOn = DateTime.Now,
-                IsActive = groupModel.IsActive,
+                GroupName = obj.GroupName,
+                UserId = obj.UserId
             };
-            var addGroup = await _groupDA.Group(group);
-            foreach (var id in groupModel.UserId)
+            var add = await _groupService.Groups(expense);
+            return new GroupsModel
             {
-                var usersGroup = new UsersGroup
-                {
-                    GroupId = group.Id,
-                    UserId = id,
-                };
-                await _groupDA.Groups(usersGroup);
-            }
-            return group.Id;
+                Id = add.Id
+            };
         }
 
-        public async Task<int> UpdateGroup(GroupDTO groupModel)
+        public async Task<GroupsModel> Groups(GroupsModel obj, int id)
         {
-            var group = new Groups
+            var expObj = new Groups
             {
-                Id = groupModel.Id,
-                GroupName = groupModel.GroupName,
-                //UserId = obj.UserId
+               GroupName = obj.GroupName,
+               UserId = obj.UserId
             };
-            
-            return await _groupDA.UpdateGroup(group);
+            var updatedata = await _groupService.Groups(expObj, id);
+            return new GroupsModel
+            {
+              Id = updatedata.Id
+            };
         }
     }
 }

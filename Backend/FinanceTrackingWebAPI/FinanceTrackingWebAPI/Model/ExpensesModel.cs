@@ -31,6 +31,12 @@ namespace FinanceTrackingWebAPI.Model
         [Required, DefaultValue(true)]
         public bool IsActive { get; set; }
 
+        //[Required]
+        //public string UserID { get; set; }
+
         public List<string> UserId { get; set; }
+
+        //[Required]
+        //public int FriendsID { get; set; }
     }
 }

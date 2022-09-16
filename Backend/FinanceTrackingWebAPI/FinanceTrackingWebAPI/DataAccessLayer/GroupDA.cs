@@ -1,6 +1,5 @@
 ﻿using FinanceTrackingWebAPI.Data;
 using FinanceTrackingWebAPI.Entities;
-using FinanceTrackingWebAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +9,11 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
 {
     public interface IGroupDA
     {
-        IEnumerable<UsersGroupDTO> Groups(string userId);
-        Task<int> Group(Groups groups);
-        Task<int> Groups(UsersGroup usersGroup);
+        IEnumerable<Groups> Groups();
+        Task<Groups> Groups(Groups obj);
         Task<Groups> Group(int id);
-        Task<int> UpdateGroup(Groups groups);
-        bool Delete(int id);
+        Task<Groups> Groups(Groups obj, int id);
+        Task<Groups> Delete(int id);
     }
     public class GroupDA : IGroupDA
     {
@@ -24,59 +22,46 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         {
             _context = context;
         }
-        public bool Delete(int id)
+        public async Task<Groups> Delete(int id)
         {
-            var result = _context.Groups.FirstOrDefault(a => a.Id == id);
+            var result = await _context.Groups.FirstOrDefaultAsync(a => a.Id == id);
             if (result != null)
             {
                 _context.Groups.Remove(result);
                 _context.SaveChanges();
-                return true;
+                return result;
             }
-            return false;
+            return null;
         }
 
         public Task<Groups> Group(int id)
         {
             return _context.Groups.FirstOrDefaultAsync(a => a.Id == id);
-            
         }
 
-        public IEnumerable<UsersGroupDTO> Groups(string userId)
+        public IEnumerable<Groups> Groups()
         {
-            var joinresult = _context.Groups.Select(o => new UsersGroupDTO
-            {
-                groupId = o.Id,
-                groupName = o.GroupName,
-                userIds = o.UsersGroup.Select(un => un.ApplicationUser.UserName).ToList()
-
-            }).Where(a => a.userIds.Contains(userId)).ToList();
-            return joinresult;
+            return _context.Groups.ToList();
         }
 
-        public async Task<int> Group(Groups groups)
+        public async Task<Groups> Groups(Groups obj)
         {
-            await _context.Groups.AddAsync(groups);
-            await _context.SaveChangesAsync();
-            return groups.Id;
-        }
-        public async Task<int> Groups(UsersGroup usersgroup)
-        {
-             await _context.UsersGroup.AddAsync(usersgroup);
-             await _context.SaveChangesAsync();
-            return usersgroup.Id;
+            var result = await _context.Groups.AddAsync(obj);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
-        public async Task<int> UpdateGroup(Groups groups)
+        public async Task<Groups> Groups(Groups obj, int id)
         {
-            var update =  _context.Groups.FirstOrDefault(a => a.Id == groups.Id);
+            var update = await _context.Groups.FirstOrDefaultAsync(a => a.Id == id);
             if (update != null)
             {
-               update.GroupName = groups.GroupName;
-               await _context.SaveChangesAsync();
-               return update.Id;
+                update.GroupName = obj.GroupName;
+                update.UserId = obj.UserId;
+                _context.SaveChanges();
+                return update;
             }
-            return 0;
+            return obj;
         }
     }
 }

@@ -39,9 +39,6 @@ namespace FinanceTrackingWebAPI
             services.AddTransient<IGroupDA, GroupDA>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddControllers();
-            //services.AddControllers().AddNewtonsoftJson(options =>
-            //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
             services.AddDbContext<ApplicationDbContext>
             (options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
             services.AddSwaggerGen(c =>

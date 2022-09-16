@@ -11,26 +11,27 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IExpenseService
     {
-        IEnumerable<Expense> Expenses(string userId);
-        IEnumerable<Expense> GroupExpenses(int groupId);
-        Task<int> Expense(Expense expense);
-        Task<int> UpdateExpense(Expense expense);
-        bool Delete(int id);
+        IEnumerable<ExpensesModel> Expenses(string userid);
+        //Task<ExpensesModel> Expenses(string id);
+
+        Task<ExpensesModel> AddExpenses(ExpensesModel expense);
+        Task<ExpensesModel> UpdateExpenses(ExpensesModel obj);
+        Task<ExpensesModel> Delete(int id);
     }
     public class ExpenseService : IExpenseService
     {
         private readonly IExpenseDA _expenseDA;
-
-        public ExpenseService(IExpenseDA expenseDA)
+        private readonly ApplicationDbContext  _context;
+        public ExpenseService(IExpenseDA expenseDA, ApplicationDbContext applicationDbContext)
         {
             _expenseDA = expenseDA;
-
+            _context = applicationDbContext;
 
         }
 
-        public async Task<int> Expense(Expense expense)
-        {
-            var expenseModel = new Expenses
+        public async Task<ExpensesModel> AddExpenses(ExpensesModel obj)
+        {    
+            var expense = new Expenses
             {
                 ExpenseName = expense.ExpenseName,
                 ExpenseDate = expense.ExpenseDate,
@@ -39,18 +40,16 @@ namespace FinanceTrackingWebAPI.Services
                 GroupId = expense.GroupId,
                 CreatedBy = expense.ExpensesId,
                 CreatedOn = DateTime.Now,
-                IsActive = expense.IsActive,
+                IsActive = obj.IsActive,
+                //UserID = obj.UserID,
+                //FriendsId = obj.FriendsID
             };
-            var expenseId = await _expenseDA.Expenses(expenseModel);
-            if(expense.UserId.Count == 0)
+            var add = await _expenseDA.Expenses(expense);
+            foreach(var id in obj.UserId)
             {
-                return expenseId;
-            }
-            foreach (var id in expense.UserId)
-            {
-                var userExpenses = new UserExpenses
+                var user_expenses = new User_Expenses
                 {
-                    ExpenseId = expenseModel.ExpensesId,
+                    ExpenseId = expense.ExpensesId,
                     UserId = id,
                 };
                 await _expenseDA.Expenses(userExpenses);
@@ -58,74 +57,87 @@ namespace FinanceTrackingWebAPI.Services
             return expenseId;
         }
 
-    public bool Delete(int id)
-    {
-        return _expenseDA.Delete(id);
-    }
-
-    public IEnumerable<Expense> Expenses(string userId)
-    {
-        var result = _expenseDA.Expenses(userId);
-        if (result != null)
+        public async  Task<ExpensesModel> Delete(int id)
         {
-            return (from exp in result
-                    select new Expense
-                    {
-                        ExpensesId = exp.expenseId,
-                        ExpenseName = exp.expenseName,
-                        ExpenseDate = exp.date,
-                        Amount = exp.amount,
-                        PaidBy = exp.paidby,
-                        UserId = exp.userIds
-                    }).ToList();
+            var deleteData = await _expenseDA.Delete(id);
+            if (deleteData != null)
+            {
+                return new ExpensesModel
+                {
+                    ExpensesId = deleteData.ExpensesId,
+                };
+            }
+            return null;
         }
-        return null;
-    }
-    public IEnumerable<Expense> GroupExpenses(int groupId)
-    {
-        var result = _expenseDA.GroupExpenses(groupId);
-        if (result != null)
+
+        public IEnumerable<ExpensesModel> Expenses(string userid)
         {
+            var result = _expenseDA.Expenses(userid);
+            if(result!= null)
+            {
+
+             
             return (from exp in result
-                    select new Expense
+                    select new ExpensesModel
                     {
-                        ExpensesId = exp.ExpensesId,
-                        ExpenseName = exp.ExpenseName,
-                        ExpenseDate = exp.ExpenseDate,
-                        Amount = exp.Amount,
-                        PaidBy = exp.PaidBy,
-                        GroupId = exp.GroupId
+                       ExpensesId=exp.expenseId,
+                       ExpenseName=exp.expenseName,
+                       ExpenseDate=exp.date,
+                       Amount=exp.amount,
+                       PaidBy=exp.paidby,
+                       UserId = exp.userIds
                     }).ToList();
+            }
+            return null;
         }
-        return null;
-    }
 
-    public async Task<int> UpdateExpense(Expense expense)
-    {
-        var expenseModel = new Expenses
+        //public async Task<ExpensesModel> Expenses(string id)
+        //{
+        //   var res = await _expenseDA.Expenses(id);
+        //    return (from exp in res
+        //            select new ExpensesModel
+        //            {
+        //                ExpensesId = exp.ExpensesId,
+        //                ExpenseName = exp.ExpenseName,
+        //                ExpenseDate = exp.ExpenseDate,
+        //                Amount = exp.Amount,
+        //                PaidBy = exp.PaidBy,
+        //                UserID = exp.UserID,
+        //                //FriendsID = exp.FriendsId,
+        //            }).ToList();
+        //}
+
+        public async Task<ExpensesModel> UpdateExpenses(ExpensesModel obj)
         {
-            ExpensesId = expense.ExpensesId,
-            ExpenseName = expense.ExpenseName,
-            ExpenseDate = expense.ExpenseDate,
-            Amount = expense.Amount,
-            PaidBy = expense.PaidBy,
-        };
-        var updatedExpenseId = await _expenseDA.UpdateExpenses(expenseModel);
-        //foreach(var i in obj.UserId)
-        //{
-        //    await _expenseDA.DeleteExp(i);
-        //}
-        //foreach (var i in obj.UserId)
-        //{
-        //    var user_expenses = new User_Expenses
-        //    {
-        //        ExpenseId = id,
-        //        UserId = i,
-        //    };
+            var expObj = new Expenses 
+            {
+              ExpensesId = obj.ExpensesId,
+              ExpenseName = obj.ExpenseName,
+              ExpenseDate = obj.ExpenseDate,
+              Amount = obj.Amount,
+              PaidBy = obj.PaidBy,
+              
 
-        //    await _expenseDA.Expenses(user_expenses,id);
-        //}
-        return updatedExpenseId;
+            };
+            var updatedata = await _expenseDA.UpdateExpenses(expObj);
+            //foreach(var i in obj.UserId)
+            //{
+            //    await _expenseDA.DeleteExp(i);
+            //}
+            //foreach (var i in obj.UserId)
+            //{
+            //    var user_expenses = new User_Expenses
+            //    {
+            //        ExpenseId = id,
+            //        UserId = i,
+            //    };
+               
+            //    await _expenseDA.Expenses(user_expenses,id);
+            //}
+            return new ExpensesModel
+            {
+               ExpensesId = updatedata.ExpensesId
+            };
+        }
     }
-}
 }
