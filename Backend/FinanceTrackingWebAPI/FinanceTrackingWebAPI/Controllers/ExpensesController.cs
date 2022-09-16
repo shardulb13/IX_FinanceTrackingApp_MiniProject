@@ -1,7 +1,9 @@
 ﻿using FinanceTrackingWebAPI.Model;
 using FinanceTrackingWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -20,29 +22,51 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult AllExpenses()
+        public IActionResult Expenses()
         {
             string userId = User.FindFirstValue(ClaimTypes.Name);
             return Ok(_expenseService.Expenses(userId));
         }
 
-        [HttpPost]
-        public async Task<ExpensesModel> AddExpense(ExpensesModel obj)
+        [HttpGet]
+        [Route("GroupExpenses")]
+        public IActionResult Expenses(int groupId)
         {
-
-            return await _expenseService.AddExpenses(obj);
+            return Ok(_expenseService.GroupExpenses(groupId));
         }
 
-        [HttpPut]
-        public async Task<ExpensesModel> UpdateExpense(ExpensesModel obj)
+        [HttpPost]
+        public async Task<IActionResult> Expense(Expense expense)
         {
-            return await _expenseService.UpdateExpenses(obj);
+            try
+            {
+                return Ok(await _expenseService.Expense(expense));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Expense Creation Failed" });
+            }
+            
+        }   
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateExpense(Expense expense)
+        {
+            try
+            {
+                return Ok(await _expenseService.UpdateExpense(expense));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Id not found" });
+            }
+
         }
 
         [HttpDelete("{id}")]
-        public async Task<ExpensesModel> DeleteExpense (int id)
+        public bool DeleteExpense (int id)
         {
-            return await _expenseService.Delete(id); 
+            return _expenseService.Delete(id); 
         }
     }
 }

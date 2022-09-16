@@ -15,10 +15,10 @@ namespace FinanceTrackingWebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserExpenses>().HasOne(e => e.Expenses).WithMany(ue => ue.User_Expenses)
+            builder.Entity<UserExpenses>().HasOne(e => e.Expenses).WithMany(ue => ue.userExpenses)
                 .HasForeignKey(e => e.ExpenseId).OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<UserExpenses>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.User_Expenses)
+            builder.Entity<UserExpenses>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.userExpenses)
                 .HasForeignKey(e => e.UserId);
 
             builder.Entity<UsersGroup>().HasOne(e => e.Groups).WithMany(ue => ue.UsersGroup)
@@ -26,6 +26,11 @@ namespace FinanceTrackingWebAPI.Data
 
             builder.Entity<UsersGroup>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.UsersGroup)
                 .HasForeignKey(e => e.UserId);
+
+            builder.Entity<Expenses>()
+            .HasOne(b => b.Groups)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }

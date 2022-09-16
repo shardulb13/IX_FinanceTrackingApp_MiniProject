@@ -50,9 +50,8 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 groupName = o.GroupName,
                 userIds = o.UsersGroup.Select(un => un.ApplicationUser.UserName).ToList()
 
-            });
-            var res = joinresult.Where(a => a.userIds.Contains(userId)).ToList();
-            return res;
+            }).Where(a => a.userIds.Contains(userId)).ToList();
+            return joinresult;
         }
 
         public async Task<int> Group(Groups groups)

@@ -27,7 +27,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task< IActionResult> AddGroups(GroupModel groupModel)
+        public async Task< IActionResult> AddGroups(GroupDTO groupModel)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateGroup(GroupModel groupModel)
+        public async Task<IActionResult> UpdateGroup(GroupDTO groupModel)
         {
             try
             {

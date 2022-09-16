@@ -10,10 +10,10 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IGroupService
     {
-        IEnumerable<GroupModel> Groups(string userId);
-        Task<int> Group(GroupModel groups);
-        Task<GroupModel> Group(int id);
-        Task<int> UpdateGroup(GroupModel groups);
+        IEnumerable<GroupDTO> Groups(string userId);
+        Task<int> Group(GroupDTO groups);
+        Task<GroupDTO> Group(int id);
+        Task<int> UpdateGroup(GroupDTO groups);
         bool Delete(int id);
     }
     public class GroupService : IGroupService
@@ -34,12 +34,12 @@ namespace FinanceTrackingWebAPI.Services
             return false;
         }
 
-        public async Task<GroupModel> Group(int id)
+        public async Task<GroupDTO> Group(int id)
         {
             var result = await _groupDA.Group(id);
             if (result != null)
             {
-                return new GroupModel
+                return new GroupDTO
                 {
                     Id = result.Id,
                     GroupName = result.GroupName,
@@ -49,13 +49,13 @@ namespace FinanceTrackingWebAPI.Services
             return null;
         }
 
-        public IEnumerable<GroupModel> Groups(string userId)
+        public IEnumerable<GroupDTO> Groups(string userId)
         {
             var result = _groupDA.Groups(userId);
             if (result != null)
             {
                 return (from grp in result
-                        select new GroupModel
+                        select new GroupDTO
                         {
                             Id = grp.groupId,
                             GroupName = grp.groupName,
@@ -65,7 +65,7 @@ namespace FinanceTrackingWebAPI.Services
             return null;
         }
 
-        public async Task<int> Group(GroupModel groupModel)
+        public async Task<int> Group(GroupDTO groupModel)
         {
             var group = new Groups
             {
@@ -87,7 +87,7 @@ namespace FinanceTrackingWebAPI.Services
             return group.Id;
         }
 
-        public async Task<int> UpdateGroup(GroupModel groupModel)
+        public async Task<int> UpdateGroup(GroupDTO groupModel)
         {
             var group = new Groups
             {

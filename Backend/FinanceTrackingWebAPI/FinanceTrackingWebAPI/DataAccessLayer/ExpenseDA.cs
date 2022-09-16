@@ -11,10 +11,11 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
     public interface IExpenseDA
     {
         IEnumerable<UserExpenseDTO> Expenses(string userid);
-        Task<Expenses> Expenses(Expenses expense);
+        IEnumerable<Group> GroupExpenses(int groupId);
+        Task<int> Expenses(Expenses expense);
         Task<UserExpenses> Expenses(UserExpenses userExpense);
-        Task<Expenses> UpdateExpenses(Expenses expenses);
-        Task<Expenses> Delete(int id);
+        Task<int> UpdateExpenses(Expenses expenses);
+        bool Delete(int id);
 
 
 
@@ -26,31 +27,50 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         {
             _context = context;
         }
-        public async Task<Expenses> Expenses(Expenses expenses)
+        public async Task<int> Expenses(Expenses expenses)
         {
             var result = await _context.Expenses.AddAsync(expenses);
-            _context.SaveChanges();
-            
-            return result.Entity;
+             _context.SaveChanges();
+            return expenses.ExpensesId;
         }
         public async Task<UserExpenses>Expenses(UserExpenses userExpense)
         {
             var result = await _context.UserExpenses.AddAsync(userExpense);
-            _context.SaveChanges();
+             _context.SaveChanges();
             return result.Entity;
         }
-        public async Task<Expenses> Delete(int id)
+        //public async Task<UsersGroup> Expenses(UsersGroup usersGroup)
+        //{
+        //    var result = await _context.UsersGroup.AddAsync(usersGroup);
+        //    await _context.SaveChangesAsync();
+        //    return result.Entity;
+        //}
+        public bool Delete(int id)
         {
-            var result = await _context.Expenses.FirstOrDefaultAsync(a => a.ExpensesId == id);
+            var result = _context.Expenses.FirstOrDefault(a => a.ExpensesId == id);
             if (result != null)
             {
                 _context.Expenses.Remove(result);
                 _context.SaveChanges();
-                return result;
+                return true;
             }
-            return null;
+            return false;
         }
 
+        public IEnumerable<Group> GroupExpenses(int groupId)
+        {
+
+            var result = _context.Expenses.Where(a => a.GroupId == groupId).Select(o => new Group
+            {
+                ExpensesId = o.ExpensesId,
+                ExpenseName = o.ExpenseName,
+                ExpenseDate = o.ExpenseDate,
+                Amount = o.Amount,
+                PaidBy = o.ApplicationUser.UserName,
+                GroupId= o.Groups.Id
+            });
+            return result;
+        }
         public IEnumerable<UserExpenseDTO> Expenses(string userid)
         {
   
@@ -61,19 +81,13 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 amount = o.Amount,
                 date = o.ExpenseDate,
                 paidby = o.ApplicationUser.UserName,
-                //userIds= o.User_Expenses.Select(ue=> ue.UserId).ToList(),
-                userIds= o.User_Expenses.Select(un=> un.ApplicationUser.UserName).ToList()
+                userIds= o.userExpenses.Select(un=> un.ApplicationUser.UserName).ToList()
 
-            });
-            var res = joinresult.Where(a => a.userIds.Contains(userid)).ToList();
-            if (res != null)
-            {
-                return res;
-            }
-            return null;
+            }).Where(a => a.userIds.Contains(userid)).ToList() ;
+            return joinresult;
         }
        
-        public async Task<Expenses> UpdateExpenses(Expenses expenses)
+        public async Task<int> UpdateExpenses(Expenses expenses)
         {
             var update = await _context.Expenses.FirstOrDefaultAsync(a => a.ExpensesId == expenses.ExpensesId);
             if (update != null)
@@ -85,9 +99,9 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 //update.UserID = obj.UserID;
                 await _context.SaveChangesAsync();
                
-                return update;
+                return expenses.ExpensesId;
             }
-            return null;
+            return 0;
         }
 
         //public async Task<User_Expenses> Expenses(User_Expenses userExpense, int id)
