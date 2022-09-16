@@ -1,0 +1,67 @@
+﻿using FinanceTrackingWebAPI.Model;
+using FinanceTrackingWebAPI.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace FinanceTrackingWebAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+    public class GroupsController : ControllerBase
+    {
+        private readonly IGroupService _groupService;
+        public GroupsController(IGroupService groupService)
+        {
+            _groupService = groupService;
+        }
+        [HttpGet]
+        public IActionResult Groups()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.Name);
+            return Ok(_groupService.Groups(userId));
+        }
+
+        [HttpPost]
+        public async Task< IActionResult> AddGroups(GroupDTO groupModel)
+        {
+            try
+            {
+                return Ok(await _groupService.Group(groupModel));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Group Creation Failed" });
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateGroup(GroupDTO groupModel)
+        {
+            try
+            {
+                return Ok(await _groupService.UpdateGroup(groupModel));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Id not Found" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public bool DeleteGroup(int id)
+        {
+            var deleteGroup = _groupService.Delete(id);
+            if (deleteGroup)
+            {
+                return true;
+            }
+            return false;
+        }
+
+    }
+}
