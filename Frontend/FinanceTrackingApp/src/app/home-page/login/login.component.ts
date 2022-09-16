@@ -37,12 +37,11 @@ export class LoginComponent implements OnInit {
       if(res){
         console.log(res.token);
         this.tokenService.setToken(res.token);
-        this.route.navigate(['user/allexpenses']);
+        this.route.navigate(['user/dashboard']);
       }
     },
     err =>{
       this.toastrService.error("Invalid Login Details");
-      // alert('Invalid Login Details');
     })
   }
 }

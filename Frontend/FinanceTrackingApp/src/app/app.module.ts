@@ -22,7 +22,9 @@ import { AppComponent } from './app.component';
     // NgSelectModule,
     // NgMultiSelectDropDownModule.forRoot()
     ToastrModule.forRoot({
-      timeOut:1000
+      timeOut:1000,
+      preventDuplicates: true,
+      positionClass: 'toast-bottom-right'
     }),
     BrowserAnimationsModule
     

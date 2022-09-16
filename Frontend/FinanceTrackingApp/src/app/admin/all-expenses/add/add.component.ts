@@ -28,6 +28,7 @@ export class AddComponent implements OnInit {
   date! :string;
   usersGroup:any=[];
   paidBylist:any=[];
+  isdisable = false;
   constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private router: Router, private toastrService: ToastrService,
     private groupService: GroupsService) {}
   
@@ -37,7 +38,7 @@ export class AddComponent implements OnInit {
       ExpenseDate : new FormControl('', [Validators.required]),   
       Amount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
       PaidBy: new FormControl('',[Validators.required]),
-      GroupId: new FormControl(''),
+      GroupId: new FormControl(null),
       IsActive: new FormControl(true),
       UserId: new FormControl(this.checkedList)
     });       
@@ -70,7 +71,7 @@ export class AddComponent implements OnInit {
     console.log(res);
     // alert("Expense Added Successfully");
     this.toastrService.success("Expenes Added Successfully");
-    if(this.expform.controls['GroupId'].value > 0){
+    if(this.expform.controls['GroupId'].value != null){
       this.router.navigate(['user/groups']);
     }
     this.router.navigate(['user/allexpenses']);
@@ -95,6 +96,11 @@ export class AddComponent implements OnInit {
         this.selectedlist.splice(index1,1);
     }
     // this.currentSelected = {checked : status,name:value};
+    // if(this.selectedlist.length > 1)
+    // {
+    //   this.isdisable = true;
+    //   console.log("True false: 0"+ this.isdisable)
+    // }
   }
   default(){
     for(let i =0; i<this.allUsers.length; i++){

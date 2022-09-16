@@ -1,9 +1,8 @@
-.user{
-    padding: 10px 0px;
-}
+// .user{
+//     padding: 10px 0px;
+// }
 .select{
-    padding: 5px;
-    margin-left: 2px;
+  margin: auto;
 }
 
 /***
@@ -12,12 +11,11 @@
 .drop-toggle{
     background-color: #fff;
     border: none;
-    padding: 5px 10px;
+    padding: 11px 10px;
     border-radius: 4px;
     cursor: pointer;
-    cursor: hand;
     border: 1px solid #ccc;
-    width: 300px;
+    width: 445px;
     text-align: left;
 }
 .drop-toggle i{
@@ -25,7 +23,7 @@
 }
 .drop-show {
     padding: 4px;
-    width: 300px;
+    width: 446px;
     background-color: #FFF;
     border: 1px solid #BABABA;
     position: absolute;
@@ -50,4 +48,9 @@
 
 .alert{
     color: red;
+}
+.expenseForm{
+    padding: 2rem;
+    overflow: auto;
+    max-height: 85vh;
 }

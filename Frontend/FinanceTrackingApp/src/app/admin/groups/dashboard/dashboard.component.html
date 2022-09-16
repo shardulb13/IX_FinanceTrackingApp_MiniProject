@@ -1,61 +1,77 @@
 <div class="dashboard">
-    <div class="container mt-3">
-        <div class="card shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
-            <div class="card-body">
-              <h5 class="card-title">Total Expenses</h5>
-              <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /- </p>
-            </div>
-        </div>
-        <div class="card shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210); ">
-            <div class="card-body">
-              <h5 class="card-title">Owe Amount</h5>
-              <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-</p>
-            </div>
-        </div>
-        <div class="card shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169);">
-            <div class="card-body">
-              <h5 class="card-title">Settle Amount</h5>
-              <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-</p>
-            </div>
-        </div>
+  <div class="container mt-3">
+    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
+      <div class="card-body">
+        <h5 class="card-title">Total Expenses</h5>
+        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-
+        </p>
+      </div>
     </div>
-    <div class=" col-lg-8 mt-5 mx-auto">
-        <h2 class="text-center p-2">Owe Details</h2>
-        <table class="table text-center table-bordered shadow">
+    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210); ">
+      <div class="card-body">
+        <h5 class="card-title">Owe Amount</h5>
+        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-
+        </p>
+      </div>
+    </div>
+    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169);">
+      <div class="card-body">
+        <h5 class="card-title">Settle Amount</h5>
+        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="TabDetails pt-3 col-auto m-5">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link fw-bold active" aria-current="page" data-bs-toggle="tab" href="#oweDetails">Owe Details</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fw-bold" data-bs-toggle="tab" href="#settleDetails">Settle Details</a>
+      </li>
+    </ul>
+    <div class="tab-content col-auto border rounded shadow">
+      <div class="tab-pane active" id="oweDetails">
+        <div class="table-overflow mx-auto col-lg-10 mt-4 mb-5">
+          <table class="table text-center table-bordered shadow">
             <thead>
-                <tr>
-                    <th>Expense Name</th>
-                    <th>Person Name</th>
-                    <th>Amount</th>
-                </tr>
+              <tr>
+                <th>Expense Name</th>
+                <th>Person Name</th>
+                <th>Amount</th>
+              </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Xyz</td>
-                    <td>Parth</td>
-                    <td>250/-</td>
-                </tr>
+              <!-- <tr *ngFor="let result of showOweAmount">
+                    <td>{{result.ExpenseName}}</td>
+                    <td>{{result.userName}}</td>
+                    <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
+                  </tr> -->
             </tbody>
-        </table>
-    </div>
-    
-    <div class=" col-lg-8 mt-5 mx-auto">
-        <h2 class="text-center p-2">Settle Details</h2>
-        <table class="table text-center table-bordered shadow">
+          </table>
+        </div>
+      </div>
+      <div class="tab-pane" id="settleDetails">
+        <div class="table-overflow mx-auto col-lg-10 mt-4 mb-5">
+          <table class="table text-center table-bordered shadow">
             <thead>
-                <tr>
-                    <th>Expense Name</th>
-                    <th>Person Name</th>
-                    <th>Amount</th>
-                </tr>
+              <tr>
+                <th>Expense Name</th>
+                <th>Person Name</th>
+                <th>Amount</th>
+              </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Xyz</td>
-                    <td>Parth</td>
-                    <td>250/-</td>
-                </tr>
+              <!-- <tr *ngFor="let result of showLentAmount">
+                    <td>{{result.ExpenseName}}</td>
+                    <td>{{result.userName}}</td>
+                    <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
+                  </tr> -->
             </tbody>
-        </table>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

@@ -20,7 +20,7 @@
                 <tr *ngFor="let exp of expenses ;let i=index">
                     <!-- <td>{{exp.expensesId}}</td> -->
                     <td>{{exp.expenseName}}</td>
-                    <td>{{exp.expenseDate}}</td>
+                    <td>{{exp.expenseDate | date }}</td>
                     <td>{{exp.amount}}</td>
                     <td>{{exp.paidBy}}</td>
                     <td>{{exp.userId}}</td>
