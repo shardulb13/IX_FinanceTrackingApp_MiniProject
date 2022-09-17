@@ -97,14 +97,14 @@ export class AddComponent implements OnInit {
     //   console.log("True false: 0"+ this.isdisable)
     // }
   }
-  default(){
-    for(let i =0; i<this.allUsers.length; i++){
-      if(this.currentUserDetails.id == this.allUsers[i].id){
-        this.checkedList.push(this.allUsers[i].id);
-        console.log("Added id", this.checkedList);
-      }
-    }
-  }
+  // default(){
+  //   for(let i =0; i<this.allUsers.length; i++){
+  //     if(this.currentUserDetails.id == this.allUsers[i].id){
+  //       this.checkedList.push(this.allUsers[i].id);
+  //       console.log("Added id", this.checkedList);
+  //     }
+  //   }
+  // }
 
   mouseleavefunc(e:any){
     this.showDropDown = false;
@@ -114,23 +114,35 @@ export class AddComponent implements OnInit {
   onchange(event:any){
     if(this.expform.controls['GroupId'].value > 0){
       for(let i=0; i<this.usersGroup.length; i++){
-        for(let j=0; j<this.usersGroup[i].userId.length; j++){
-          for(let k=0; k<this.allUsers.length; k++){
-            let tempUserGroupIds = this.usersGroup[j].userId;
-            console.log(tempUserGroupIds);
-            if(this.allUsers[k].userName == tempUserGroupIds[k]){
-              console.log("UserNames Matched");
-              console.log("EmptyList", this.paidBylist);
-              this.paidBylist.push({
-                'id':this.allUsers[k].id,
-                'userName':this.allUsers[k].userName
-              });
-              console.log("Id", this.paidBylist);
-            }
+        if(this.usersGroup[i].id == this.expform.controls['GroupId'].value){
+          for(let j=0; j<this.usersGroup[i].userId.length; j++){
+            for(let k=0; k<this.allUsers.length; k++){
+              let matchingUserName = this.usersGroup[i].userId.filter((x: any) => x == this.allUsers[k].userName);
+              console.log("Abc madhe ky ala", matchingUserName);
+              if(this.allUsers[k].userName == matchingUserName){
+                console.log("Matching Username", matchingUserName);
+                this.paidBylist.push({
+                      'id':this.allUsers[k].id,
+                      'userName':this.allUsers[k].userName
+                    });
+                console.log("PaidBylist madhe ky ala", this.paidBylist);
+              }
+          
+          }
+          break;
+            // console.log(tempUserGroupIds);
+            // if(this.allUsers[k].userName == tempUserGroupIds[k]){
+            //   console.log("UserNames Matched");
+            //   console.log("EmptyList", this.paidBylist);
+            //   this.paidBylist.push({
+            //     'id':this.allUsers[k].id,
+            //     'userName':this.allUsers[k].userName
+            //   });
+            //   console.log("Id", this.paidBylist);
+            // }
           }
         }
       }
     }    
   }
-
 }
