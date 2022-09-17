@@ -13,7 +13,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         IEnumerable<UserExpenseDTO> Expenses(string userid);
         IEnumerable<Group> GroupExpenses(int groupId);
         Task<int> Expenses(Expenses expense);
-        Task<UserExpenses> Expenses(UserExpenses userExpense);
+        Task<UserExpenses> UserExpenses(UserExpenses userExpense);
         Task<int> UpdateExpenses(Expenses expenses);
         bool Delete(int id);
 
@@ -33,18 +33,13 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
              _context.SaveChanges();
             return expenses.ExpensesId;
         }
-        public async Task<UserExpenses>Expenses(UserExpenses userExpense)
+        public async Task<UserExpenses>UserExpenses(UserExpenses userExpense)
         {
             var result = await _context.UserExpenses.AddAsync(userExpense);
              _context.SaveChanges();
             return result.Entity;
         }
-        //public async Task<UsersGroup> Expenses(UsersGroup usersGroup)
-        //{
-        //    var result = await _context.UsersGroup.AddAsync(usersGroup);
-        //    await _context.SaveChangesAsync();
-        //    return result.Entity;
-        //}
+     
         public bool Delete(int id)
         {
             var result = _context.Expenses.FirstOrDefault(a => a.ExpensesId == id);

@@ -53,7 +53,7 @@ namespace FinanceTrackingWebAPI.Services
                     ExpenseId = expenseModel.ExpensesId,
                     UserId = id,
                 };
-                await _expenseDA.Expenses(userExpenses);
+                await _expenseDA.UserExpenses(userExpenses);
             }
             return expenseId;
         }
