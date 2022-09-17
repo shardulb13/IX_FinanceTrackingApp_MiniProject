@@ -16,12 +16,9 @@ export class AddComponent implements OnInit {
   expform!:any;
   currentUserDetails!:any;
   allUsers:any=[];
-  list:any=[];
   selectedlist:any=[];
   checkedList : any=[];
-  currentSelected :any= {};
   showDropDown!:boolean;
-  // dropdownSettings:IDropdownSettings = {};
   paidby:any;
   useridarray:any=[];
   formarr:any= [];
@@ -67,19 +64,17 @@ export class AddComponent implements OnInit {
   }
 
   addExpense(){
-    this.expenseService.AddExpenses(this.expform.value).subscribe(res =>{
-    console.log(res);
-    // alert("Expense Added Successfully");
-    this.toastrService.success("Expenes Added Successfully");
-    if(this.expform.controls['GroupId'].value != null){
-      this.router.navigate(['user/groups']);
-    }
-    this.router.navigate(['user/allexpenses']);
-    },
-    err=>{
-      // alert("Something went wrong");
-      this.toastrService.error("Something went wrong");
-    });
+    // this.expenseService.AddExpenses(this.expform.value).subscribe(res =>{
+    // console.log(res);
+    // this.toastrService.success("Expenes Added Successfully");
+    // if(this.expform.controls['GroupId'].value != null){
+    //   this.router.navigate(['user/groups']);
+    // }
+    // this.router.navigate(['user/allexpenses']);
+    // },
+    // err=>{
+    //   this.toastrService.error("Something went wrong");
+    // });
     console.log("Form Details",this.expform.value);
     console.log(this.checkedList);
   }
@@ -116,20 +111,26 @@ export class AddComponent implements OnInit {
     console.log("mouse enter");
   }
 
-  // onchange(event:any){
-  //   if(this.expform.controls['GroupId'].value > 0){
-  //     for(let i=0; i<this.usersGroup.length; i++){
-  //       for(let j=0; j<this.usersGroup[i].userId.length; j++){
-  //         for(let k=0; k<this.allUsers.length; k++){
-  //           if(this.allUsers[k].userName == this.usersGroup[j].userId){
-  //             console.log("UserNames Matched");
-  //             this.paidBylist.push({'id':this.allUsers[i].id}, {'userName':this.allUsers[i].userName});
-  //             console.log("Id", this.paidBylist);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }    
-  // }
+  onchange(event:any){
+    if(this.expform.controls['GroupId'].value > 0){
+      for(let i=0; i<this.usersGroup.length; i++){
+        for(let j=0; j<this.usersGroup[i].userId.length; j++){
+          for(let k=0; k<this.allUsers.length; k++){
+            let tempUserGroupIds = this.usersGroup[j].userId;
+            console.log(tempUserGroupIds);
+            if(this.allUsers[k].userName == tempUserGroupIds[k]){
+              console.log("UserNames Matched");
+              console.log("EmptyList", this.paidBylist);
+              this.paidBylist.push({
+                'id':this.allUsers[k].id,
+                'userName':this.allUsers[k].userName
+              });
+              console.log("Id", this.paidBylist);
+            }
+          }
+        }
+      }
+    }    
+  }
 
 }

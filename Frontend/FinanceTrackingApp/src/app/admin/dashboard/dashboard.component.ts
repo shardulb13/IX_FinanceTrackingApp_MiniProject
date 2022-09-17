@@ -33,7 +33,8 @@ export class DashboardComponent implements OnInit {
        
       for(let i =0; i<= this.allExpense.length; i++){
         if(this.allExpense[i].paidBy.toLowerCase() == this.currentUser.userName.toLowerCase()){
-          this.result += this.allExpense[i].amount/ (this.allExpense[i].userId.length);
+          let tempResult =  this.allExpense[i].amount/ (this.allExpense[i].userId.length);
+          this.result += Math.floor(tempResult);
           console.log("Usernames matched");
           this.temp = (this.allExpense[i].amount)/this.allExpense[i].userId.length ;
           this.oweAmount += Math.floor(this.temp)* (this.allExpense[i].userId.length-1);
