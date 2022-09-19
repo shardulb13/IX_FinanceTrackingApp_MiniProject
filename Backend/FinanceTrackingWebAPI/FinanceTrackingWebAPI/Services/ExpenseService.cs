@@ -94,7 +94,8 @@ namespace FinanceTrackingWebAPI.Services
                         ExpenseDate = exp.ExpenseDate,
                         Amount = exp.Amount,
                         PaidBy = exp.PaidBy,
-                        GroupId = exp.GroupId
+                        GroupId = exp.GroupId,
+                        UserId = exp.UserIds
                     }).ToList();
         }
         return null;

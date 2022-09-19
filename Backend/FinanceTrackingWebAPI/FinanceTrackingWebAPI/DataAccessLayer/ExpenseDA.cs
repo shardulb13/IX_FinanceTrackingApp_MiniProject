@@ -62,7 +62,8 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 ExpenseDate = o.ExpenseDate,
                 Amount = o.Amount,
                 PaidBy = o.ApplicationUser.UserName,
-                GroupId= o.Groups.Id
+                GroupId = o.Groups.Id,
+                UserIds = o.Groups.UsersGroup.Select(ui => ui.ApplicationUser.UserName).ToList()
             });
             return result;
         }

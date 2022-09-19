@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FinanceTrackingWebAPI.Model
 {
@@ -14,5 +15,6 @@ namespace FinanceTrackingWebAPI.Model
 
         public string PaidBy { get; set; }
         public int GroupId { get; set; }
+        public List<string> UserIds { get; set; }
     }
 }

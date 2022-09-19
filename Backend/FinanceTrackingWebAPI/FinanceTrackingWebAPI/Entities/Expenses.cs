@@ -44,6 +44,8 @@ namespace FinanceTrackingWebAPI.Entities
         public int? GroupId { get; set; }
         public Groups Groups { get; set; }
 
+        //public List<UsersGroup> usersGroups { get; set; }
+
         public List<UserExpenses> userExpenses { get; set; }
 
 
