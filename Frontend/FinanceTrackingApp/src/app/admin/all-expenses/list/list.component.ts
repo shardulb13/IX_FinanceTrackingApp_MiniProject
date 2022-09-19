@@ -11,6 +11,7 @@ import { GroupsService } from 'src/core/services/groups.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+  pageNo = 1;
   expenses: any =[];
   allUsers:any =[];
   allGroups:any=[];

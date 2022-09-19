@@ -1,6 +1,6 @@
 <div class="expenseForm">
     <h2 class="col-lg-6 mx-auto">Add Expense</h2>
-    <div class="select">
+    <div class="select"  *ngIf="(this.expform.controls['GroupId'].value > 0)? isdisable: !isdisable" [hidden]="isdisable">
         <div class="col-lg-6 mx-auto " (mouseleave)=" mouseleavefunc($event)">
             <label class="form-label">Select People</label><br>
             <button class="drop-toggle btn"  (click)="showDropDown=!showDropDown">
@@ -18,9 +18,9 @@
     </div>
     <div class="col-lg-6 mx-auto">
         <form [formGroup]="expform">
-            <div>
-                <label for="group" *ngIf="(this.checkedList.length>0)? isdisable : !isdisable" [hidden]="isdisable" class="form-label mt-2">Select Group</label>
-                <select name="group" class="form-control" formControlName="GroupId" *ngIf="(this.checkedList.length>0)? isdisable : !isdisable" [disabled]="isdisable" (change)="onchange($event)">
+            <div *ngIf="(this.checkedList.length>0)? isdisable : !isdisable" [hidden]="isdisable">
+                <label for="group" class="form-label mt-2">Select Group</label>
+                <select name="group" class="form-control" formControlName="GroupId" (change)="onchange()">
                     <option *ngFor="let users of usersGroup" [value]="users.id">{{users.groupName}}</option>
                 </select>
             </div>

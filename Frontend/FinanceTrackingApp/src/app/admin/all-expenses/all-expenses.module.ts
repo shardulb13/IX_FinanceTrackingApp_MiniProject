@@ -7,6 +7,7 @@ import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { ListComponent } from './list/list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 // import { NgSelectModule } from '@ng-select/ng-select';
@@ -24,7 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     AllExpensesRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
     // NgSelectModule,
     // NgMultiSelectDropDownModule.forRoot()
   ]

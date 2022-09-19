@@ -19,9 +19,6 @@ export class AddComponent implements OnInit {
   selectedlist:any=[];
   checkedList : any=[];
   showDropDown!:boolean;
-  paidby:any;
-  useridarray:any=[];
-  formarr:any= [];
   date! :string;
   usersGroup:any=[];
   paidBylist:any=[];
@@ -64,17 +61,20 @@ export class AddComponent implements OnInit {
   }
 
   addExpense(){
-    // this.expenseService.AddExpenses(this.expform.value).subscribe(res =>{
-    // console.log(res);
-    // this.toastrService.success("Expenes Added Successfully");
-    // if(this.expform.controls['GroupId'].value != null){
-    //   this.router.navigate(['user/groups']);
-    // }
-    // this.router.navigate(['user/allexpenses']);
-    // },
-    // err=>{
-    //   this.toastrService.error("Something went wrong");
-    // });
+    this.expenseService.AddExpenses(this.expform.value).subscribe(res =>{
+    console.log(res);
+    this.toastrService.success("Expenes Added Successfully");
+    if(this.expform.controls['GroupId'].value > 0){
+      this.router.navigate(['user/groups']);
+    }
+    else
+    {
+      this.router.navigate(['user/allexpenses']);
+    }
+    },
+    err=>{
+      this.toastrService.error("Something went wrong");
+    });
     console.log("Form Details",this.expform.value);
     console.log(this.checkedList);
   }
@@ -84,18 +84,17 @@ export class AddComponent implements OnInit {
       this.checkedList.push(id);
       this.selectedlist.push(value);  
       console.log("CheckedList",this.checkedList);
+      this.paidBylist.push({'id':id, 'userName': value});
+      console.log("PaidByList:",this.paidBylist);
     }else{
         var index = this.checkedList.indexOf(value);
         var index1 = this.selectedlist.indexOf(value);
         this.checkedList.splice(index,1);
         this.selectedlist.splice(index1,1);
+        this.paidBylist.splice(index,1);
+        console.log("Empty Hotiye ka list", this.paidBylist);
     }
     // this.currentSelected = {checked : status,name:value};
-    // if(this.selectedlist.length > 1)
-    // {
-    //   this.isdisable = true;
-    //   console.log("True false: 0"+ this.isdisable)
-    // }
   }
   // default(){
   //   for(let i =0; i<this.allUsers.length; i++){
@@ -111,7 +110,7 @@ export class AddComponent implements OnInit {
     console.log("mouse enter");
   }
 
-  onchange(event:any){
+  onchange(){
     if(this.expform.controls['GroupId'].value > 0){
       for(let i=0; i<this.usersGroup.length; i++){
         if(this.usersGroup[i].id == this.expform.controls['GroupId'].value){
@@ -126,20 +125,9 @@ export class AddComponent implements OnInit {
                       'userName':this.allUsers[k].userName
                     });
                 console.log("PaidBylist madhe ky ala", this.paidBylist);
-              }
-          
+              }       
           }
           break;
-            // console.log(tempUserGroupIds);
-            // if(this.allUsers[k].userName == tempUserGroupIds[k]){
-            //   console.log("UserNames Matched");
-            //   console.log("EmptyList", this.paidBylist);
-            //   this.paidBylist.push({
-            //     'id':this.allUsers[k].id,
-            //     'userName':this.allUsers[k].userName
-            //   });
-            //   console.log("Id", this.paidBylist);
-            // }
           }
         }
       }

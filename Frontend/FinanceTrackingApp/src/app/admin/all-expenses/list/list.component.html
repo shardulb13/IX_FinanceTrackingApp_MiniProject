@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let exp of expenses ;let i=index">
+                <tr *ngFor="let exp of expenses | paginate: { itemsPerPage: 10, currentPage: pageNo };let i=index">
                     <!-- <td>{{exp.expensesId}}</td> -->
                     <td>{{exp.expenseName}}</td>
                     <td>{{exp.expenseDate | date : 'dd/MM/yyyy' }}</td>
@@ -29,9 +29,9 @@
                         <button class="btn btn-danger"(click)="deleteExpense(exp.expensesId)">Delete</button>
                     </td>
                 </tr>
-    
             </tbody>
         </table>
+        <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
     </div>
 </div>
 <!-- <button (click)="getGroupExpense()">Get group id</button> -->

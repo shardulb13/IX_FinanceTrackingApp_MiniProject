@@ -3,21 +3,21 @@
     <div class="card shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
       <div class="card-body">
         <h5 class="card-title">Total Expenses</h5>
-        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-
+        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{result}}/-
         </p>
       </div>
     </div>
     <div class="card shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210); ">
       <div class="card-body">
         <h5 class="card-title">Owe Amount</h5>
-        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-
+        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{oweAmount}}/-
         </p>
       </div>
     </div>
     <div class="card shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169);">
       <div class="card-body">
         <h5 class="card-title">Settle Amount</h5>
-        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> /-
+        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span> {{settleAmount}}/-
         </p>
       </div>
     </div>
@@ -48,13 +48,14 @@
               </tr>
             </thead>
             <tbody>
-              <!-- <tr *ngFor="let result of showOweAmount">
+              <tr *ngFor="let result of showOweAmount | paginate: { id:'oweDetails' , itemsPerPage: 3, currentPage: pageNo };let i=index">
                       <td>{{result.ExpenseName}}</td>
                       <td>{{result.userName}}</td>
-                      <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
-                    </tr> -->
+                      <td><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{result.amount}}/-</td>
+                    </tr>
             </tbody>
           </table>
+          <pagination-controls (pageChange)="pageNo = $event"  id="oweDetails" class="text-center"></pagination-controls>
         </div>
       </div>
       <div class="tab-pane" id="settleDetails">
@@ -69,13 +70,14 @@
               </tr>
             </thead>
             <tbody>
-              <!-- <tr *ngFor="let result of showLentAmount">
+              <tr *ngFor="let result of showSettleAmount | paginate: { id:'settleDetails' , itemsPerPage: 3, currentPage: pageNo };let i=index">
                       <td>{{result.ExpenseName}}</td>
                       <td>{{result.userName}}</td>
                       <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
-                    </tr> -->
+                    </tr>
             </tbody>
           </table>
+          <pagination-controls (pageChange)="pageNo = $event" id="settleDetails" class="text-center"></pagination-controls>
         </div>
       </div>
       <div class="tab-pane active" id="groupExpenses">
@@ -87,17 +89,23 @@
                 <th>Amount</th>
                 <th>Date</th>
                 <th>PaidBy</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let groups of groupExpenses; let i =index">
+              <tr *ngFor="let groups of groupExpenses | paginate: { id:'groupExpenses' , itemsPerPage: 3, currentPage: pageNo };let i=index ">
                 <td>{{groups.expenseName}}</td>
                 <td>{{groups.amount}}</td>
                 <td>{{groups.expenseDate | date : 'dd/MM/yyyy'}}</td>
                 <td>{{groups.paidBy}}</td>
+                <td>
+                  <button class="btn btn-success mx-2" (click)="editExpense(groups.expensesId)">Edit</button>
+                  <button class="btn btn-danger" (click)="deleteGroupExpense(groups.expensesId)">Delete</button>
+                </td>
               </tr>
             </tbody>
           </table>
+          <pagination-controls (pageChange)="pageNo = $event" id="groupExpenses" class="text-center"></pagination-controls>
         </div>
       </div>
     </div>

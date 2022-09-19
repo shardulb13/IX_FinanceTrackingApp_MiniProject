@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AppComponent } from './app.component';
       preventDuplicates: true,
       positionClass: 'toast-bottom-right'
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxPaginationModule
     
   ],
   providers: [{provide:HTTP_INTERCEPTORS, useClass:HeadersInterceptor , multi:true}],

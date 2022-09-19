@@ -8,6 +8,7 @@ import { ExpenseService } from 'src/core/services/expense.service';
 })
 export class DashboardComponent implements OnInit {
   currentUser:any;
+  pageNo = 1;
   allExpense:any=[];
   allUsers: any=[];
   result=0;

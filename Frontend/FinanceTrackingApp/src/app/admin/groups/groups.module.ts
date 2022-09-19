@@ -9,6 +9,7 @@ import { EditComponent } from './edit/edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GroupExpensesComponent } from './group-expenses/group-expenses.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { GroupExpensesComponent } from './group-expenses/group-expenses.componen
     CommonModule,
     GroupsRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ]
 })
 export class GroupsModule { }

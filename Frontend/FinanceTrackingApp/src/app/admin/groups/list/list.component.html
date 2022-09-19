@@ -8,7 +8,6 @@
         <table class="table text-center table-striped">
             <thead class="sticky-top bg-white">
                 <tr>
-                    <!-- <th>ID</th> -->
                     <th>Group Name</th>
                     <th>Users</th>
                     <th>Actions</th>
@@ -16,16 +15,14 @@
             </thead>
             <tbody>
                 <tr *ngFor="let grp of listOfGroups ;let i=index">
-                    <!-- <td>{{exp.expensesId}}</td> -->
                     <td>{{grp.groupName}}</td>
                     <td>{{grp.userId}}</td>
                     <td>
-                        <button class="btn btn-info me-2" (click)="edit(grp.id)">Edit</button>
-                        <button class="btn btn-danger me-2" (click)="deleteGroup(grp.id)">Delete</button>
-                        <button class="btn btn-secondary"(click)="view(grp.id)">View</button>
+                        <button class="btn btn-info me-2" (click)="edit(grp.id)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                        <button class="btn btn-danger me-2" (click)="deleteGroup(grp.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                        <button class="btn btn-success"(click)="view(grp.id)"><i class="fa fa-eye" aria-hidden="true"></i></button>
                     </td>
                 </tr>
-    
             </tbody>
         </table>
     </div>
