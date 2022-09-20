@@ -14,6 +14,8 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         IEnumerable<Group> GroupExpenses(int groupId);
         Task<int> Expenses(Expenses expense);
         Task<UserExpenses> UserExpenses(UserExpenses userExpense);
+        Task<UserExpenses> UserExpensesUpdate(UserExpenses userExpense);
+        Task<UserExpenses> DeleteUser(string id);
         Task<int> UpdateExpenses(Expenses expenses);
         bool Delete(int id);
 
@@ -30,16 +32,16 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         public async Task<int> Expenses(Expenses expenses)
         {
             var result = await _context.Expenses.AddAsync(expenses);
-             _context.SaveChanges();
+            _context.SaveChanges();
             return expenses.ExpensesId;
         }
-        public async Task<UserExpenses>UserExpenses(UserExpenses userExpense)
+        public async Task<UserExpenses> UserExpenses(UserExpenses userExpense)
         {
             var result = await _context.UserExpenses.AddAsync(userExpense);
-             _context.SaveChanges();
+            _context.SaveChanges();
             return result.Entity;
         }
-     
+
         public bool Delete(int id)
         {
             var result = _context.Expenses.FirstOrDefault(a => a.ExpensesId == id);
@@ -69,20 +71,20 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         }
         public IEnumerable<UserExpenseDTO> Expenses(string userid)
         {
-  
-            var joinresult = _context.Expenses.Select(o=> new UserExpenseDTO
+
+            var joinresult = _context.Expenses.Select(o => new UserExpenseDTO
             {
                 expenseId = o.ExpensesId,
                 expenseName = o.ExpenseName,
                 amount = o.Amount,
                 date = o.ExpenseDate,
                 paidby = o.ApplicationUser.UserName,
-                userIds= o.userExpenses.Select(un=> un.ApplicationUser.UserName).ToList()
+                userIds = o.userExpenses.Select(un => un.ApplicationUser.UserName).ToList()
 
-            }).Where(a => a.userIds.Contains(userid)).ToList() ;
+            }).Where(a => a.userIds.Contains(userid)).ToList();
             return joinresult;
         }
-       
+
         public async Task<int> UpdateExpenses(Expenses expenses)
         {
             var update = await _context.Expenses.FirstOrDefaultAsync(a => a.ExpensesId == expenses.ExpensesId);
@@ -94,38 +96,31 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 update.PaidBy = expenses.PaidBy;
                 //update.UserID = obj.UserID;
                 await _context.SaveChangesAsync();
-               
+
                 return expenses.ExpensesId;
             }
             return 0;
         }
 
-        //public async Task<User_Expenses> Expenses(User_Expenses userExpense, int id)
-        //{
-        //    var update = await _context.User_Expenses.FirstOrDefaultAsync(a => a.ExpenseId == id);
-        //    if(update != null)
-        //    {
-        //        update.ExpenseId = userExpense.ExpenseId;
-        //        update.UserId = userExpense.UserId;
-        //        await _context.SaveChangesAsync();
-        //        return update;
-        //    }
-        //    return null;
-        //}
+        public async Task<UserExpenses> UserExpensesUpdate(UserExpenses userExpense)
+        {
+            var update = await _context.UserExpenses.FirstOrDefaultAsync(a => a.ExpenseId == userExpense.ExpenseId);
+            if (update != null)
+            {
+                update.ExpenseId = userExpense.ExpenseId;
+                update.UserId = userExpense.UserId;
+                await _context.SaveChangesAsync();
+                return update;
+            }
+            return null;
+        }
 
-        //public async Task<User_Expenses> DeleteExp(string id)
-        //{
-        //    var result = await _context.User_Expenses.Where(a => a.UserId == id).FirstOrDefaultAsync();
-        //    foreach(var expense in result.UserId)
-        //    {
-        //        //if (result != null)
-        //        //{
-        //            _context.User_Expenses.Remove(result);
-        //            await _context.SaveChangesAsync();
-        //            return result;
-        //        //}
-        //    }
-        //    return null;
-        //}
+        public async Task<UserExpenses> DeleteUser(string id)
+        {
+            var result = await _context.UserExpenses.Where(a => a.UserId == id).FirstOrDefaultAsync();
+            _context.UserExpenses.Remove(result);
+            await _context.SaveChangesAsync();
+            return result;
+        }
     }
 }

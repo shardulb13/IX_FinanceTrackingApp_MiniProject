@@ -112,21 +112,21 @@ namespace FinanceTrackingWebAPI.Services
             PaidBy = expense.PaidBy,
         };
         var updatedExpenseId = await _expenseDA.UpdateExpenses(expenseModel);
-        //foreach(var i in obj.UserId)
-        //{
-        //    await _expenseDA.DeleteExp(i);
-        //}
-        //foreach (var i in obj.UserId)
-        //{
-        //    var user_expenses = new User_Expenses
-        //    {
-        //        ExpenseId = id,
-        //        UserId = i,
-        //    };
+            foreach (var i in expense.UserId)
+            {
+                await _expenseDA.DeleteUser(i);
+            }
+            foreach (var i in expense.UserId)
+            {
+                var modifyUserExpenses = new UserExpenses
+                {
+                    ExpenseId = expenseModel.ExpensesId,
+                    UserId = i,
+                };
 
-        //    await _expenseDA.Expenses(user_expenses,id);
-        //}
-        return updatedExpenseId;
+                await _expenseDA.UserExpensesUpdate(modifyUserExpenses);
+            }
+            return updatedExpenseId;
     }
 }
 }
