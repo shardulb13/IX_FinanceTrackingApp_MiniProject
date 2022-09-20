@@ -18,22 +18,28 @@
         </div>
         <div>
             <label for="date" class="form-label">Date</label>
-            <input type="date"  max="{{this.date}}" value="{{this.form['ExpenseDate'].value}}" class="form-control" placeholder="Date" formControlName="ExpenseDate">
+            <input type="date"  max="{{this.date}}" [value]="expform.controls['ExpenseDate'].value | date :'yyyy-MM-dd'" class="form-control" placeholder="Date" formControlName="ExpenseDate">
             <span class="alert" *ngIf="form['ExpenseDate']?.errors?.['required'] && form['ExpenseDate']?.touched">Date is required</span>
         </div>
         <div>
             <label for="paidby" class="form-label">Paid By</label>
-            <select name="allusers" class="form-control" formControlName="PaidBy">
+            <select name="allusers" class="form-select" formControlName="PaidBy">
                 <option *ngFor="let users of allUsers" [value]="users.id">{{users.userName}}</option>
             </select>
             <span class="alert" *ngIf="form['PaidBy']?.errors?.['required'] && form['PaidBy']?.touched">Select paidby user</span> 
         </div>
+
+        <div>
+            <input type ="text" class="form-control" formControlName="userId">
+        </div>
+        
 
         <div class="mt-2">
             <button class="btn btn-success me-2" (click)="updateExpense()">Update Data</button>
         </div>
     </form>
 </div>
+<!-- <button class="btn btn-primary" (click)="getGroupId()">Get Id</button> -->
 
 
     

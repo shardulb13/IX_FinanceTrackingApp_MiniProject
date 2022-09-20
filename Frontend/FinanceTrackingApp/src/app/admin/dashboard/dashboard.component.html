@@ -87,7 +87,7 @@
               <tr *ngFor="let result of showOweAmount | paginate: { id: 'oweDetails', itemsPerPage: 3, currentPage: pageNo };let i=index" >
                 <td>{{result.ExpenseName}}</td>
                 <td>{{result.userName}}</td>
-                <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
+                <td><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{result.amount}}/-</td>
               </tr>
             </tbody>
           </table>
@@ -108,7 +108,7 @@
               <tr *ngFor="let result of showLentAmount | paginate: { id: 'settleDetails', itemsPerPage: 3, currentPage: pageNo };let i=index">
                 <td>{{result.ExpenseName}}</td>
                 <td>{{result.userName}}</td>
-                <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
+                <td><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{result.amount}}/-</td>
               </tr>
             </tbody>
           </table>

@@ -50,10 +50,10 @@ export class GroupExpensesComponent implements OnInit {
             for(let i =0; i<= this.groupExpenses.length; i++){
               if(this.groupExpenses[i].paidBy.toLowerCase() == this.loggedInUser.userName.toLowerCase()){
                 let tempResult =  this.groupExpenses[i].amount/ (this.groupExpenses[i].userId.length);
-                this.result += Math.floor(tempResult);
+                this.result += Math.round(tempResult);
                 console.log("Usernames matched");
                 this.oweTemp = (this.groupExpenses[i].amount)/this.groupExpenses[i].userId.length ;
-                this.oweAmount += Math.floor(this.oweTemp)* (this.groupExpenses[i].userId.length-1);
+                this.oweAmount += Math.round(this.oweTemp)* (this.groupExpenses[i].userId.length-1);
                 console.log("Denyache Paise", this.oweAmount);
                 this.arrayofowe = this.groupExpenses[i].userId;
                 console.log("Mala"+ this.arrayofowe +"Amount"+this.oweAmount);
@@ -61,7 +61,7 @@ export class GroupExpensesComponent implements OnInit {
       
                 for(let j = 0; j< this.arrayofowe.length; j++){
                   if(this.arrayofowe[j].toLowerCase() != this.loggedInUser.userName.toLowerCase()){
-                    this.showOweAmount.push({'userName':this.arrayofowe[j],'amount':Math.floor(this.oweTemp), 'ExpenseName':this.groupExpenses[i].expenseName});
+                    this.showOweAmount.push({'userName':this.arrayofowe[j],'amount':Math.round(this.oweTemp), 'ExpenseName':this.groupExpenses[i].expenseName});
                     console.log("Unmatched id", this.arrayofowe[j] + "owes me" + this.oweTemp);
                     console.log("Array madhe kiti ahe", this.showOweAmount);
                     console.log(this.showOweAmount.userName + "owes me" + this.showOweAmount.amount);
@@ -71,14 +71,14 @@ export class GroupExpensesComponent implements OnInit {
               }
               else{
                 this.settleTemp = (this.groupExpenses[i].amount)/ this.groupExpenses[i].userId.length;
-                this.settleAmount += Math.floor(this.settleTemp);
+                this.settleAmount += Math.round(this.settleTemp);
                 console.log("Mala deyache paise", this.settleAmount);
                 this.arrayofSettle = this.groupExpenses[i].userId;
                 console.log("Mala"+ this.arrayofSettle +"Amount"+this.settleAmount);
                 console.log("Array of owe amount", this.settleAmount);  
                 for(let j = 0; j< this.arrayofSettle.length; j++){
                    if(this.groupExpenses[i].paidBy == this.arrayofSettle[j]){
-                    this.showSettleAmount.push({'userName':this.arrayofSettle[j],'amount':Math.floor(this.settleTemp), 'ExpenseName':this.groupExpenses[i].expenseName});
+                    this.showSettleAmount.push({'userName':this.arrayofSettle[j],'amount':Math.round(this.settleTemp), 'ExpenseName':this.groupExpenses[i].expenseName});
                     console.log("Unmatched id", this.arrayofowe[j] + "owes me" + this.settleTemp);
                     console.log("Array madhe kiti ahe", this.showOweAmount);
                     console.log(this.showSettleAmount.userName + "owes me" + this.showSettleAmount.amount);

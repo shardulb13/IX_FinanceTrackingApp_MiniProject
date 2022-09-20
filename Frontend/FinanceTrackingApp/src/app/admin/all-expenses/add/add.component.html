@@ -20,7 +20,7 @@
         <form [formGroup]="expform">
             <div *ngIf="(this.checkedList.length>0)? isdisable : !isdisable" [hidden]="isdisable">
                 <label for="group" class="form-label mt-2">Select Group</label>
-                <select name="group" class="form-control" formControlName="GroupId" (change)="onchange()">
+                <select name="group" class="form-select" formControlName="GroupId" (change)="onchange()">
                     <option *ngFor="let users of usersGroup" [value]="users.id">{{users.groupName}}</option>
                 </select>
             </div>
@@ -42,7 +42,7 @@
             </div>
             <div>
                 <label for="paidby" class="form-label mt-2">Paid By</label>
-                <select name="allusers" class="form-control" formControlName="PaidBy">
+                <select name="allusers" class="form-select" formControlName="PaidBy">
                     <option *ngFor="let users of paidBylist" [value]="users.id">{{users.userName}}</option>
                 </select>
                 <span class="alert" *ngIf="form['PaidBy']?.errors?.['required'] && form['PaidBy']?.touched">Select paidby user</span>

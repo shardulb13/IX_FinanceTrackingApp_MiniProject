@@ -23,6 +23,7 @@ export class EditComponent implements OnInit {
   showDropDown!:boolean;
   id!:any;
   date!:string;
+  GroupId!:number;
   constructor(private authService: AuthenticationService, private expenseService:ExpenseService,private activatedroute: ActivatedRoute, private route: Router, private toastrService:ToastrService,
     private groupService: GroupsService) { }
 
@@ -33,9 +34,11 @@ export class EditComponent implements OnInit {
       ExpenseDate : new FormControl('', [Validators.required]),   
       Amount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
       PaidBy: new FormControl('',[Validators.required]),
-      GroupId: new FormControl(''),
+      GroupId: new FormControl(null),
       IsActive: new FormControl(true),
-    });     
+      userId: new FormControl('')
+    });  
+
     this.authService.getAllUsers().subscribe(res =>{
       console.log("All users",res)
       this.allUsers = res;
@@ -51,7 +54,7 @@ export class EditComponent implements OnInit {
           this.expform.controls.ExpenseDate.setValue(this.editdata[i].expenseDate);
           this.expform.controls.Amount.setValue(this.editdata[i].amount);
           this.expform.controls.PaidBy.setValue(this.editdata[i].paidBy);
-          this.expform.controls.GroupId.setValue(this.editdata[i].GroupId);
+          this.expform.controls.userId.setValue(this.editdata[i].userId);
          }
       }
     });
@@ -59,19 +62,24 @@ export class EditComponent implements OnInit {
     this.groupService.getGroups().subscribe(res=>{
       this.groupData = res;
       console.log("GroupDetails", this.groupData);
-      this.expenseService.getExpensebyGroup(this.groupData[0].id).subscribe(res=>{
-        this.groupDetails = res;
-        for(let i = 0; i<this.groupDetails.length;i++){
-          if(this.id == this.groupDetails[i].expensesId){
-            this.expform.controls.ExpensesId.setValue(this.groupDetails[i].expensesId);
-            this.expform.controls.ExpenseName.setValue(this.groupDetails[i].expenseName);
-            this.expform.controls.ExpenseDate.setValue(this.groupDetails[i].expenseDate);
-            this.expform.controls.Amount.setValue(this.groupDetails[i].amount);
-            this.expform.controls.PaidBy.setValue(this.groupDetails[i].paidBy);
-            this.expform.controls.GroupId.setValue(this.groupDetails[i].groupId);
-           }
-        }
-      })
+      for(let j=0; j<this.groupData.length; j++){
+        this.expenseService.getExpensebyGroup(this.groupData[j].id).subscribe(res=>{
+          this.groupDetails = res;
+          for(let i = 0; i<this.groupDetails.length;i++){
+            if(this.groupData[j].id == this.groupDetails[i].groupId){
+              if(this.id == this.groupDetails[i].expensesId){
+                this.expform.controls.ExpensesId.setValue(this.groupDetails[i].expensesId);
+                this.expform.controls.ExpenseName.setValue(this.groupDetails[i].expenseName);
+                this.expform.controls.ExpenseDate.setValue(this.groupDetails[i].expenseDate);
+                this.expform.controls.Amount.setValue(this.groupDetails[i].amount);
+                this.expform.controls.PaidBy.setValue(this.groupDetails[i].paidBy);
+                this.expform.controls.GroupId.setValue(this.groupDetails[i].groupId);
+               }
+            }
+          }
+        })
+
+      }
     });
 
 
@@ -105,14 +113,19 @@ export class EditComponent implements OnInit {
   }
 
   updateExpense(){
-    // this.expenseService.updateExpense(this.expform.value).subscribe(res=>{
-    //   // alert("Data Updated Successfully");
-    //   this.toastrService.success("Expense Updated Successfully");
-    //   this.route.navigate(['user/allexpenses'])
-    // },
-    // err=>{
-    //   this.toastrService.error("Something went wrong");
-    // })
+    this.expenseService.updateExpense(this.expform.value).subscribe(res=>{
+      // alert("Data Updated Successfully");
+      this.toastrService.success("Expense Updated Successfully");
+      if(this.expform.controls['GroupId'].value >0){
+        this.route.navigate(['user/groups']);
+      }
+      else{
+        this.route.navigate(['user/allexpenses'])
+      }
+    },
+    err=>{
+      this.toastrService.error("Something went wrong");
+    })
     console.log("Updated Data:", this.expform.value);
   }
 
@@ -139,4 +152,12 @@ export class EditComponent implements OnInit {
   //     }
   //   }    
   // }
+
+  getGroupId(){
+    for(let i=0; i<this.groupDetails.length; i++){
+      console.log("GroupDetails", this.groupDetails[i].groupId);
+      this.GroupId = this.groupDetails[i].groupId;
+      console.log("Kuthla Id ala", this.GroupId);
+    }
+  }
 }
