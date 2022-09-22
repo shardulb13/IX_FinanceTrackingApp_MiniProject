@@ -24,6 +24,7 @@ export class EditComponent implements OnInit {
   id!:any;
   date!:string;
   GroupId!:number;
+
   constructor(private authService: AuthenticationService, private expenseService:ExpenseService,private activatedroute: ActivatedRoute, private route: Router, private toastrService:ToastrService,
     private groupService: GroupsService) { }
 
@@ -55,6 +56,8 @@ export class EditComponent implements OnInit {
           this.expform.controls.Amount.setValue(this.editdata[i].amount);
           this.expform.controls.PaidBy.setValue(this.editdata[i].paidBy);
           this.expform.controls.userId.setValue(this.editdata[i].userId);
+          this.selectedlist = this.editdata[i].userId;
+          console.log("selectedlist",this.selectedlist);
          }
       }
     });
@@ -94,18 +97,22 @@ export class EditComponent implements OnInit {
     return this.expform.controls;
   }
 
-  getSelectedValue(status:Boolean,value:String, id:string){
-    if(status){
-      this.checkedList.push(id);
-      this.selectedlist.push(value);  
-      console.log("CheckedList",this.checkedList);
-    }else{
-        var index = this.checkedList.indexOf(value);
-        var index1 = this.selectedlist.indexOf(value);
-        this.checkedList.splice(index,1);
-        this.selectedlist.splice(index1,1);
-    }
-    this.currentSelected = {checked : status,name:value};
+  getSelectedValue(){
+      for(let j =0; j< this.selectedlist.length; j++){
+        let abc = this.allUsers.filter( (x:any) => x.userName == this.selectedlist[j]);
+        console.log("Abc madhe ky ala", abc);
+      
+      }
+    //   this.checkedList.push(id);
+    //   this.selectedlist.push(value);  
+    //   console.log("CheckedList",this.checkedList);
+    // }else{
+    //     var index = this.checkedList.indexOf(value);
+    //     var index1 = this.selectedlist.indexOf(value);
+    //     this.checkedList.splice(index,1);
+    //     this.selectedlist.splice(index1,1);
+    // }
+    // this.currentSelected = {checked : status,name:value};
   }
   mouseleavefunc(e:any){
     this.showDropDown = false;
@@ -152,12 +159,4 @@ export class EditComponent implements OnInit {
   //     }
   //   }    
   // }
-
-  getGroupId(){
-    for(let i=0; i<this.groupDetails.length; i++){
-      console.log("GroupDetails", this.groupDetails[i].groupId);
-      this.GroupId = this.groupDetails[i].groupId;
-      console.log("Kuthla Id ala", this.GroupId);
-    }
-  }
 }
