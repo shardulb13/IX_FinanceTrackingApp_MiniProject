@@ -4,14 +4,16 @@ using FinanceTrackingWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceTrackingWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220921073243_friendsTable_its_relationship")]
+    partial class friendsTable_its_relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,22 +136,15 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Friends", b =>
                 {
-                    b.Property<int>("FriendId")
+                    b.Property<int>("friendId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FriendUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("friendName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FriendId");
-
-                    b.HasIndex("FriendUserId");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("friendId");
 
                     b.ToTable("Friends");
                 });
@@ -204,6 +199,28 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserExpenses");
+                });
+
+            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserFriends", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FriendId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFriends");
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UsersGroup", b =>
@@ -377,22 +394,6 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Navigation("Groups");
                 });
 
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Friends", b =>
-                {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "applicationUser")
-                        .WithMany()
-                        .HasForeignKey("FriendUserId");
-
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "ApplicationUser")
-                        .WithMany("Friend")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("applicationUser");
-
-                    b.Navigation("ApplicationUser");
-                });
-
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserExpenses", b =>
                 {
                     b.HasOne("FinanceTrackingWebAPI.Entities.Expenses", "Expenses")
@@ -407,6 +408,22 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Expenses");
+                });
+
+            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserFriends", b =>
+                {
+                    b.HasOne("FinanceTrackingWebAPI.Entities.Friends", "friends")
+                        .WithMany("userFriends")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "ApplicationUser")
+                        .WithMany("userFriends")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("friends");
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UsersGroup", b =>
@@ -478,9 +495,9 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Authentication.ApplicationUser", b =>
                 {
-                    b.Navigation("Friend");
-
                     b.Navigation("userExpenses");
+
+                    b.Navigation("userFriends");
 
                     b.Navigation("usersGroup");
                 });
@@ -488,6 +505,11 @@ namespace FinanceTrackingWebAPI.Migrations
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Expenses", b =>
                 {
                     b.Navigation("userExpenses");
+                });
+
+            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Friends", b =>
+                {
+                    b.Navigation("userFriends");
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Groups", b =>

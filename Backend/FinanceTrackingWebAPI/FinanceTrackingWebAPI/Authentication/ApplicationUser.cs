@@ -9,7 +9,10 @@ namespace FinanceTrackingWebAPI.Authentication
     {
         public List<UserExpenses> userExpenses { get; set; }
 
-        public List<UsersGroup> UsersGroup { get; set; }
+        public List<UsersGroup> usersGroup { get; set; }
+
+        public ICollection<Friends> Friend { get; set; }
+
 
 
     }

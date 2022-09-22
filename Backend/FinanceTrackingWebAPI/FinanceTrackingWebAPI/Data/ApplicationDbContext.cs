@@ -3,6 +3,7 @@ using FinanceTrackingWebAPI.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace FinanceTrackingWebAPI.Data
 {
@@ -21,11 +22,20 @@ namespace FinanceTrackingWebAPI.Data
             builder.Entity<UserExpenses>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.userExpenses)
                 .HasForeignKey(e => e.UserId);
 
-            builder.Entity<UsersGroup>().HasOne(e => e.Groups).WithMany(ue => ue.UsersGroup)
+            builder.Entity<UsersGroup>().HasOne(e => e.Groups).WithMany(ue => ue.usersGroup)
             .HasForeignKey(e => e.GroupId).OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<UsersGroup>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.UsersGroup)
+            builder.Entity<UsersGroup>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.usersGroup)
                 .HasForeignKey(e => e.UserId);
+
+            // builder.Entity<UserFriends>().HasOne(e => e.friends).WithMany(uf => uf.userFriends)
+            //.HasForeignKey(e => e.FriendId).OnDelete(DeleteBehavior.Cascade);
+
+            // builder.Entity<UserFriends>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.userFriends)
+            //     .HasForeignKey(e => e.UserId);
+
+            builder.Entity<ApplicationUser>().HasMany(f => f.Friend).WithOne(u => u.ApplicationUser).OnDelete(DeleteBehavior.Cascade);
+
 
             builder.Entity<Expenses>()
             .HasOne(b => b.Groups)
@@ -38,6 +48,8 @@ namespace FinanceTrackingWebAPI.Data
         public DbSet<UserExpenses> UserExpenses { get; set; }
         public DbSet<Groups> Groups { get; set; }
         public DbSet<UsersGroup> UsersGroup { get; set; }
+        public DbSet<Friends> Friends { get; set; }
+        //public DbSet<UserFriends> UserFriends { get; set; }
 
     }
 }

@@ -25,7 +25,7 @@ namespace FinanceTrackingWebAPI.Entities
         [Required, DefaultValue(true)]
         public bool IsActive { get; set; }
 
-        public List<UsersGroup> UsersGroup { get; set; }
+        public List<UsersGroup> usersGroup { get; set; }
 
     }
 }

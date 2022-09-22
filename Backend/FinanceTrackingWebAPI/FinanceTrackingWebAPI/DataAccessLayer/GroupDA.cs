@@ -48,7 +48,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             {
                 groupId = o.Id,
                 groupName = o.GroupName,
-                userIds = o.UsersGroup.Select(un => un.ApplicationUser.UserName).ToList()
+                userIds = o.usersGroup.Select(un => un.ApplicationUser.UserName).ToList()
 
             }).Where(a => a.userIds.Contains(userId)).ToList();
             return joinresult;

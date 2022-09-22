@@ -38,6 +38,8 @@ namespace FinanceTrackingWebAPI
             services.AddTransient<IExpenseService, ExpenseService>();
             services.AddTransient<IGroupDA, GroupDA>();
             services.AddTransient<IGroupService, GroupService>();
+            services.AddTransient<IFriendsDA, FriendsDA>();
+            services.AddTransient<IFriendsService, FriendService>();
             services.AddControllers();
             //services.AddControllers().AddNewtonsoftJson(options =>
             //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

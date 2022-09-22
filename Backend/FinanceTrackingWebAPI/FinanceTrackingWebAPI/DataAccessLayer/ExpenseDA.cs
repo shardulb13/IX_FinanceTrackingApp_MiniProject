@@ -12,6 +12,8 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
     {
         IEnumerable<UserExpenseDTO> Expenses(string userid);
         IEnumerable<Group> GroupExpenses(int groupId);
+
+        IEnumerable<UserExpenses> GetUsers(int expenseId);
         Task<int> Expenses(Expenses expense);
         Task<UserExpenses> UserExpenses(UserExpenses userExpense);
         Task<UserExpenses> UserExpensesUpdate(UserExpenses userExpense);
@@ -65,7 +67,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 Amount = o.Amount,
                 PaidBy = o.ApplicationUser.UserName,
                 GroupId = o.Groups.Id,
-                UserIds = o.Groups.UsersGroup.Select(ui => ui.ApplicationUser.UserName).ToList()
+                UserIds = o.Groups.usersGroup.Select(ui => ui.ApplicationUser.UserName).ToList()
             });
             return result;
         }
@@ -120,6 +122,15 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             var result = await _context.UserExpenses.Where(a => a.UserId == id).FirstOrDefaultAsync();
             _context.UserExpenses.Remove(result);
             await _context.SaveChangesAsync();
+            return result;
+        }
+
+        public IEnumerable<UserExpenses> GetUsers(int expenseId)
+        {
+            var result = _context.UserExpenses.Where(o => o.ExpenseId == expenseId).Select( a => new UserExpenses
+            {
+                UserId = a.UserId,
+            });
             return result;
         }
     }
