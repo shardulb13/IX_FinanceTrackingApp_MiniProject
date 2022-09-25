@@ -1,9 +1,9 @@
 <div class="add-button">
-    <button class="btn btn-success m-4" routerLink="add">Add Expenses</button>
+    <button class="btn btn-success m-4 shadow" routerLink="add">Add Expenses</button>
 </div>
 <div class="container">
     <div class="table-responsive">
-        <table class="table text-center">
+        <table class="table text-center shadow table-bordered table-hover">
             <thead class="sticky-top bg-white">
                 <tr>
                     <!-- <th>ID</th> -->
@@ -23,10 +23,10 @@
                     <td>{{exp.expenseDate | date : 'dd/MM/yyyy' }}</td>
                     <td>{{exp.amount}}</td>
                     <td>{{exp.paidBy}}</td>
-                    <td>{{exp.userId}}</td>
+                    <td>{{exp.userId}} </td>
                     <td>
-                        <button class="btn btn-info me-2"(click)="edit(exp.expensesId)">Edit</button>
-                        <button class="btn btn-danger"(click)="deleteExpense(exp.expensesId)">Delete</button>
+                        <button class="btn btn-info me-2 shadow"(click)="edit(exp.expensesId)">Edit</button>
+                        <button class="btn btn-danger shadow"(click)="deleteExpense(exp.expensesId)">Delete</button>
                     </td>
                 </tr>
             </tbody>

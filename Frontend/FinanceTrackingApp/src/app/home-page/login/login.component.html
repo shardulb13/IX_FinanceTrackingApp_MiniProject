@@ -11,18 +11,10 @@
         <span *ngIf="form['Password']?.errors?.['required'] && form['Password']?.touched">Password required</span>
       </div>
       <div class="mb-3">
-        <button type="submit" class="btn btn-success fw-bold" (click)="loginDetails()">Login</button>
+        <button type="submit" class="btn btn-success fw-bold" [disabled]="!LoginForm.valid" (click)="loginDetails()">Login</button>
       </div>
       <div>
         <p>Dont have an account? <span><a id="links" (click)="signup()" >Sign Up</a></span></p>
       </div>
 
-      <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" (show)="this.isAlert">
-        <div class="d-flex">
-          <div class="toast-body">
-            Hello, world! This is a toast message.
-          </div>
-          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-      </div>
 </form>

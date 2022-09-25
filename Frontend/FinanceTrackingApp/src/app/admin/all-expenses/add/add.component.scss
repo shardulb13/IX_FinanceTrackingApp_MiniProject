@@ -15,7 +15,7 @@
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid #ccc;
-    width: 37.3vw;
+    width: 37.8vw;
     text-align: left;
 }
 .drop-toggle i{
@@ -51,8 +51,8 @@
 }
 .expenseForm{
     padding: 2rem;
-    overflow: auto;
-    max-height: 85vh;
+    // overflow: auto;
+    max-height: 89vh;
 }
 span{
     padding: 0 !important;

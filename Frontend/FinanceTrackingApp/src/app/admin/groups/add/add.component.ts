@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/core/services/authentication.service';
+import { FriendsService } from 'src/core/services/friends.service';
 import { GroupsService } from 'src/core/services/groups.service';
 
 @Component({
@@ -13,20 +14,45 @@ import { GroupsService } from 'src/core/services/groups.service';
 export class AddComponent implements OnInit {
   selectedlist:any=[];
   allUsers:any;
+  tempFriendsList:any;
+  allFriends:any =[];
   checkedList : any=[];
   showDropDown!:boolean;
   groupForm:any;
-  constructor(private authService: AuthenticationService, private groupService: GroupsService, private toastrService: ToastrService, private route: Router) { }
+  loggedInUser:any;
+  constructor(private authService: AuthenticationService, private groupService: GroupsService, private toastrService: ToastrService, private route: Router,
+    private friendService: FriendsService) { }
 
   ngOnInit(): void {
     this.groupForm = new FormGroup({
-      groupName: new FormControl(''),
+      groupName: new FormControl('', Validators.required),
       userId: new FormControl(this.checkedList)
-    })
+    });
+
     this.authService.getAllUsers().subscribe(res =>{
       console.log("All users",res)
       this.allUsers = res;
+      this.friendService.getFriends().subscribe(res=>{
+        this.tempFriendsList = res[0].friendUserId;
+        console.log("List of Friends", this.tempFriendsList);
+        for(let i= 0; i<this.allUsers.length; i++){
+          let matchingUsername = this.tempFriendsList.filter((x:any) => x == this.allUsers[i].userName);
+          console.log("Matching Username", matchingUsername);
+          if(this.allUsers[i].userName == matchingUsername){
+            this.allFriends.push({'id': this.allUsers[i].id, 'userName':this.allUsers[i].userName});
+            console.log("All Friends", this.allFriends);
+          }
+        }
+      });
     });
+
+    this.authService.getCurrentUserDetails().subscribe(res=>{
+      this.loggedInUser = res;
+      console.log("Logged in user", this.loggedInUser);
+      this.checkedList.push( this.loggedInUser.id);
+      console.log(this.checkedList);
+    })
+
   }
 
   getSelectedValue(status:Boolean,value:String, id:string){
@@ -57,6 +83,7 @@ export class AddComponent implements OnInit {
     err=>{
       this.toastrService.error("Group Creation Failed");
     })
+    console.log(this.groupForm.value);
   }
 
 }

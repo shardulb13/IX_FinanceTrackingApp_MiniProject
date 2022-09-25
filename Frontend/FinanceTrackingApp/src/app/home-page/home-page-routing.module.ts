@@ -7,15 +7,15 @@ import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {
-    path:'', component:HomePageComponent, children:[
+    path: '', component: HomePageComponent, children: [
       {
-        path:'', component:LandingpageComponent
+        path: '', component: LandingpageComponent
       },
       {
-        path:'login', component:LoginComponent
+        path: 'login', component: LoginComponent
       },
       {
-        path:'register', component:RegisterComponent
+        path: 'register', component: RegisterComponent
       }
     ]
   }

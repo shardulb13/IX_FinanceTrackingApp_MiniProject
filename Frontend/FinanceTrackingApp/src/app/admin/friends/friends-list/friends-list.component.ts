@@ -14,7 +14,7 @@ export class FriendsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.friendService.getFriends().subscribe(res => {
-      console.log(res);
+      console.log("Friends Data",res);
       this.getFriendsList = res[0].friendUserId;
       console.log("Got the Friends in the list", this.getFriendsList);
     });

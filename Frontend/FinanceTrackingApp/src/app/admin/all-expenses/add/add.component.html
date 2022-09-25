@@ -8,7 +8,7 @@
             </button><br>
             <span *ngIf="selectedlist.length>0"> <strong> Selected People:</strong> {{selectedlist.join(', ')}}</span>
             <div class="drop-show" *ngIf="showDropDown">
-                <label class="form-label" *ngFor="let a of allUsers">
+                <label class="form-label" *ngFor="let a of friendList">
                     <input type="checkbox" [(ngModel)]="a.checked"
                     (change)="getSelectedValue(a.checked,a.userName,a.id)">
                     <span>{{a.userName}}</span>
@@ -18,7 +18,7 @@
     </div>
     <div class="col-lg-6 mx-auto">
         <form [formGroup]="expform">
-            <div *ngIf="(this.checkedList.length>0)? isdisable : !isdisable" [hidden]="isdisable">
+            <div *ngIf="(this.checkedList.length>1)? isdisable : !isdisable" [hidden]="isdisable">
                 <label for="group" class="form-label mt-2">Select Group</label>
                 <select name="group" class="form-select" formControlName="GroupId" (change)="onchange()">
                     <option *ngFor="let users of usersGroup" [value]="users.id">{{users.groupName}}</option>
@@ -47,8 +47,8 @@
                 </select>
                 <span class="alert" *ngIf="form['PaidBy']?.errors?.['required'] && form['PaidBy']?.touched">Select paidby user</span>
             </div>
-            <div class="mt-2">
-                <button class="btn btn-success me-2 shadow"  (click)="addExpense()">Add Expense</button>
+            <div class="mt-3">
+                <button class="btn btn-success me-2 shadow" [disabled]="!expform.valid"  (click)="addExpense()">Add Expense</button>
             </div>
         </form>
     </div>

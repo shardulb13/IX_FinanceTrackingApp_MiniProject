@@ -18,11 +18,11 @@ export class AuthenticationService {
   loginDetails(data:string):Observable<any>{
     return this.httpClient.post(`${this.baseApiUrl}/login`,data);
   }
-
+  
   getCurrentUserDetails(){
     var url ="http://localhost:46079/api/UserProfile";
-    const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
-    return this.httpClient.get(url,{headers: headers}); 
+    // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
+    return this.httpClient.get(url); 
   }
   getAllUsers(){
     var url = "http://localhost:46079/api/Authentication";

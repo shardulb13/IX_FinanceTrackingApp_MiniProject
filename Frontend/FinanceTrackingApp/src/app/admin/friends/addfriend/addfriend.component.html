@@ -8,7 +8,7 @@
             </button><br>
             <span *ngIf="selectedlist.length>0"> <strong> Selected People:</strong> {{selectedlist.join(', ')}}</span>
             <div class="drop-show" *ngIf="showDropDown">
-                <label class="form-label" *ngFor="let a of allUsers">
+                <label class="form-label" *ngFor="let a of friendsList">
                     <input type="checkbox" [(ngModel)]="a.checked"
                     (change)="getSelectedValue(a.checked,a.userName,a.id)">
                     <span>{{a.userName}}</span>

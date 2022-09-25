@@ -13,7 +13,6 @@ import { TokenService } from 'src/core/services/token.service';
 })
 export class LoginComponent implements OnInit {
   LoginForm:FormGroup = new FormGroup({});
-  isAlert:boolean = true;
   constructor(private route: Router, private fb: FormBuilder, private auth: AuthenticationService, private tokenService: TokenService, private toastrService: ToastrService) { }
 
   ngOnInit(): void {

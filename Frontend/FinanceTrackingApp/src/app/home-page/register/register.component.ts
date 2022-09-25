@@ -24,9 +24,11 @@ export class RegisterComponent implements OnInit {
   get form(){
     return this.registerForm.controls;
   }
+  
   login(){
     this.route.navigate(['login']);
   }
+
   registerDetails(){
     console.log(this.registerForm.value);
     this.authService.RegsiterDetails(this.registerForm.value).subscribe(res => {
