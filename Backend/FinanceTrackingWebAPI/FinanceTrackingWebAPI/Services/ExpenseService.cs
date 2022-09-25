@@ -11,10 +11,10 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IExpenseService
     {
-        IEnumerable<Expense> Expenses(string userId);
-        IEnumerable<Expense> GroupExpenses(int groupId);
-        Task<int> Expense(Expense expense);
-        Task<int> UpdateExpense(Expense expense);
+        IEnumerable<ExpenseVM> Expenses(string userId);
+        IEnumerable<ExpenseVM> GroupExpenses(int groupId);
+        Task<int> Expense(ExpenseVM expense);
+        Task<int> UpdateExpense(ExpenseVM expense);
         bool Delete(int id);
     }
     public class ExpenseService : IExpenseService
@@ -28,9 +28,9 @@ namespace FinanceTrackingWebAPI.Services
 
         }
 
-        public async Task<int> Expense(Expense expense)
+        public async Task<int> Expense(ExpenseVM expense)
         {
-            var expenseModel = new Expenses
+            var expenseModel = new Expense
             {
                 ExpenseName = expense.ExpenseName,
                 ExpenseDate = expense.ExpenseDate,
@@ -41,7 +41,7 @@ namespace FinanceTrackingWebAPI.Services
                 CreatedOn = DateTime.Now,
                 IsActive = expense.IsActive,
             };
-            var expenseId = await _expenseDA.Expenses(expenseModel);
+            var expenseId = await _expenseDA.Expense(expenseModel);
             if (expense.UserId.Count == 0)
             {
                 return expenseId;
@@ -63,13 +63,13 @@ namespace FinanceTrackingWebAPI.Services
             return _expenseDA.Delete(id);
         }
 
-        public IEnumerable<Expense> Expenses(string userId)
+        public IEnumerable<ExpenseVM> Expenses(string userId)
         {
             var result = _expenseDA.Expenses(userId);
             if (result != null)
             {
                 return (from exp in result
-                        select new Expense
+                        select new ExpenseVM
                         {
                             ExpensesId = exp.expenseId,
                             ExpenseName = exp.expenseName,
@@ -81,13 +81,13 @@ namespace FinanceTrackingWebAPI.Services
             }
             return null;
         }
-        public IEnumerable<Expense> GroupExpenses(int groupId)
+        public IEnumerable<ExpenseVM> GroupExpenses(int groupId)
         {
             var result = _expenseDA.GroupExpenses(groupId);
             if (result != null)
             {
                 return (from exp in result
-                        select new Expense
+                        select new ExpenseVM
                         {
                             ExpensesId = exp.ExpensesId,
                             ExpenseName = exp.ExpenseName,
@@ -101,9 +101,9 @@ namespace FinanceTrackingWebAPI.Services
             return null;
         }
 
-        public async Task<int> UpdateExpense(Expense expense)
+        public async Task<int> UpdateExpense(ExpenseVM expense)
         {
-            var expenseModel = new Expenses
+            var expenseModel = new Expense
             {
                 ExpensesId = expense.ExpensesId,
                 ExpenseName = expense.ExpenseName,
@@ -111,7 +111,7 @@ namespace FinanceTrackingWebAPI.Services
                 Amount = expense.Amount,
                 PaidBy = expense.PaidBy,
             };
-            var updatedExpenseId = await _expenseDA.UpdateExpenses(expenseModel);
+            var updatedExpenseId = await _expenseDA.UpdateExpense(expenseModel);
             //foreach (var i in expense.UserId)
             //{
 

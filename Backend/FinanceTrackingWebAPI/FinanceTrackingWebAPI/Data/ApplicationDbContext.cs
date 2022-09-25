@@ -37,18 +37,18 @@ namespace FinanceTrackingWebAPI.Data
             builder.Entity<ApplicationUser>().HasMany(f => f.Friend).WithOne(u => u.ApplicationUser).OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.Entity<Expenses>()
+            builder.Entity<Expense>()
             .HasOne(b => b.Groups)
             .WithMany()
             .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }
-        public DbSet<Expenses> Expenses { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
         public DbSet<UserExpenses> UserExpenses { get; set; }
-        public DbSet<Groups> Groups { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<UsersGroup> UsersGroup { get; set; }
-        public DbSet<Friends> Friends { get; set; }
+        public DbSet<Friend> Friends { get; set; }
         //public DbSet<UserFriends> UserFriends { get; set; }
 
     }

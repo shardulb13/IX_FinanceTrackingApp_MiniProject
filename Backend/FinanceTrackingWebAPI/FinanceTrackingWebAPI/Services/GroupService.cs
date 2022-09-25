@@ -10,10 +10,10 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IGroupService
     {
-        IEnumerable<GroupDTO> Groups(string userId);
-        Task<int> Group(GroupDTO groups);
-        Task<GroupDTO> Group(int id);
-        Task<int> UpdateGroup(GroupDTO groups);
+        IEnumerable<GroupVM> Groups(string userId);
+        Task<int> Group(GroupVM groups);
+        Task<GroupVM> Group(int id);
+        Task<int> UpdateGroup(GroupVM groups);
         bool Delete(int id);
     }
     public class GroupService : IGroupService
@@ -34,12 +34,12 @@ namespace FinanceTrackingWebAPI.Services
             return false;
         }
 
-        public async Task<GroupDTO> Group(int id)
+        public async Task<GroupVM> Group(int id)
         {
             var result = await _groupDA.Group(id);
             if (result != null)
             {
-                return new GroupDTO
+                return new GroupVM
                 {
                     Id = result.Id,
                     GroupName = result.GroupName,
@@ -49,13 +49,13 @@ namespace FinanceTrackingWebAPI.Services
             return null;
         }
 
-        public IEnumerable<GroupDTO> Groups(string userId)
+        public IEnumerable<GroupVM> Groups(string userId)
         {
             var result = _groupDA.Groups(userId);
             if (result != null)
             {
                 return (from grp in result
-                        select new GroupDTO
+                        select new GroupVM
                         {
                             Id = grp.groupId,
                             GroupName = grp.groupName,
@@ -65,9 +65,9 @@ namespace FinanceTrackingWebAPI.Services
             return null;
         }
 
-        public async Task<int> Group(GroupDTO groupModel)
+        public async Task<int> Group(GroupVM groupModel)
         {
-            var group = new Groups
+            var group = new Group
             {
                 GroupName = groupModel.GroupName,
                 CreatedBy = groupModel.Id,
@@ -87,9 +87,9 @@ namespace FinanceTrackingWebAPI.Services
             return group.Id;
         }
 
-        public async Task<int> UpdateGroup(GroupDTO groupModel)
+        public async Task<int> UpdateGroup(GroupVM groupModel)
         {
-            var group = new Groups
+            var group = new Group
             {
                 Id = groupModel.Id,
                 GroupName = groupModel.GroupName,

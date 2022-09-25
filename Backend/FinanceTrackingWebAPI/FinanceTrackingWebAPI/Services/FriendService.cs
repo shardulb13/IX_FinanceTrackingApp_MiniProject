@@ -11,8 +11,8 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IFriendsService
     {
-        IEnumerable<Friend> friends(string userId);
-        Task<int> Friend(Friend friends);
+        IEnumerable<FriendVM> friends(string userId);
+        bool Friend(FriendVM friends);
         bool Delete(string friendUserId);
 
     }
@@ -29,38 +29,38 @@ namespace FinanceTrackingWebAPI.Services
             return _friendsDA.delete(friendUserId);
         }
 
-        public async Task<int> Friend(Friend friends)
+        public bool Friend(FriendVM friends)
         {
             foreach (var friendUserId in friends.FriendUserId)
             {
-                var friendsModel = new Friends
+                var friendsModel = new Friend
                 {
                     UserId = friends.UserId,
                     FriendUserId = friendUserId,
                 };
-                await _friendsDA.friend(friendsModel);
-                var friendsModelForFriend = new Friends
+                 _friendsDA.friend(friendsModel);
+                var friendsModelForFriend = new Friend
                 {
                     UserId = friendUserId,
                     FriendUserId = friends.UserId
                 };
-                await _friendsDA.friend(friendsModelForFriend);
+                 _friendsDA.friend(friendsModelForFriend);
             }
-            return friends.FriendId;
+            return true;
         }
 
-        public IEnumerable<Friend> friends(string userId)
+        public IEnumerable<FriendVM> friends(string userId)
         {
             var result = _friendsDA.friends(userId).GroupBy(i => i.UserId);
             if (result != null)
             {
                 return (from exp in result
-                        select new Friend
+                        select new FriendVM
                         {
                             UserId = exp.Key,
+                            FriendUserId = exp.Select(x=>x.applicationUser.UserName).ToList()
                             //FriendUserId = exp.Select(x=>x.FriendUserId).ToList(),
                             //FriendUserName = exp.Select(x=>x.applicationUser.UserName).ToString(),
-                            FriendUserId = exp.Select(x=>x.applicationUser.UserName).ToList()
                         });
             }
             return null;

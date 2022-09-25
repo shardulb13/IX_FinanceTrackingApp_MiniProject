@@ -36,7 +36,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Expense(Expense expense)
+        public async Task<IActionResult> Expense(ExpenseVM expense)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }   
 
         [HttpPut]
-        public async Task<IActionResult> UpdateExpense(Expense expense)
+        public async Task<IActionResult> UpdateExpense(ExpenseVM expense)
         {
             try
             {

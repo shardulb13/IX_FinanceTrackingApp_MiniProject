@@ -3,6 +3,7 @@ using FinanceTrackingWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -30,14 +31,20 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> AddFriend(Friend friend)
+        public IActionResult AddFriend(FriendVM friend)
         {
-            return Ok(await _friendsService.Friend(friend));
+            try
+            {
+                return Ok(_friendsService.Friend(friend));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpDelete("{friendUserId}")]
-        public bool Delete(string friendUserId)
+        public bool DeleteFriend(string friendUserId)
         {
             return _friendsService.Delete(friendUserId);
         }

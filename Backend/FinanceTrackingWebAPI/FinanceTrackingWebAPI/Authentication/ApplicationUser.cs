@@ -11,7 +11,7 @@ namespace FinanceTrackingWebAPI.Authentication
 
         public List<UsersGroup> usersGroup { get; set; }
 
-        public ICollection<Friends> Friend { get; set; }
+        public ICollection<Friend> Friend { get; set; }
 
 
 

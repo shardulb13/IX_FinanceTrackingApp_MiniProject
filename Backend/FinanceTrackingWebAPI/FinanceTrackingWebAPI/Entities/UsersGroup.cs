@@ -9,7 +9,7 @@ namespace FinanceTrackingWebAPI.Entities
         public int Id { get; set; }
 
         public int? GroupId { get; set; }
-        public Groups Groups { get; set; }
+        public Group Groups { get; set; }
 
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

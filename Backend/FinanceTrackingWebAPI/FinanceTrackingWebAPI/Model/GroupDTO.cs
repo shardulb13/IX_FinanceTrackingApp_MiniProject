@@ -1,28 +1,20 @@
-﻿using FinanceTrackingWebAPI.Authentication;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace FinanceTrackingWebAPI.Model
 {
     public class GroupDTO
     {
-        public int Id { get; set; }
+        public int ExpensesId { get; set; }
 
-        [Required]
-        public string GroupName { get; set; }
+        public string ExpenseName { get; set; }
 
-        [Required]
-        public int CreatedBy { get; set; }
+        public DateTime ExpenseDate { get; set; }
 
-        [Required]
-        public DateTime CreatedOn { get; set; }
+        public int Amount { get; set; }
 
-        [Required, DefaultValue(true)]
-        public bool IsActive { get; set; }
-
-        public List<string> UserId { get; set; }
-
+        public string PaidBy { get; set; }
+        public int GroupId { get; set; }
+        public List<string> UserIds { get; set; }
     }
 }

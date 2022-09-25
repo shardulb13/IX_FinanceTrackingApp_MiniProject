@@ -27,7 +27,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task< IActionResult> AddGroups(GroupDTO groupModel)
+        public async Task< IActionResult> AddGroups(GroupVM groupModel)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateGroup(GroupDTO groupModel)
+        public async Task<IActionResult> UpdateGroup(GroupVM groupModel)
         {
             try
             {
@@ -55,12 +55,7 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpDelete("{id}")]
         public bool DeleteGroup(int id)
         {
-            var deleteGroup = _groupService.Delete(id);
-            if (deleteGroup)
-            {
-                return true;
-            }
-            return false;
+            return _groupService.Delete(id);
         }
 
     }
