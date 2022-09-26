@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { GroupsService } from 'src/core/services/groups.service';
+import { GroupsService } from 'src/app/core/services/groups.service';
 
 @Component({
   selector: 'app-edit',

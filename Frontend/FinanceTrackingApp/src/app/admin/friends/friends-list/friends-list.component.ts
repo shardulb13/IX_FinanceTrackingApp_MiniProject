@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { FriendsService } from 'src/core/services/friends.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
 
 @Component({
   selector: 'app-friends-list',

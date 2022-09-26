@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { retry } from 'rxjs';
-import { AuthenticationService } from 'src/core/services/authentication.service';
-import { TokenService } from 'src/core/services/token.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-login',

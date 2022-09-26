@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpenseService } from 'src/core/services/expense.service';
-import { GroupsService } from 'src/core/services/groups.service';
+import { ExpenseService } from 'src/app/core/services/expense.service';
+import { GroupsService } from 'src/app/core/services/groups.service';
 
 @Component({
   selector: 'app-dashboard',

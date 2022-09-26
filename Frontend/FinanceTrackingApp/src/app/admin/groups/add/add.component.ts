@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthenticationService } from 'src/core/services/authentication.service';
-import { FriendsService } from 'src/core/services/friends.service';
-import { GroupsService } from 'src/core/services/groups.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
+import { GroupsService } from 'src/app/core/services/groups.service';
 
 @Component({
   selector: 'app-add',
@@ -25,7 +25,7 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupForm = new FormGroup({
-      groupName: new FormControl('', Validators.required),
+      groupName: new FormControl('', [Validators.required]),
       userId: new FormControl(this.checkedList)
     });
 
@@ -84,6 +84,10 @@ export class AddComponent implements OnInit {
       this.toastrService.error("Group Creation Failed");
     })
     console.log(this.groupForm.value);
+  }
+
+  get form(){
+    return this.groupForm.controls;
   }
 
 }

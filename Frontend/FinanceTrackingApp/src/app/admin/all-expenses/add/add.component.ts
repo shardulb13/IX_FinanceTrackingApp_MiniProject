@@ -3,10 +3,10 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 // import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { AuthenticationService } from 'src/core/services/authentication.service';
-import { ExpenseService } from 'src/core/services/expense.service';
-import { FriendsService } from 'src/core/services/friends.service';
-import { GroupsService } from 'src/core/services/groups.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { ExpenseService } from 'src/app/core/services/expense.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
+import { GroupsService } from 'src/app/core/services/groups.service';
 
 @Component({
   selector: 'app-add',
@@ -26,6 +26,7 @@ export class AddComponent implements OnInit {
   usersGroup: any = [];
   paidBylist: any = [];
   isdisable = false;
+  btnDisable:boolean = true;
   constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private router: Router, private toastrService: ToastrService,
     private groupService: GroupsService, private friendService: FriendsService) { }
 
@@ -127,16 +128,7 @@ export class AddComponent implements OnInit {
       this.paidBylist.splice(index, 1);
       console.log("Empty Hotiye ka list", this.paidBylist);
     }
-    // this.currentSelected = {checked : status,name:value};
   }
-  // default(){
-  //   for(let i =0; i<this.allUsers.length; i++){
-  //     if(this.currentUserDetails.id == this.allUsers[i].id){
-  //       this.checkedList.push(this.allUsers[i].id);
-  //       console.log("Added id", this.checkedList);
-  //     }
-  //   }
-  // }
 
   mouseleavefunc(e: any) {
     this.showDropDown = false;
@@ -168,4 +160,5 @@ export class AddComponent implements OnInit {
       }
     }
   }
+
 }

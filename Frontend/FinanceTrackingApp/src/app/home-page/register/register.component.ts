@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthenticationService } from 'src/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
 
   registerDetails(){
     console.log(this.registerForm.value);
-    this.authService.RegsiterDetails(this.registerForm.value).subscribe(res => {
+    this.authService.regsiterDetails(this.registerForm.value).subscribe(res => {
       this.toastrService.success("Successfully Registered");
       this.route.navigate(['login']);
     },

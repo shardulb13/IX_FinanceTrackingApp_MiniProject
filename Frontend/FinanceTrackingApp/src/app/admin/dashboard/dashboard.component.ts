@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/core/services/authentication.service';
-import { ExpenseService } from 'src/core/services/expense.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { ExpenseService } from 'src/app/core/services/expense.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

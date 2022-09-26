@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TokenauthGuard } from 'src/core/auth-gaurd/tokenauth.guard';
+import { TokenauthGuard } from 'src/app/core/auth-gaurd/tokenauth.guard';
 
 const routes: Routes = [
   {

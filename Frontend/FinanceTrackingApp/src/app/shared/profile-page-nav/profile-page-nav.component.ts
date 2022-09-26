@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/core/services/authentication.service';
-import { TokenService } from 'src/core/services/token.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-profile-page-nav',
