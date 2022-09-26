@@ -10,11 +10,10 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IGroupService
     {
-        IEnumerable<GroupVM> Groups(string userId);
-        Task<int> Group(GroupVM groups);
-        Task<GroupVM> Group(int id);
+        IEnumerable<GroupVM> GetAllGroups(string userId);
+        Task<int> CreateGroup(GroupVM groups);
         Task<int> UpdateGroup(GroupVM groups);
-        bool Delete(int id);
+        bool DeleteGroup(int id);
     }
     public class GroupService : IGroupService
     {
@@ -24,9 +23,9 @@ namespace FinanceTrackingWebAPI.Services
             _groupDA = groupService;
         }
 
-        public bool Delete(int id)
+        public bool DeleteGroup(int id)
         {
-            var deleteData = _groupDA.Delete(id);
+            var deleteData = _groupDA.DeleteGroup(id);
             if (deleteData)
             {
                 return true;
@@ -34,24 +33,11 @@ namespace FinanceTrackingWebAPI.Services
             return false;
         }
 
-        public async Task<GroupVM> Group(int id)
-        {
-            var result = await _groupDA.Group(id);
-            if (result != null)
-            {
-                return new GroupVM
-                {
-                    Id = result.Id,
-                    GroupName = result.GroupName,
-                    //UserId = result.UserId
-                };
-            }
-            return null;
-        }
+      
 
-        public IEnumerable<GroupVM> Groups(string userId)
+        public IEnumerable<GroupVM> GetAllGroups(string userId)
         {
-            var result = _groupDA.Groups(userId);
+            var result = _groupDA.GetGroups(userId);
             if (result != null)
             {
                 return (from grp in result
@@ -59,13 +45,14 @@ namespace FinanceTrackingWebAPI.Services
                         {
                             Id = grp.groupId,
                             GroupName = grp.groupName,
+                            Count = grp.Count,
                             UserId = grp.userIds
                         }).ToList();
             }
             return null;
         }
 
-        public async Task<int> Group(GroupVM groupModel)
+        public async Task<int> CreateGroup(GroupVM groupModel)
         {
             var group = new Group
             {
@@ -74,7 +61,7 @@ namespace FinanceTrackingWebAPI.Services
                 CreatedOn = DateTime.Now,
                 IsActive = groupModel.IsActive,
             };
-            var addGroup = await _groupDA.Group(group);
+            var addGroup = await _groupDA.AddGroup(group);
             foreach (var id in groupModel.UserId)
             {
                 var usersGroup = new UsersGroup
@@ -82,7 +69,7 @@ namespace FinanceTrackingWebAPI.Services
                     GroupId = group.Id,
                     UserId = id,
                 };
-                await _groupDA.Groups(usersGroup);
+                await _groupDA.UsersGroups(usersGroup);
             }
             return group.Id;
         }

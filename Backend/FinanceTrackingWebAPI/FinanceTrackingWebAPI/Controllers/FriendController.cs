@@ -25,9 +25,8 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpGet]
         public IActionResult GetFriends()
         {
-            //string userId = User.FindFirstValue(ClaimTypes.Name);
             string userId = User.Claims.First(o => o.Type == "UserID").Value;
-            return Ok(_friendsService.friends(userId));
+            return Ok(_friendsService.GetAllFriends(userId));
         }
 
         [HttpPost]
@@ -35,18 +34,18 @@ namespace FinanceTrackingWebAPI.Controllers
         {
             try
             {
-                return Ok(_friendsService.Friend(friend));
+                return Ok(_friendsService.AddFriend(friend));
             }
             catch(Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest("Error:" + ex);
             }
         }
 
         [HttpDelete("{friendUserId}")]
         public bool DeleteFriend(string friendUserId)
         {
-            return _friendsService.Delete(friendUserId);
+            return _friendsService.DeleteFriend(friendUserId);
         }
     }
 }

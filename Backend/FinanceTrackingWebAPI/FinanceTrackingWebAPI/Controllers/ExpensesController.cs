@@ -25,7 +25,7 @@ namespace FinanceTrackingWebAPI.Controllers
         public IActionResult Expenses()
         {
             string userId = User.FindFirstValue(ClaimTypes.Name);
-            return Ok(_expenseService.Expenses(userId));
+            return Ok(_expenseService.GetAllExpenses(userId));
         }
 
         [HttpGet]
@@ -40,7 +40,7 @@ namespace FinanceTrackingWebAPI.Controllers
         {
             try
             {
-                return Ok(await _expenseService.Expense(expense));
+                return Ok(await _expenseService.AddExpense(expense));
             }
             catch (Exception)
             {
@@ -66,7 +66,7 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpDelete("{id}")]
         public bool DeleteExpense (int id)
         {
-            return _expenseService.Delete(id); 
+            return _expenseService.DeleteExpense(id); 
         }
     }
 }

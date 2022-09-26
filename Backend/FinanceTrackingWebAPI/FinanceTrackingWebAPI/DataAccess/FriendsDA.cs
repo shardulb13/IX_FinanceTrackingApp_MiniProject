@@ -11,9 +11,9 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
 {
     public interface IFriendsDA
     {
-        IEnumerable<Friend> friends(string userId);
-        bool friend(Friend friends);
-        bool delete(string friendId);
+        IEnumerable<Friend> GetFriends(string userId);
+        bool AddFriend(List<Friend> friends);
+        bool DeleteFriend(string friendId);
 
     }
     public class FriendsDA : IFriendsDA
@@ -24,7 +24,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             _context = context;
         }
 
-        public bool delete(string friendUserId)
+        public bool DeleteFriend(string friendUserId)
         {
             var result = _context.Friends.Where(a => a.applicationUser.UserName == friendUserId || a.ApplicationUser.UserName == friendUserId);
             if (result != null)
@@ -36,22 +36,23 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             return false;
         }
 
-        public bool friend(Friend friends)
+        public bool AddFriend(List<Friend> friends)
         {
-            //var friendAlreadyExists = _context.Friends.Where(x => x.FriendUserId == friends.FriendUserId).Any();
-            var result = _context.Friends.Add(friends);
-            if(result != null)
+            var singleFriend = friends.First();
+            var friendAlreadyExists = _context.Friends.Where(x => x.FriendUserId == singleFriend.FriendUserId && x.UserId == singleFriend.UserId || x.UserId == singleFriend.FriendUserId && x.FriendUserId == singleFriend.UserId).Count();
+            if (friendAlreadyExists == 2)
             {
+                return false;
+            }
+            else
+            {
+                _context.Friends.AddRange(friends);
                 _context.SaveChanges();
                 return true;
             }
-            return false;
-
-            
         }
 
-
-        public IEnumerable<Friend> friends(string userId)
+        public IEnumerable<Friend> GetFriends(string userId)
         {
             return _context.Friends.Where(x => x.UserId == userId).Include(x => x.applicationUser).ToList();
         }

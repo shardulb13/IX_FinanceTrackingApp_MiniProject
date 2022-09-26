@@ -11,9 +11,9 @@ namespace FinanceTrackingWebAPI.Services
 {
     public interface IFriendsService
     {
-        IEnumerable<FriendVM> friends(string userId);
-        bool Friend(FriendVM friends);
-        bool Delete(string friendUserId);
+        IEnumerable<FriendVM> GetAllFriends(string userId);
+        bool AddFriend(FriendVM friends);
+        bool DeleteFriend(string friendUserId);
 
     }
     public class FriendService : IFriendsService
@@ -24,34 +24,36 @@ namespace FinanceTrackingWebAPI.Services
             _friendsDA = friendsDA;
         }
 
-        public bool Delete(string friendUserId)
+        public bool DeleteFriend(string friendUserId)
         {
-            return _friendsDA.delete(friendUserId);
+            return _friendsDA.DeleteFriend(friendUserId);
         }
 
-        public bool Friend(FriendVM friends)
+        public bool AddFriend(FriendVM friends)
         {
             foreach (var friendUserId in friends.FriendUserId)
             {
+                List<Friend> friendsList = new List<Friend>();
                 var friendsModel = new Friend
                 {
                     UserId = friends.UserId,
                     FriendUserId = friendUserId,
                 };
-                 _friendsDA.friend(friendsModel);
+                friendsList.Add(friendsModel);
                 var friendsModelForFriend = new Friend
                 {
                     UserId = friendUserId,
                     FriendUserId = friends.UserId
                 };
-                 _friendsDA.friend(friendsModelForFriend);
+                friendsList.Add(friendsModelForFriend);
+                _friendsDA.AddFriend(friendsList);
             }
             return true;
         }
 
-        public IEnumerable<FriendVM> friends(string userId)
+        public IEnumerable<FriendVM> GetAllFriends(string userId)
         {
-            var result = _friendsDA.friends(userId).GroupBy(i => i.UserId);
+            var result = _friendsDA.GetFriends(userId).GroupBy(i => i.UserId);
             if (result != null)
             {
                 return (from exp in result
@@ -59,8 +61,6 @@ namespace FinanceTrackingWebAPI.Services
                         {
                             UserId = exp.Key,
                             FriendUserId = exp.Select(x=>x.applicationUser.UserName).ToList()
-                            //FriendUserId = exp.Select(x=>x.FriendUserId).ToList(),
-                            //FriendUserName = exp.Select(x=>x.applicationUser.UserName).ToString(),
                         });
             }
             return null;

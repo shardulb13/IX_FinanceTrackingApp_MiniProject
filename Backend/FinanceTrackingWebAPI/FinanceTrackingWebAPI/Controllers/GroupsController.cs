@@ -23,7 +23,7 @@ namespace FinanceTrackingWebAPI.Controllers
         public IActionResult Groups()
         {
             string userId = User.FindFirstValue(ClaimTypes.Name);
-            return Ok(_groupService.Groups(userId));
+            return Ok(_groupService.GetAllGroups(userId));
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace FinanceTrackingWebAPI.Controllers
         {
             try
             {
-                return Ok(await _groupService.Group(groupModel));
+                return Ok(await _groupService.CreateGroup(groupModel));
             }
             catch (Exception)
             {
@@ -55,7 +55,7 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpDelete("{id}")]
         public bool DeleteGroup(int id)
         {
-            return _groupService.Delete(id);
+            return _groupService.DeleteGroup(id);
         }
 
     }

@@ -10,12 +10,11 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
 {
     public interface IGroupDA
     {
-        IEnumerable<UsersGroupDTO> Groups(string userId);
-        Task<int> Group(Group groups);
-        Task<int> Groups(UsersGroup usersGroup);
-        Task<Group> Group(int id);
+        IEnumerable<UsersGroupDTO> GetGroups(string userId);
+        Task<int> AddGroup(Group groups);
+        Task<int> UsersGroups(UsersGroup usersGroup);
         Task<int> UpdateGroup(Group groups);
-        bool Delete(int id);
+        bool DeleteGroup(int id);
     }
     public class GroupDA : IGroupDA
     {
@@ -24,7 +23,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         {
             _context = context;
         }
-        public bool Delete(int id)
+        public bool DeleteGroup(int id)
         {
             var result = _context.Groups.FirstOrDefault(a => a.Id == id);
             if (result != null)
@@ -36,30 +35,26 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             return false;
         }
 
-        public Task<Group> Group(int id)
-        {
-            return _context.Groups.FirstOrDefaultAsync(a => a.Id == id);
-            
-        }
 
-        public IEnumerable<UsersGroupDTO> Groups(string userId)
+        public IEnumerable<UsersGroupDTO> GetGroups(string userId)
         {
             return  _context.Groups.Select(o => new UsersGroupDTO
             {
                 groupId = o.Id,
                 groupName = o.GroupName,
+                Count = o.usersGroup.Where(x=>x.Groups.GroupName == o.GroupName).Count(),
                 userIds = o.usersGroup.Select(un => un.ApplicationUser.UserName).ToList()
 
             }).Where(a => a.userIds.Contains(userId)).ToList();
         }
 
-        public async Task<int> Group(Group groups)
+        public async Task<int> AddGroup(Group groups)
         {
             await _context.Groups.AddAsync(groups);
             await _context.SaveChangesAsync();
             return groups.Id;
         }
-        public async Task<int> Groups(UsersGroup usersgroup)
+        public async Task<int> UsersGroups(UsersGroup usersgroup)
         {
              await _context.UsersGroup.AddAsync(usersgroup);
              await _context.SaveChangesAsync();
