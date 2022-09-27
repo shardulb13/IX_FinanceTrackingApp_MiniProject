@@ -11,6 +11,7 @@ namespace FinanceTrackingWebAPI.Entities
     {
         public int Id { get; set; }
 
+        [Required, MaxLength(20)]
         public string GroupName { get; set; }
 
         [Required]

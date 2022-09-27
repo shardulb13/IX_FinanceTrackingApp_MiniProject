@@ -18,7 +18,7 @@ namespace FinanceTrackingWebAPI.Controllers
         private readonly IExpenseService _expenseService;
         public ExpensesController(IExpenseService expenseService)
         {
-            _expenseService = expenseService;   
+            _expenseService = expenseService;
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GroupExpenses")]
+        [Route("GroupExpenses/{groupId}")]
         public IActionResult Expenses(int groupId)
         {
             return Ok(_expenseService.GroupExpenses(groupId));
@@ -40,21 +40,36 @@ namespace FinanceTrackingWebAPI.Controllers
         {
             try
             {
-                return Ok(await _expenseService.AddExpense(expense));
+                if (ModelState.IsValid)
+                {
+
+                    return Ok(await _expenseService.AddExpense(expense));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Expense Creation Failed" });
             }
-            
-        }   
+
+        }
 
         [HttpPut]
         public async Task<IActionResult> UpdateExpense(ExpenseVM expense)
         {
             try
             {
-                return Ok(await _expenseService.UpdateExpense(expense));
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _expenseService.UpdateExpense(expense));
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception)
             {
@@ -64,9 +79,9 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteExpense (int id)
+        public bool DeleteExpense(int id)
         {
-            return _expenseService.DeleteExpense(id); 
+            return _expenseService.DeleteExpense(id);
         }
     }
 }

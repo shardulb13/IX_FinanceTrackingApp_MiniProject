@@ -12,7 +12,7 @@ namespace FinanceTrackingWebAPI.Entities
         [Key]
         public int ExpensesId { get; set; }
 
-        [Required]
+        [Required, MaxLength(20)]
         public string ExpenseName { get; set; }
 
         [Required]
