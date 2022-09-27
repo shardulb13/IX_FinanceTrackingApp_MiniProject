@@ -23,6 +23,6 @@ export class ProfilePageNavComponent implements OnInit {
   logout(){
     this.tokenService.deleteToken();
     this.route.navigate(['']);
-    
   }
+
 }

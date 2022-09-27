@@ -23,7 +23,7 @@ const routes: Routes = [
         path:'dashboard', component:DashboardComponent
       },
       {
-        path:'groupExpense/:id', component:GroupExpensesComponent
+        path:'groupexpenses/:id', component:GroupExpensesComponent
       }
     ]
   }

@@ -35,6 +35,6 @@ export class ListComponent implements OnInit {
     this.route.navigate([`user/groups/editGroup/${id}`]);
   }
   view(id:number){
-    this.route.navigate([`user/groups/groupExpense/${id}`]);
+    this.route.navigate([`user/groups/groupexpenses/${id}`]);
   }
 }
