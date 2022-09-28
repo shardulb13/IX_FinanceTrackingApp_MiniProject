@@ -111,44 +111,43 @@ namespace FinanceTrackingWebAPI.Services
                 Amount = expense.Amount,
                 PaidBy = expense.PaidBy,
             };
-            var updatedExpenseId = await _expenseDA.UpdateExpense(expenseModel);
+            return await _expenseDA.UpdateExpense(expenseModel);
+            ////foreach (var i in expense.UserId)
+            ////{
+
+            ////}
             //foreach (var i in expense.UserId)
             //{
+            //    var modifyUserExpenses = new UserExpenses
+            //    {
+            //        ExpenseId = expenseModel.ExpensesId,
+            //        UserId = i,
+            //    };
 
-            //}
-            foreach (var i in expense.UserId)
-            {
-                var modifyUserExpenses = new UserExpenses
-                {
-                    ExpenseId = expenseModel.ExpensesId,
-                    UserId = i,
-                };
+            //    var getUsers = _expenseDA.GetUsers(expense.ExpensesId);
+            //    //foreach (var id in getUsers)
+            //    //{
+            //    //    if (id.Equals(modifyUserExpenses.UserId))
+            //    //    {
+            //    //        return updatedExpenseId;
+            //    //    }
+            //    //    else
+            //    //    {
+            //    //        await _expenseDA.UserExpenses(modifyUserExpenses);
+            //    //    }
 
-                var getUsers = _expenseDA.GetUsers(expense.ExpensesId);
-                //foreach (var id in getUsers)
-                //{
-                //    if (id.Equals(modifyUserExpenses.UserId))
-                //    {
-                //        return updatedExpenseId;
-                //    }
-                //    else
-                //    {
-                //        await _expenseDA.UserExpenses(modifyUserExpenses);
-                //    }
+            //    //}
 
-                //}
+            //    foreach (var id in getUsers)
+            //    {
+            //        if (id.UserId.Equals(modifyUserExpenses.UserId))
+            //        {
+            //            break;
+            //        }
+            //    }
+            //    await _expenseDA.UserExpenses(modifyUserExpenses);
 
-                foreach (var id in getUsers)
-                {
-                    if (id.UserId.Equals(modifyUserExpenses.UserId))
-                    {
-                        break;
-                    }
-                }
-                await _expenseDA.UserExpenses(modifyUserExpenses);
 
-            }
-            return updatedExpenseId;
         }
     }
 }
