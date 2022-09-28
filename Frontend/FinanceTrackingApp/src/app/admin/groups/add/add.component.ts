@@ -25,7 +25,7 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupForm = new FormGroup({
-      groupName: new FormControl('', [Validators.required]),
+      groupName: new FormControl('', [Validators.required, Validators.maxLength(20)]),
       userId: new FormControl(this.checkedList)
     });
 

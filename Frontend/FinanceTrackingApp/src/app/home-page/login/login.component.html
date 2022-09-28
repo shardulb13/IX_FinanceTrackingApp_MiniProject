@@ -11,10 +11,10 @@
         <span *ngIf="form['Password']?.errors?.['required'] && form['Password']?.touched">Password required</span>
       </div>
       <div class="mb-3">
-        <button type="submit" class="btn btn-success fw-bold" [disabled]="!LoginForm.valid" (click)="loginDetails()">Login</button>
+        <button type="submit" class="btn btn-success fw-bold" [disabled]="!LoginForm.valid" (click)="login()">Login</button>
       </div>
       <div>
-        <p>Dont have an account? <span><a id="links" (click)="signup()" >Sign Up</a></span></p>
+        <p>Dont have an account? <span><a id="links" (click)="signUp()" >Sign Up</a></span></p>
       </div>
 
 </form>

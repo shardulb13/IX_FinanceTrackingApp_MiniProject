@@ -15,6 +15,8 @@ export class EditComponent implements OnInit {
   expform!: any;
   editdata: any = [];
   allUsers: any = [];
+  tempAllUser: any = [];
+  userName: any;
   selectedlist: any = [];
   checkedList: any = [];
   groupDetails: any = [];
@@ -39,65 +41,64 @@ export class EditComponent implements OnInit {
       PaidBy: new FormControl('', [Validators.required]),
       GroupId: new FormControl(null),
       IsActive: new FormControl(true),
-      userId: new FormControl('')
-    });
-
-    this.authService.getAllUsers().subscribe(res => {
-      console.log("All users", res)
-      this.allUsers = res;
+      userId: new FormControl([])
     });
 
     this.expenseService.getAllExpenses().subscribe(res => {
       this.editdata = res;
-      console.log("Edit Expense", this.editdata);
-      for (let i = 0; i < this.editdata.length; i++) {
-        if (this.id == this.editdata[i].expensesId) {
-          this.expform.controls.ExpensesId.setValue(this.editdata[i].expensesId);
-          this.expform.controls.ExpenseName.setValue(this.editdata[i].expenseName);
-          this.expform.controls.ExpenseDate.setValue(this.editdata[i].expenseDate);
-          this.expform.controls.Amount.setValue(this.editdata[i].amount);
-          this.expform.controls.PaidBy.setValue(this.editdata[i].paidBy);
-          this.expform.controls.userId.setValue(this.editdata[i].userId);
-          console.log("expense Date", this.editdata[i].expenseDate);
-          
-          this.selectedlist = this.editdata[i].userId;
-          console.log("selectedlist", this.selectedlist);
-          console.log("kai value yetiye hyat", this.editdata[i].userId);
-          this.paidByList = this.editdata[i].userId;
-          console.log("abc", this.paidByList);
+      this.authService.getAllUsers().subscribe(res => {
+        this.allUsers = res;
+        // console.log("Edit Expense", this.editdata);
+        for (let i = 0; i < this.editdata.length; i++) {
+          if (this.id == this.editdata[i].expensesId) {
+            this.expform.controls.ExpensesId.setValue(this.editdata[i].expensesId);
+            this.expform.controls.ExpenseName.setValue(this.editdata[i].expenseName);
+            this.expform.controls.ExpenseDate.setValue(this.editdata[i].expenseDate);
+            this.expform.controls.Amount.setValue(this.editdata[i].amount);
+            this.expform.controls.PaidBy.setValue(this.editdata[i].paidBy);
+            this.expform.controls.userId.setValue(this.editdata[i].userId);
+            for (let j = 0; j < this.allUsers.length; j++) {
+              let matchingUserName = this.editdata[i].userId.filter((x: any) => x == this.allUsers[j].userName);
+              if (matchingUserName == this.allUsers[j].userName) {
+                this.paidByList.push({ 'id': this.allUsers[j].id, 'userName': this.allUsers[j].userName });
+                console.log("PaidBy list", this.paidByList);
+              }
+            }
+          }
         }
-      }
+      });
     });
 
     this.groupService.getGroups().subscribe(res => {
       this.groupData = res;
-      console.log("GroupDetails", this.groupData);
-      for (let j = 0; j < this.groupData.length; j++) {
-        this.expenseService.getExpensebyGroup(this.groupData[j].id).subscribe(res => {
-          this.groupDetails = res;
-          for (let i = 0; i < this.groupDetails.length; i++) {
-            if (this.groupData[j].id == this.groupDetails[i].groupId) {
-              if (this.id == this.groupDetails[i].expensesId) {
-                this.expform.controls.ExpensesId.setValue(this.groupDetails[i].expensesId);
-                this.expform.controls.ExpenseName.setValue(this.groupDetails[i].expenseName);
-                this.expform.controls.ExpenseDate.setValue(this.groupDetails[i].expenseDate);
-                this.expform.controls.Amount.setValue(this.groupDetails[i].amount);
-                this.expform.controls.PaidBy.setValue(this.groupDetails[i].paidBy);
-                this.expform.controls.GroupId.setValue(this.groupDetails[i].groupId);
-                console.log("group date", this.groupDetails[i].expenseDate);
+      this.authService.getAllUsers().subscribe(res => {
+        this.tempAllUser = res;
+        for (let i = 0; i <= this.groupData.length; i++) {
+          this.expenseService.getExpensebyGroup(this.groupData[i].id).subscribe(res => {
+            this.groupDetails = res;
+            for (let j = 0; j <= this.groupDetails.length; j++) {
+              if (this.groupData[i].id == this.groupDetails[j].groupId) {
+                if (this.id == this.groupDetails[j].expensesId) {
+                  this.expform.controls.ExpensesId.setValue(this.groupDetails[j].expensesId);
+                  this.expform.controls.ExpenseName.setValue(this.groupDetails[j].expenseName);
+                  this.expform.controls.ExpenseDate.setValue(this.groupDetails[j].expenseDate);
+                  this.expform.controls.Amount.setValue(this.groupDetails[j].amount);
+                  this.expform.controls.PaidBy.setValue(this.groupDetails[j].paidBy);
+                  this.expform.controls.GroupId.setValue(this.groupDetails[j].groupId);
+                  for (let k = 0; k < this.tempAllUser.length; k++) {
+                    let matchingUsers = this.groupDetails[j].userId.filter((x: any) => x == this.tempAllUser[k].userName);
+                    if (matchingUsers == this.tempAllUser[k].userName) {
+                      this.paidByList.push({ 'id': this.tempAllUser[k].id, 'userName': this.tempAllUser[k].userName });
+                    }
+                    console.log("paidBy", this.paidByList);
+                  }
+                }
               }
             }
-          }
-        })
-
-      }
+          });
+        }
+      })
     });
-
-    this.groupService.getGroups().subscribe(res => {
-      this.usersGroup = res;
-      console.log("Users Group", this.usersGroup);
-
-    })
 
     this.id = this.activatedroute.snapshot.paramMap.get('id');
     console.log("got id:", this.id);
@@ -149,27 +150,4 @@ export class EditComponent implements OnInit {
     console.log("Updated Data:", this.expform.value);
   }
 
-  onchange() {
-    if (this.expform.controls['GroupId'].value > 0) {
-      for (let i = 0; i < this.usersGroup.length; i++) {
-        if (this.usersGroup[i].id == this.expform.controls['GroupId'].value) {
-          for (let j = 0; j < this.usersGroup[i].userId.length; j++) {
-            for (let k = 0; k < this.allUsers.length; k++) {
-              let matchingUserName = this.usersGroup[i].userId.filter((x: any) => x == this.allUsers[k].userName);
-              console.log("Abc madhe ky ala", matchingUserName);
-              if (this.allUsers[k].userName == matchingUserName) {
-                console.log("Matching Username", matchingUserName);
-                this.paidByList.push({
-                  'id': this.allUsers[k].id,
-                  'userName': this.allUsers[k].userName
-                });
-                console.log("PaidBylist madhe ky ala", this.paidByList);
-              }
-            }
-            break;
-          }
-        }
-      }
-    }
-  }
 }

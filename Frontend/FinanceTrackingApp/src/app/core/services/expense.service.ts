@@ -27,9 +27,9 @@ export class ExpenseService {
     return this.httpClient.put(`${this.baseApiUrl}`, data);
   }
 
-  getExpensebyGroup(index: number):Observable<any>{
+  getExpensebyGroup(id: number):Observable<any>{
     const url = "http://localhost:46079/api/Expenses/GroupExpenses"
-    const options = {params: new HttpParams().set('groupId', index)}
-    return this.httpClient.get(url,options);
+    // const options = {params: new HttpParams().set('groupId', index)}
+    return this.httpClient.get(`${url}/${id}`);
   }
 }

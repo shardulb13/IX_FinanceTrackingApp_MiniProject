@@ -11,11 +11,11 @@ export class AuthenticationService {
   baseApiUrl='http://localhost:46079/api/Authentication'
   constructor(private httpClient:HttpClient, private tokenService: TokenService) { }
 
-  regsiterDetails(data:string):Observable<any>{
+  regsiter(data:string):Observable<any>{
     return this.httpClient.post(`${this.baseApiUrl}/register`,data)
  }
 
-  loginDetails(data:string):Observable<any>{
+  login(data:string):Observable<any>{
     return this.httpClient.post(`${this.baseApiUrl}/login`,data);
   }
   

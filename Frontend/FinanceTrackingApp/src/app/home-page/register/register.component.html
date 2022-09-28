@@ -18,7 +18,7 @@
         <span *ngIf="form['Password']?.errors?.['pattern']">Password should contain at least One Uppercase, Lowercase, Symbol & Number</span>
       </div>
       <div class="mb-2">
-        <button class="btn btn-success fw-bold" [disabled]="!registerForm.valid" (click)="registerDetails()">Register</button>
+        <button class="btn btn-success fw-bold" [disabled]="!registerForm.valid" (click)="register()">Register</button>
       </div>
       <div>
         <p>Already have an account? <span><a id="links" (click)="login()">Login</a></span></p>

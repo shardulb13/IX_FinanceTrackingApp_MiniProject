@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoginForm = this.fb.group({
-      UserName:['',[Validators.required]],
+      UserName:['',[Validators.required, ]],
       Password:['',[Validators.required]]
     })
   }
@@ -25,13 +25,13 @@ export class LoginComponent implements OnInit {
   get form(){
     return this.LoginForm.controls;
   }
-  signup(){
+  signUp(){
     this.route.navigate(['register']);
   }
 
-  loginDetails(){
+  login(){
     console.log(this.LoginForm.value);
-    this.auth.loginDetails(this.LoginForm.value).subscribe(res => {
+    this.auth.login(this.LoginForm.value).subscribe(res => {
     this.toastrService.success("Login Successful");
       if(res){
         console.log(res.token);

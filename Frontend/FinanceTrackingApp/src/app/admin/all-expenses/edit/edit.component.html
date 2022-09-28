@@ -19,8 +19,8 @@
         </div>
         <div>
             <label for="paidby" class="form-label">Paid By</label>
-            <select name="allusers" class="form-select" formControlName="PaidBy">
-                <option *ngFor="let users of allUsers" [value]="users.id">{{users.userName}}</option>
+            <select name="allusers" [value]="expform.get('PaidBy').value" class="form-select" formControlName="PaidBy">
+                <option *ngFor="let users of paidByList" [value]="users.id">{{users.userName}}</option>
             </select>
             <span class="alert" *ngIf="form['PaidBy']?.errors?.['required'] && form['PaidBy']?.touched">Select paidby user</span> 
         </div>

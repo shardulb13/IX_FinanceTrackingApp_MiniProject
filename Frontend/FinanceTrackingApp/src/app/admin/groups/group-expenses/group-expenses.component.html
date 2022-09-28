@@ -41,7 +41,7 @@
           <!-- <h2>Owe Details</h2> -->
           <table class="table text-center table-bordered shadow">
             <thead>
-              <tr>
+              <tr class="bg-secondary bg-gradient text-white">
                 <th>Expense Name</th>
                 <th>Person Name</th>
                 <th>Amount</th>
@@ -63,7 +63,7 @@
           <!-- <h2>Settle Details</h2> -->
           <table class="table text-center table-bordered shadow">
             <thead>
-              <tr>
+              <tr class="bg-secondary bg-gradient text-white">
                 <th>Expense Name</th>
                 <th>Person Name</th>
                 <th>Amount</th>
@@ -84,7 +84,7 @@
         <div class="table-overflow mx-auto col-lg-10 mt-4 mb-5">
           <table class="table text-center table-bordered">
             <thead>
-              <tr>
+              <tr class="bg-secondary bg-gradient text-white">
                 <th>Expense Name</th>
                 <th>Amount</th>
                 <th>Date</th>
@@ -99,8 +99,8 @@
                 <td>{{groups.expenseDate | date : 'dd/MM/yyyy'}}</td>
                 <td>{{groups.paidBy}}</td>
                 <td>
-                  <button class="btn btn-success mx-2" (click)="editExpense(groups.expensesId)">Edit</button>
-                  <button class="btn btn-danger" (click)="deleteGroupExpense(groups.expensesId)">Delete</button>
+                  <button class="btn btn-success mx-2" (click)="editExpense(groups.expensesId)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <button class="btn btn-danger" (click)="deleteGroupExpense(groups.expensesId)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                 </td>
               </tr>
             </tbody>
