@@ -58,5 +58,11 @@ namespace FinanceTrackingWebAPI.Controllers
             return _groupService.DeleteGroup(id);
         }
 
+        [HttpDelete]
+        [Route("DeleteGroupUser/{userId}")]
+        public bool DeleteGroupUser(string userId)
+        {
+            return _groupService.DeleteGroupUser(userId);
+        }
     }
 }

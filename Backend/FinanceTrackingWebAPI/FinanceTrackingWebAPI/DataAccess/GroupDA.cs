@@ -15,6 +15,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         Task<int> UsersGroups(UsersGroup usersGroup);
         Task<int> UpdateGroup(Group groups);
         bool DeleteGroup(int id);
+        bool DeleteGroupUser(string userId);
     }
     public class GroupDA : IGroupDA
     {
@@ -35,14 +36,26 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             return false;
         }
 
+        public bool DeleteGroupUser(string userId)
+        {
+            var result = _context.UsersGroup.FirstOrDefault(x => x.ApplicationUser.UserName == userId);
+            if (result != null)
+            {
+                _context.UsersGroup.Remove(result);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
 
         public IEnumerable<UsersGroupDTO> GetGroups(string userId)
         {
-            return  _context.Groups.Select(o => new UsersGroupDTO
+            return _context.Groups.Select(o => new UsersGroupDTO
             {
                 groupId = o.Id,
                 groupName = o.GroupName,
-                Count = o.usersGroup.Where(x=>x.Groups.GroupName == o.GroupName).Count(),
+                Count = o.usersGroup.Where(x => x.Groups.GroupName == o.GroupName).Count(),
                 userIds = o.usersGroup.Select(un => un.ApplicationUser.UserName).ToList()
 
             }).Where(a => a.userIds.Contains(userId)).ToList();
@@ -56,19 +69,19 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         }
         public async Task<int> UsersGroups(UsersGroup usersgroup)
         {
-             await _context.UsersGroup.AddAsync(usersgroup);
-             await _context.SaveChangesAsync();
+            await _context.UsersGroup.AddAsync(usersgroup);
+            await _context.SaveChangesAsync();
             return usersgroup.Id;
         }
 
         public async Task<int> UpdateGroup(Group groups)
         {
-            var updateGroup =  _context.Groups.FirstOrDefault(a => a.Id == groups.Id);
+            var updateGroup = _context.Groups.FirstOrDefault(a => a.Id == groups.Id);
             if (updateGroup != null)
             {
-               updateGroup.GroupName = groups.GroupName;
-               await _context.SaveChangesAsync();
-               return updateGroup.Id;
+                updateGroup.GroupName = groups.GroupName;
+                await _context.SaveChangesAsync();
+                return updateGroup.Id;
             }
             return 0;
         }

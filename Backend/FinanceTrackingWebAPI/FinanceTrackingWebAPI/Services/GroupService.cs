@@ -14,6 +14,7 @@ namespace FinanceTrackingWebAPI.Services
         Task<int> CreateGroup(GroupVM groups);
         Task<int> UpdateGroup(GroupVM groups);
         bool DeleteGroup(int id);
+        bool DeleteGroupUser(string userId);
     }
     public class GroupService : IGroupService
     {
@@ -25,15 +26,13 @@ namespace FinanceTrackingWebAPI.Services
 
         public bool DeleteGroup(int id)
         {
-            var deleteData = _groupDA.DeleteGroup(id);
-            if (deleteData)
-            {
-                return true;
-            }
-            return false;
+            return _groupDA.DeleteGroup(id);
         }
 
-      
+        public bool DeleteGroupUser(string userId)
+        {
+            return _groupDA.DeleteGroupUser(userId);
+        }
 
         public IEnumerable<GroupVM> GetAllGroups(string userId)
         {
@@ -61,7 +60,7 @@ namespace FinanceTrackingWebAPI.Services
                 CreatedOn = DateTime.Now,
                 IsActive = groupModel.IsActive,
             };
-            var addGroup = await _groupDA.AddGroup(group);
+            var groupId = await _groupDA.AddGroup(group);
             foreach (var id in groupModel.UserId)
             {
                 var usersGroup = new UsersGroup
@@ -71,7 +70,7 @@ namespace FinanceTrackingWebAPI.Services
                 };
                 await _groupDA.UsersGroups(usersGroup);
             }
-            return group.Id;
+            return groupId;
         }
 
         public async Task<int> UpdateGroup(GroupVM groupModel)
@@ -82,8 +81,18 @@ namespace FinanceTrackingWebAPI.Services
                 GroupName = groupModel.GroupName,
                 //UserId = obj.UserId
             };
-            
-            return await _groupDA.UpdateGroup(group);
+            var modifyGroup = await _groupDA.UpdateGroup(group);
+            foreach (var id in groupModel.UserId)
+            {
+                var usersGroup = new UsersGroup
+                {
+                    GroupId = group.Id,
+                    UserId = id,
+                };
+                await _groupDA.UsersGroups(usersGroup);
+            }
+            return modifyGroup;
         }
+
     }
 }
