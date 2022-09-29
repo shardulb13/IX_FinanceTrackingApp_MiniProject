@@ -1,0 +1,62 @@
+// .user{
+//     padding: 10px 0px;
+// }
+.select{
+  margin: auto;
+}
+
+/***
+    css for multi select drop down
+**/
+.drop-toggle{
+    background-color: #fff;
+    border: none;
+    padding: 9px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    width: 40vw;
+    text-align: left;
+}
+.drop-toggle i{
+    float:right;
+}
+.drop-show {
+    padding: 4px;
+    width: 40vw;
+    background-color: #FFF;
+    border: 1px solid #BABABA;
+    position: absolute;
+    z-index: 100;
+    -webkit-box-shadow: 0 6px 10px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 6px 10px rgba(0,0,0,.15);
+    box-shadow: 0 6px 10px rgba(0,0,0,.15);
+    margin-left: 1px;
+}
+.drop-show label{
+    display:block;
+    font-size:15px;
+    cursor: pointer;
+}
+.drop-show label input{
+    vertical-align: top;
+    margin: 4px;
+}
+.drop-show label span{
+    display:inline-block;
+}
+
+.alert{
+    color: red;
+}
+.expenseForm{
+    overflow: auto;
+    max-height: 80vh;
+}
+span{
+    padding: 0 !important;
+}
+.fa{
+    font-size: 20px;
+    margin-right: 4px;
+}

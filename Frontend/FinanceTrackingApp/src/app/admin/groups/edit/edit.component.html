@@ -1,0 +1,18 @@
+<div class="mx-auto mt-5 pt-5 col-lg-6">
+    <h2>Edit Group</h2>
+    <form [formGroup]="groupForm" class="mb-3 mt-3">
+        <div>
+            <label for="expName" class="form-label">Group Name</label>
+            <input type="text" class="form-control" placeholder="Name" formControlName="groupName">
+        </div>
+        <!-- <div>
+            <label for="expName" class="form-label">Users</label>
+            <input type="text" class="form-control" placeholder="Name" formControlName="userId">
+        </div> -->
+    </form>
+    <!-- <span *ngFor="let i of editUserId">{{i}}</span> -->
+    <div class="mt-2">
+        <button class="btn btn-success me-2" (click)="updateGroup()">Update Group</button>
+    </div>
+    <!-- <button (click)="editUsers()">Edit</button> -->
+</div>
