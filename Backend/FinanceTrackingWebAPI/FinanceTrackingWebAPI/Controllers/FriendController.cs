@@ -29,6 +29,14 @@ namespace FinanceTrackingWebAPI.Controllers
             return Ok(_friendsService.GetAllFriends(userId));
         }
 
+        [HttpGet]
+        [Route("FriendsData")]
+        public IActionResult GetFriendsData()
+        {
+            string userId = User.Claims.First(o => o.Type == "UserID").Value;
+            return Ok(_friendsService.GetFriendsData(userId));
+        }
+
         [HttpPost]
         public IActionResult AddFriend(FriendVM friend)
         {

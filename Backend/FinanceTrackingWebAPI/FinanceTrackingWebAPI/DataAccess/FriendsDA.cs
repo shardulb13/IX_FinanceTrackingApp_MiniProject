@@ -12,6 +12,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
     public interface IFriendsDA
     {
         IEnumerable<Friend> GetFriends(string userId);
+        IEnumerable<FriendsDTO> GetFriendsData(string userId);
         bool AddFriend(List<Friend> friends);
         bool DeleteFriend(string friendId);
 
@@ -55,6 +56,21 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         public IEnumerable<Friend> GetFriends(string userId)
         {
             return _context.Friends.Where(x => x.UserId == userId).Include(x => x.applicationUser).ToList();
+
+        }
+
+        public IEnumerable<FriendsDTO> GetFriendsData(string userId)
+        {
+            return _context.Friends.Join(_context.Users,
+                                 friends => friends.FriendUserId,
+                                 users => users.Id,
+                                 (friends, users) => new FriendsDTO
+                                 {
+                                     UserId = friends.UserId,
+                                     FriendUserId = friends.FriendUserId,
+                                     FriendName = friends.applicationUser.Firstname + " " + friends.applicationUser.Lastname,
+                                     UserName = friends.applicationUser.UserName,
+                                 }).Where(x => x.UserId == userId).ToList();
         }
     }
 }

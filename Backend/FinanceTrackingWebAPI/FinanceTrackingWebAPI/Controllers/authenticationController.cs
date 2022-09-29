@@ -77,6 +77,8 @@ namespace FinanceTrackingWebAPI.Controllers
 
             ApplicationUser user = new ApplicationUser()
             {
+                Firstname = model.Firstname,
+                Lastname = model.Lastname,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName
@@ -91,7 +93,8 @@ namespace FinanceTrackingWebAPI.Controllers
         [HttpGet]
         public IActionResult GetAllUsers()
         {
-            var allusers = _userManager.Users;
+            string userId = User.Claims.First(o => o.Type == "UserID").Value;
+            var allusers = _userManager.Users.Where(x=>x.Id != userId);
             return Ok(allusers.ToList());
         }
     }

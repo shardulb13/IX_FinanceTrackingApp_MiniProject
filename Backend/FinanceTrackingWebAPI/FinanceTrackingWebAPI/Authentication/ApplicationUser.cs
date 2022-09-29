@@ -7,6 +7,11 @@ namespace FinanceTrackingWebAPI.Authentication
 {
     public class ApplicationUser : IdentityUser
     {
+        [Required, MaxLength(20)]
+        public string Firstname { get; set; }
+
+        [Required, MaxLength(20)]
+        public string Lastname { get; set; }
         public List<UserExpenses> userExpenses { get; set; }
 
         public List<UsersGroup> usersGroup { get; set; }

@@ -12,6 +12,7 @@ namespace FinanceTrackingWebAPI.Services
     public interface IFriendsService
     {
         IEnumerable<FriendVM> GetAllFriends(string userId);
+        IEnumerable<FriendVM> GetFriendsData(string userId);
         bool AddFriend(FriendVM friends);
         bool DeleteFriend(string friendUserId);
 
@@ -61,6 +62,23 @@ namespace FinanceTrackingWebAPI.Services
                         {
                             UserId = exp.Key,
                             FriendUserId = exp.Select(x=>x.applicationUser.UserName).ToList()
+                        });
+            }
+            return null;
+        }
+
+        public IEnumerable<FriendVM> GetFriendsData(string userId)
+        {
+            var result = _friendsDA.GetFriendsData(userId);
+            if (result != null)
+            {
+                return (from exp in result
+                        select new FriendVM
+                        {
+                            UserId = exp.UserId,
+                            SingleFriendUserId = exp.FriendUserId,
+                            Friendname = exp.FriendName,
+                            Username = exp.UserName
                         });
             }
             return null;
