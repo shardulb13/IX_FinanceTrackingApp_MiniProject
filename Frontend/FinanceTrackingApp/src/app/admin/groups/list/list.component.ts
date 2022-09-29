@@ -22,7 +22,7 @@ export class ListComponent implements OnInit {
   }
 
   deleteGroup(id:number){
-    this.groupService.delete(id).subscribe(del=>{
+    this.groupService.deleteGroup(id).subscribe(del=>{
       this.toastrService.error("Group Deleted Successfully");
       this.ngOnInit();
     },

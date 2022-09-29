@@ -48,9 +48,9 @@ export class GroupExpensesComponent implements OnInit {
         console.log("Logged in User", this.loggedInUser);
         
             for(let i =0; i<= this.groupExpenses.length; i++){
+              let tempResult =  this.groupExpenses[i].amount;
+              this.result += Math.round(tempResult);
               if(this.groupExpenses[i].paidBy.toLowerCase() == this.loggedInUser.userName.toLowerCase()){
-                let tempResult =  this.groupExpenses[i].amount/ (this.groupExpenses[i].userId.length);
-                this.result += Math.round(tempResult);
                 console.log("Usernames matched");
                 this.oweTemp = (this.groupExpenses[i].amount)/this.groupExpenses[i].userId.length ;
                 this.oweAmount += Math.round(this.oweTemp)* (this.groupExpenses[i].userId.length-1);

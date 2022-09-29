@@ -21,9 +21,15 @@ export class GroupsService {
     return this.httpClient.put(this.baseApiUrl,data);
   }
 
-  delete(id:number):Observable<any>{
+  deleteGroup(id:number):Observable<any>{
     return this.httpClient.delete(`${this.baseApiUrl}/${id}`)
   }
+
+  deleteGroupUser(id:string):Observable<any>{
+    return this.httpClient.delete(`${this.baseApiUrl}/DeleteGroupUser/${id}`);
+  }
+
+
 
 
 }
