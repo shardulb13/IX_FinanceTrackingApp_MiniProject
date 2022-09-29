@@ -6,7 +6,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
               Profile
             </a>
@@ -14,6 +14,9 @@
               <li><a class="dropdown-item">{{userDetails.userName}}</a></li>
               <li><a class="dropdown-item">{{userDetails.email}}</a></li>
             </ul>
+          </li> -->
+          <li>
+            <a class="nav-link fw-bold">Hi, {{userDetails.userName}}</a>
           </li>
           <li class="nav-item me-4">
             <a class="nav-link" (click)="logout()">Logout</a>

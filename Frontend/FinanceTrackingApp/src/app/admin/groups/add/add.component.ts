@@ -20,6 +20,7 @@ export class AddComponent implements OnInit {
   showDropDown!:boolean;
   groupForm:any;
   loggedInUser:any;
+  submitted:boolean = false;
   constructor(private authService: AuthenticationService, private groupService: GroupsService, private toastrService: ToastrService, private route: Router,
     private friendService: FriendsService) { }
 
@@ -74,15 +75,20 @@ export class AddComponent implements OnInit {
   }
 
   createGroup(){
-    this.groupService.addGroup(this.groupForm.value).subscribe(res=>{
-      console.log(res);
-      this.toastrService.success("Group Created Successfully");
-      console.log(this.groupForm.value);
-      this.route.navigate(['user/groups']);
-    },
-    err=>{
-      this.toastrService.error("Group Creation Failed");
-    })
+    if(this.checkedList.length < 2){
+      alert("Select Friends");
+    }
+    else{
+      this.groupService.addGroup(this.groupForm.value).subscribe(res=>{
+        console.log(res);
+        this.toastrService.success("Group Created Successfully");
+        console.log(this.groupForm.value);
+        this.route.navigate(['user/groups']);
+      },
+      err=>{
+        this.toastrService.error("Group Creation Failed");
+      });
+    }
     console.log(this.groupForm.value);
   }
 

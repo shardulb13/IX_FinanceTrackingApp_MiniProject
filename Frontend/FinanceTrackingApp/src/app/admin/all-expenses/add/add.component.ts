@@ -136,7 +136,7 @@ export class AddComponent implements OnInit {
   }
 
   onchange() {
-    this.paidBylist = [];
+    // this.paidBylist = [];
     this.checkedList = [];
     if (this.expform.controls['GroupId'].value > 0) {
       for (let i = 0; i < this.usersGroup.length; i++) {
@@ -159,6 +159,10 @@ export class AddComponent implements OnInit {
         }
       }
     }
+  }
+
+  reset(){
+    window.location.reload();
   }
 
 }

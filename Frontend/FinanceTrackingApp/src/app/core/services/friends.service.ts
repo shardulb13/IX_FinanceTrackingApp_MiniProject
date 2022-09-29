@@ -13,6 +13,10 @@ export class FriendsService {
     return this.httpClient.get(this.baseApiUrl);
   }
 
+  getFriendsData():Observable<any>{
+    return this.httpClient.get(`${this.baseApiUrl}/FriendsData`);
+  }
+
   addFriend(data:any):Observable<any>{
     return this.httpClient.post(this.baseApiUrl, data);
   }

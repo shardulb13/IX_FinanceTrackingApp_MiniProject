@@ -28,6 +28,7 @@ export class EditComponent implements OnInit {
   date!: string;
   GroupId!: number;
   usersGroup: any = [];
+  loggedInUser: any;
 
   constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private activatedroute: ActivatedRoute, private route: Router, private toastrService: ToastrService,
     private groupService: GroupsService) { }
@@ -48,24 +49,28 @@ export class EditComponent implements OnInit {
       this.editdata = res;
       this.authService.getAllUsers().subscribe(res => {
         this.allUsers = res;
-        // console.log("Edit Expense", this.editdata);
-        for (let i = 0; i < this.editdata.length; i++) {
-          if (this.id == this.editdata[i].expensesId) {
-            this.expform.controls.ExpensesId.setValue(this.editdata[i].expensesId);
-            this.expform.controls.ExpenseName.setValue(this.editdata[i].expenseName);
-            this.expform.controls.ExpenseDate.setValue(this.editdata[i].expenseDate);
-            this.expform.controls.Amount.setValue(this.editdata[i].amount);
-            this.expform.controls.PaidBy.setValue(this.editdata[i].paidBy);
-            this.expform.controls.userId.setValue(this.editdata[i].userId);
-            for (let j = 0; j < this.allUsers.length; j++) {
-              let matchingUserName = this.editdata[i].userId.filter((x: any) => x == this.allUsers[j].userName);
-              if (matchingUserName == this.allUsers[j].userName) {
-                this.paidByList.push({ 'id': this.allUsers[j].id, 'userName': this.allUsers[j].userName });
-                console.log("PaidBy list", this.paidByList);
+        this.authService.getCurrentUserDetails().subscribe(res => {
+          this.loggedInUser = res;
+          this.paidByList.push({ 'id': this.loggedInUser.id, 'userName': this.loggedInUser.userName });
+          // console.log("Edit Expense", this.editdata);
+          for (let i = 0; i < this.editdata.length; i++) {
+            if (this.id == this.editdata[i].expensesId) {
+              this.expform.controls.ExpensesId.setValue(this.editdata[i].expensesId);
+              this.expform.controls.ExpenseName.setValue(this.editdata[i].expenseName);
+              this.expform.controls.ExpenseDate.setValue(this.editdata[i].expenseDate);
+              this.expform.controls.Amount.setValue(this.editdata[i].amount);
+              this.expform.controls.PaidBy.setValue(this.editdata[i].paidBy);
+              this.expform.controls.userId.setValue(this.editdata[i].userId);
+              for (let j = 0; j < this.allUsers.length; j++) {
+                let matchingUserName = this.editdata[i].userId.filter((x: any) => x == this.allUsers[j].userName);
+                if (matchingUserName == this.allUsers[j].userName) {
+                  this.paidByList.push({ 'id': this.allUsers[j].id, 'userName': this.allUsers[j].userName });
+                  console.log("PaidBy list", this.paidByList);
+                }
               }
             }
           }
-        }
+        })
       });
     });
 
@@ -87,6 +92,7 @@ export class EditComponent implements OnInit {
                   this.expform.controls.GroupId.setValue(this.groupDetails[j].groupId);
                   for (let k = 0; k < this.tempAllUser.length; k++) {
                     let matchingUsers = this.groupDetails[j].userId.filter((x: any) => x == this.tempAllUser[k].userName);
+                    console.log("Matching Username", matchingUsers);
                     if (matchingUsers == this.tempAllUser[k].userName) {
                       this.paidByList.push({ 'id': this.tempAllUser[k].id, 'userName': this.tempAllUser[k].userName });
                     }

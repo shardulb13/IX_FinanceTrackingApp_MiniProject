@@ -4,14 +4,13 @@
 <div class="container">
         <table class="table text-center shadow table-bordered table-hover">
             <thead class="sticky-top bg-white">
-                <tr class="bg-secondary bg-gradient text-white">
+                <tr>
                     <!-- <th>ID</th> -->
                     <th>Name</th>
                     <th>Date</th>
                     <th>Amount</th>
                     <th>PaidBy</th>
                     <th>Users</th>
-                    <!-- <th>Friends ID</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -32,4 +31,3 @@
         </table>
         <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
 </div>
-<!-- <button (click)="getGroupExpense()">Get group id</button> -->

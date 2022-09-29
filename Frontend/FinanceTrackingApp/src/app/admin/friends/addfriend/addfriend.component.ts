@@ -24,21 +24,26 @@ export class AddfriendComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getAllUsers().subscribe(res => {
       this.allUsers = res;
-      console.log("Got all users", this.allUsers);
-      this.authService.getCurrentUserDetails().subscribe(res => {
-        this.loggedInUser = res;
-        console.log("LOgged In user", this.loggedInUser);
+      this.friendsService.getFriends().subscribe(res => {
+        console.log("res",res);
+        this.tempList = res[0].friendUserId;
+        console.log("Temp", this.tempList);
+        console.log("Got all users", this.allUsers);
         for (let i = 0; i < this.allUsers.length; i++) {
-          if (this.allUsers[i].userName == this.loggedInUser.userName) {
-
-          }
-          else {
-            this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName });
+          let matchingUsername = this.tempList.filter((x:any)=> x == this.allUsers[i].userName);
+          console.log("Matching username", matchingUsername);
+          if(matchingUsername != this.allUsers[i].userName){
+            this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstname': this.allUsers[i].firstname, 'lastname': this.allUsers[i].lastname });
             console.log("FriendList", this.friendsList);
           }
         }
       });
     });
+
+    this.authService.getCurrentUserDetails().subscribe(res=>{
+      this.loggedInUser = res;
+      console.log("Logged in User", this.loggedInUser);
+    })
 
 
     this.addFriendForm = new FormGroup({
@@ -70,16 +75,21 @@ export class AddfriendComponent implements OnInit {
   }
 
   addFriend() {
-    this.addFriendForm.controls['userId'].setValue(this.loggedInUser.id);
-    this.addFriendForm.controls['friendUserId'].setValue(this.checkedList);
+    if (this.checkedList.length == 0) {
+      alert("Select User");
+    }
+    else {
+      this.addFriendForm.controls['userId'].setValue(this.loggedInUser.id);
+      this.addFriendForm.controls['friendUserId'].setValue(this.checkedList);
 
-    this.friendsService.addFriend(this.addFriendForm.value).subscribe(res => {
-      this.toastrService.success("Friend Added Successfully");
-      this.route.navigate(['user/friends']);
-    },
-      err => {
-        this.toastrService.error("Error in adding friend");
-      });
+      this.friendsService.addFriend(this.addFriendForm.value).subscribe(res => {
+        this.toastrService.success("Friend Added Successfully");
+        this.route.navigate(['user/friends']);
+      },
+        err => {
+          this.toastrService.error("Error in adding friend");
+        });
+    }
     console.log(this.addFriendForm.value);
   }
 
