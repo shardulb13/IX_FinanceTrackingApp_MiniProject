@@ -1,6 +1,7 @@
 ﻿using FinanceTrackingWebAPI.Data;
 using FinanceTrackingWebAPI.Entities;
 using FinanceTrackingWebAPI.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,10 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
     {
         IEnumerable<UserExpenseDTO> GetAllExpenses(string userid);
         IEnumerable<GroupDTO> GroupExpenses(int groupId);
-        IEnumerable<UserExpenses> GetUsers(int expenseId);
         Task<int> AddExpense(Expense expense);
         Task<UserExpenses> UserExpenses(UserExpenses userExpense);
-        Task<UserExpenses> UserExpensesUpdate(UserExpenses userExpense);
-        Task<UserExpenses> DeleteUser(string id);
         Task<int> UpdateExpense(Expense expenses);
         bool DeleteExpense(int id);
-
-
 
     }
     public class ExpenseDA : IExpenseDA
@@ -58,7 +54,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         public IEnumerable<GroupDTO> GroupExpenses(int groupId)
         {
 
-            var result = _context.Expenses.Where(a => a.GroupId == groupId).Select(o => new GroupDTO
+            return _context.Expenses.Where(a => a.GroupId == groupId).Select(o => new GroupDTO
             {
                 ExpensesId = o.ExpensesId,
                 ExpenseName = o.ExpenseName,
@@ -68,12 +64,10 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 GroupId = o.Groups.Id,
                 UserIds = o.Groups.usersGroup.Select(ui => ui.ApplicationUser.UserName).ToList()
             });
-            return result;
         }
         public IEnumerable<UserExpenseDTO> GetAllExpenses(string userid)
         {
-
-            var userExpense = _context.Expenses.Select(o => new UserExpenseDTO
+            return _context.Expenses.Select(o => new UserExpenseDTO
             {
                 expenseId = o.ExpensesId,
                 expenseName = o.ExpenseName,
@@ -83,7 +77,6 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 userIds = o.userExpenses.Select(un => un.ApplicationUser.UserName).ToList()
 
             }).Where(a => a.userIds.Contains(userid)).ToList();
-            return userExpense;
         }
 
         public async Task<int> UpdateExpense(Expense expenses)
@@ -95,41 +88,11 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 update.ExpenseDate = expenses.ExpenseDate;
                 update.Amount = expenses.Amount;
                 update.PaidBy = expenses.PaidBy;
-                //update.UserID = obj.UserID;
                 await _context.SaveChangesAsync();
-
                 return expenses.ExpensesId;
             }
-            return 0;
+            return StatusCodes.Status404NotFound;
         }
 
-        public async Task<UserExpenses> UserExpensesUpdate(UserExpenses userExpense)
-        {
-            var update = await _context.UserExpenses.FirstOrDefaultAsync(a => a.ExpenseId == userExpense.ExpenseId);
-            if (update != null)
-            {
-                update.ExpenseId = userExpense.ExpenseId;
-                update.UserId = userExpense.UserId;
-                await _context.SaveChangesAsync();
-                return update;
-            }
-            return null;
-        }
-
-        public async Task<UserExpenses> DeleteUser(string id)
-        {
-            var result = await _context.UserExpenses.Where(a => a.UserId == id).FirstOrDefaultAsync();
-            _context.UserExpenses.Remove(result);
-            await _context.SaveChangesAsync();
-            return result;
-        }
-
-        public IEnumerable<UserExpenses> GetUsers(int expenseId)
-        {
-           return _context.UserExpenses.Where(o => o.ExpenseId == expenseId).Select( a => new UserExpenses
-            {
-                UserId = a.UserId,
-            });
-        }
     }
 }

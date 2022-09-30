@@ -50,7 +50,6 @@ namespace FinanceTrackingWebAPI.Services
             }
             return null;
         }
-
         public async Task<int> CreateGroup(GroupVM groupModel)
         {
             var group = new Group
@@ -72,16 +71,14 @@ namespace FinanceTrackingWebAPI.Services
             }
             return groupId;
         }
-
         public async Task<int> UpdateGroup(GroupVM groupModel)
         {
             var group = new Group
             {
                 Id = groupModel.Id,
                 GroupName = groupModel.GroupName,
-                //UserId = obj.UserId
             };
-            var modifyGroup = await _groupDA.UpdateGroup(group);
+            var modifiedGroupId = await _groupDA.UpdateGroup(group);
             foreach (var id in groupModel.UserId)
             {
                 var usersGroup = new UsersGroup
@@ -91,8 +88,7 @@ namespace FinanceTrackingWebAPI.Services
                 };
                 await _groupDA.UsersGroups(usersGroup);
             }
-            return modifyGroup;
+            return modifiedGroupId;
         }
-
     }
 }

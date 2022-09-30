@@ -1,6 +1,7 @@
 ﻿using FinanceTrackingWebAPI.Data;
 using FinanceTrackingWebAPI.Entities;
 using FinanceTrackingWebAPI.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 await _context.SaveChangesAsync();
                 return updateGroup.Id;
             }
-            return 0;
+            return StatusCodes.Status404NotFound;
         }
     }
 }

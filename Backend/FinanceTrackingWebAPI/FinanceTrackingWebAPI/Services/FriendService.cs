@@ -61,7 +61,7 @@ namespace FinanceTrackingWebAPI.Services
                         select new FriendVM
                         {
                             UserId = exp.Key,
-                            FriendUserId = exp.Select(x=>x.applicationUser.UserName).ToList()
+                            FriendUserId = exp.Select(x => x.applicationUser.UserName).ToList()
                         });
             }
             return null;

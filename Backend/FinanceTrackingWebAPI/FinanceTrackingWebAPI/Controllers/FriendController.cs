@@ -42,11 +42,18 @@ namespace FinanceTrackingWebAPI.Controllers
         {
             try
             {
-                return Ok(_friendsService.AddFriend(friend));
+                if (ModelState.IsValid)
+                {
+                    return Ok(_friendsService.AddFriend(friend));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return BadRequest("Error:" + ex);
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Failed to add friend" });
             }
         }
 

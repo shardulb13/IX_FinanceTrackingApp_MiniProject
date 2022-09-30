@@ -27,11 +27,19 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task< IActionResult> AddGroups(GroupVM groupModel)
+        public async Task<IActionResult> AddGroups(GroupVM groupModel)
         {
+
             try
             {
-                return Ok(await _groupService.CreateGroup(groupModel));
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _groupService.CreateGroup(groupModel));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception)
             {
@@ -44,7 +52,14 @@ namespace FinanceTrackingWebAPI.Controllers
         {
             try
             {
-                return Ok(await _groupService.UpdateGroup(groupModel));
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _groupService.UpdateGroup(groupModel));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception)
             {

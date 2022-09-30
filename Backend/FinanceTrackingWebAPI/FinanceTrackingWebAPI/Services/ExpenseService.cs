@@ -24,8 +24,6 @@ namespace FinanceTrackingWebAPI.Services
         public ExpenseService(IExpenseDA expenseDA)
         {
             _expenseDA = expenseDA;
-
-
         }
 
         public async Task<int> AddExpense(ExpenseVM expense)
@@ -112,7 +110,6 @@ namespace FinanceTrackingWebAPI.Services
                 PaidBy = expense.PaidBy,
             };
             return await _expenseDA.UpdateExpense(expenseModel);
-    
         }
     }
 }

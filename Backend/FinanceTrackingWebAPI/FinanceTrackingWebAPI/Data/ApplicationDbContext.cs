@@ -28,14 +28,7 @@ namespace FinanceTrackingWebAPI.Data
             builder.Entity<UsersGroup>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.usersGroup)
                 .HasForeignKey(e => e.UserId);
 
-            // builder.Entity<UserFriends>().HasOne(e => e.friends).WithMany(uf => uf.userFriends)
-            //.HasForeignKey(e => e.FriendId).OnDelete(DeleteBehavior.Cascade);
-
-            // builder.Entity<UserFriends>().HasOne(e => e.ApplicationUser).WithMany(ue => ue.userFriends)
-            //     .HasForeignKey(e => e.UserId);
-
             builder.Entity<ApplicationUser>().HasMany(f => f.Friend).WithOne(u => u.ApplicationUser).OnDelete(DeleteBehavior.Cascade);
-
 
             builder.Entity<Expense>()
             .HasOne(b => b.Groups)
@@ -49,7 +42,6 @@ namespace FinanceTrackingWebAPI.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<UsersGroup> UsersGroup { get; set; }
         public DbSet<Friend> Friends { get; set; }
-        //public DbSet<UserFriends> UserFriends { get; set; }
 
     }
 }
