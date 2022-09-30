@@ -31,7 +31,7 @@ export class FriendsListComponent implements OnInit {
   delete(id: any) {
     this.friendService.deleteFriend(id).subscribe(res => {
       this.toastrService.error("Friend Deleted Successfully");
-      window.location.reload();
+      this.ngOnInit();
     },
       err => {
         this.toastrService.warning("Error in deleting friend");

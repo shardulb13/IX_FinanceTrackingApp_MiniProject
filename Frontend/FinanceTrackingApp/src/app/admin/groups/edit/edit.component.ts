@@ -130,7 +130,7 @@ export class EditComponent implements OnInit {
         this.route.navigate(['user/groups']);
       }
       else {
-        window.location.reload();
+        this.ngOnInit();
       }
     },
       err => {
