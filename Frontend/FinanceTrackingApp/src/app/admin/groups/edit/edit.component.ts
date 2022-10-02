@@ -28,6 +28,7 @@ export class EditComponent implements OnInit {
     private friendService: FriendsService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
+    var exsitingGroupUsers: any;
     this.groupForm = new FormGroup({
       id: new FormControl(''),
       groupName: new FormControl(''),
@@ -40,6 +41,7 @@ export class EditComponent implements OnInit {
 
     this.groupService.getGroups().subscribe(res => {
       this.editGroup = res;
+      exsitingGroupUsers = res[0].userId;
       console.log("Edit Expense", this.editGroup);
       for (let i = 0; i < this.editGroup.length; i++) {
         if (this.id == this.editGroup[i].id) {
@@ -51,29 +53,39 @@ export class EditComponent implements OnInit {
       }
     });
 
-    this.authService.getAllUsers().subscribe(res => {
-      console.log("All users", res)
-      this.allUsers = res;
-      this.groupService.getGroups().subscribe(res => {
-        console.log("Got the list of Friends", res[0].userId);
-        this.groups = res;
-        console.log("Group", this.groups);
-        let tempFriendList = res[0].userId;
-        for (let i = 0; i < this.allUsers.length; i++) {
-          let matchingUserName = tempFriendList.filter((x: any) => x == this.allUsers[i].userName);
-          console.log(matchingUserName);
-          if (this.allUsers[i].userName != matchingUserName) {
-            console.log("Matching Username", matchingUserName);
-            this.friendList.push({
-              'id': this.allUsers[i].id,
-              'userName': this.allUsers[i].userName
-            });
-            console.log("FriendList madhe ky ala", this.friendList);
-          }
-        }
-      })
+    // this.authService.getAllUsers().subscribe(res =>{
+    //   console.log("All users",res)
+    //   this.allUsers = res;
+    //   this.friendService.getFriends().subscribe(res=>{
+    //     let tempFriendsList = res[0].friendUserId;
+    //     console.log("List of Friends", tempFriendsList);
+    //     console.log("Matching", exsitingGroupUsers);
+    //     for(let i= 0; i<this.allUsers.length; i++){
+    //       let matchingUsername = tempFriendsList.filter((x:any) => x == this.allUsers[i].userName);
+    //       console.log("Matching Username", matchingUsername);
+    //       if(this.allUsers[i].userName == matchingUsername){
+    //         if(exsitingGroupUsers == matchingUsername){
+    //           this.friendList.push({'id': this.allUsers[i].id, 'userName':this.allUsers[i].userName});
+    //           console.log("All Friends", this.friendList);
+    //         }
+    //       }
+    //     }
+    //   });
+    // });
 
-    });
+    this.friendService.getFriendsData().subscribe(res => {
+      console.log(res);
+      let tempFriendsList = res;
+      for (let i = 0; i < tempFriendsList.length; i++) {
+        console.log("Username", tempFriendsList[i].username);
+        let matchingUsername = exsitingGroupUsers.filter((x: any) => x == tempFriendsList[i].username);
+        console.log("MAtcing id", matchingUsername);
+        if (tempFriendsList[i].username != matchingUsername ) {
+          this.friendList.push({ 'id': tempFriendsList[i].singleFriendUserId, 'userName': tempFriendsList[i].username });
+          console.log("All Friends", this.friendList);
+        }
+      }
+    })
 
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     console.log("Got the url id", this.id);
@@ -130,7 +142,7 @@ export class EditComponent implements OnInit {
         this.route.navigate(['user/groups']);
       }
       else {
-        this.ngOnInit();
+        location.reload();
       }
     },
       err => {

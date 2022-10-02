@@ -18,8 +18,8 @@ export class RegisterComponent implements OnInit {
       Firstname: new FormControl('',[Validators.required]),
       Lastname: new FormControl('', [Validators.required]),
       UserName: new FormControl('', [Validators.required]),
-      Email: new FormControl('',[Validators.required, Validators.email]),
-      Password: new FormControl('', [Validators.required,Validators.pattern(/^[A-Za-z0-9@]{8,15}$/)])
+      Email: new FormControl('',[Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)]),
+      Password: new FormControl('', [Validators.required,Validators.pattern(/^(?=.*[0-9])(?=.*[?!@#$%^&*\/\\])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9- ?!@#$%^&*\/\\]{8,30}$/)])
     });
   }
 

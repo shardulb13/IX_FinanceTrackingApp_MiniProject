@@ -19,7 +19,7 @@
         <label for="email" class="form-label">Email Address</label>
         <input type="email" class="form-control" placeholder="Enter Email Address" formControlName="Email">
         <span *ngIf="form['Email']?.errors?.['required']&& form['Email']?.touched">Email id required</span>
-        <span *ngIf="form['Email']?.errors?.['email']">Enter a valid email address</span>
+        <span *ngIf="form['Email']?.errors?.['pattern']">Enter a valid email address</span>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>

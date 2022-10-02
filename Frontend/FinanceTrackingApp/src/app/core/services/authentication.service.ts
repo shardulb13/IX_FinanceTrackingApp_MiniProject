@@ -21,7 +21,6 @@ export class AuthenticationService {
   
   getCurrentUserDetails(){
     var url ="http://localhost:46079/api/UserProfile";
-    // const headers = {Authorization:`Bearer ${this.tokenService.getToken()}`};
     return this.httpClient.get(url); 
   }
   getAllUsers(){
