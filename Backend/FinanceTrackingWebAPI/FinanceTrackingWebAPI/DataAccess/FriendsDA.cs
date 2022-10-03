@@ -68,7 +68,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                                  {
                                      UserId = friends.UserId,
                                      FriendUserId = friends.FriendUserId,
-                                     FriendName = friends.applicationUser.Firstname + " " + friends.applicationUser.Lastname,
+                                     FriendName = friends.applicationUser.FirstName + " " + friends.applicationUser.LastName,
                                      UserName = friends.applicationUser.UserName,
                                  }).Where(x => x.UserId == userId).ToList();
         }

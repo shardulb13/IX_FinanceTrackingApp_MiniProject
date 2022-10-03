@@ -84,7 +84,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 await _context.SaveChangesAsync();
                 return updateGroup.Id;
             }
-            return StatusCodes.Status404NotFound;
+            throw new System.Exception();
         }
     }
 }

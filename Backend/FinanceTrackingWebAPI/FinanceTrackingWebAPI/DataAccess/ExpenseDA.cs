@@ -28,7 +28,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         }
         public async Task<int> AddExpense(Expense expenses)
         {
-            var result = await _context.Expenses.AddAsync(expenses);
+            await _context.Expenses.AddAsync(expenses);
             _context.SaveChanges();
             return expenses.ExpensesId;
         }
@@ -91,8 +91,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
                 await _context.SaveChangesAsync();
                 return expenses.ExpensesId;
             }
-            return StatusCodes.Status404NotFound;
+            throw new System.Exception();
         }
-
     }
 }

@@ -53,7 +53,7 @@ namespace FinanceTrackingWebAPI.Controllers
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIssuer"],
                     audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddHours(1),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
@@ -77,8 +77,8 @@ namespace FinanceTrackingWebAPI.Controllers
 
             ApplicationUser user = new ApplicationUser()
             {
-                Firstname = model.Firstname,
-                Lastname = model.Lastname,
+                FirstName = model.Firstname,
+                LastName = model.Lastname,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName
@@ -94,7 +94,13 @@ namespace FinanceTrackingWebAPI.Controllers
         public IActionResult GetAllUsers()
         {
             string userId = User.Claims.First(o => o.Type == "UserID").Value;
-            var allusers = _userManager.Users.Where(x=>x.Id != userId);
+            var allusers = _userManager.Users.Where(x=>x.Id != userId).Select(o=> new
+            {
+                o.Id,
+                o.UserName,
+                o.FirstName,
+                o.LastName,
+            });
             return Ok(allusers.ToList());
         }
     }

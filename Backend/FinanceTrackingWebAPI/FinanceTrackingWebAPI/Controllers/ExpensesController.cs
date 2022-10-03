@@ -68,7 +68,7 @@ namespace FinanceTrackingWebAPI.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
             }
             catch (Exception)

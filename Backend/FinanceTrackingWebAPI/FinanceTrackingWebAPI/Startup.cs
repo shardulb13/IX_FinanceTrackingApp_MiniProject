@@ -45,7 +45,7 @@ namespace FinanceTrackingWebAPI
             //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApplicationDbContext>
-            (options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
+           (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinanceTrackingWebAPI", Version = "v1" });
@@ -75,6 +75,7 @@ namespace FinanceTrackingWebAPI
             });
 
             // For Identity  
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
