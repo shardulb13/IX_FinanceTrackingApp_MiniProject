@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,18 +11,18 @@ export class FriendsService {
   constructor(private httpClient: HttpClient) { }
 
   getFriends():Observable<any>{
-    return this.httpClient.get(this.baseApiUrl);
+    return this.httpClient.get(`${environment.baseApiUrl}/api/Friend`);
   }
 
   getFriendsData():Observable<any>{
-    return this.httpClient.get(`${this.baseApiUrl}/FriendsData`);
+    return this.httpClient.get(`${environment.baseApiUrl}/api/Friend/FriendsData`);
   }
 
   addFriend(data:any):Observable<any>{
-    return this.httpClient.post(this.baseApiUrl, data);
+    return this.httpClient.post(`${environment.baseApiUrl}/api/Friend`, data);
   }
 
   deleteFriend(id:number):Observable<any>{
-    return this.httpClient.delete(`${this.baseApiUrl}/${id}`);
+    return this.httpClient.delete(`${environment.baseApiUrl}/api/Friend/${id}`);
   }
 }

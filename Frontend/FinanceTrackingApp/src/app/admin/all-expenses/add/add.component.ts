@@ -162,7 +162,7 @@ export class AddComponent implements OnInit {
   }
 
   reset(){
-    window.location.reload();
+    location.reload();
   }
 
 }
