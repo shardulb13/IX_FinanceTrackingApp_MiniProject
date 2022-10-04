@@ -1,6 +1,7 @@
 ﻿
 using FinanceTrackingWebAPI.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FinanceTrackingWebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase

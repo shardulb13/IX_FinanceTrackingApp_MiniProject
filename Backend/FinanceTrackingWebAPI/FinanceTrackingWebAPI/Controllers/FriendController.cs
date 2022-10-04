@@ -1,6 +1,7 @@
 ﻿using FinanceTrackingWebAPI.Model;
 using FinanceTrackingWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace FinanceTrackingWebAPI.Controllers
 {
+
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

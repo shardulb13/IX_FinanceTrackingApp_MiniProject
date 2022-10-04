@@ -110,7 +110,6 @@ namespace FinanceTrackingWebAPI
             //            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             //        });
             //});
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,12 +118,18 @@ namespace FinanceTrackingWebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FinanceTrackingWebAPI v1"));
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FinanceTrackingWebAPI v1");
+                c.RoutePrefix = String.Empty;
+            });
 
+            
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors( options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();
