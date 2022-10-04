@@ -3,6 +3,7 @@ using FinanceTrackingWebAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -94,14 +95,7 @@ namespace FinanceTrackingWebAPI.Controllers
         public IActionResult GetAllUsers()
         {
             string userId = User.Claims.First(o => o.Type == "UserID").Value;
-            var allusers = _userManager.Users.Where(x=>x.Id != userId).Select(o=> new
-            {
-                o.Id,
-                o.UserName,
-                o.FirstName,
-                o.LastName,
-            });
-            return Ok(allusers.ToList());
+            return Ok( _userManager.Users.Where(o => (o.FirstName != null && o.LastName != null) && (o.Id !=userId)).ToList());
         }
     }
 }
