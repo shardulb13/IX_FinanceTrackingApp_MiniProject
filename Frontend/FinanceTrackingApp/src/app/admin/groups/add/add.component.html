@@ -14,7 +14,6 @@
             <button class="drop-toggle btn"  (click)="showDropDown=!showDropDown">
                 <i class="fa fa-angle-down"></i>
             </button><br>
-            <span *ngIf="selectedlist.length>0"> <strong> Selected Friends:</strong> {{selectedlist.join(', ')}}</span>
             <div class="drop-show" *ngIf="showDropDown">
                 <label class="form-label" *ngFor="let a of allFriends">
                     <input type="checkbox" [(ngModel)]="a.checked"
@@ -24,6 +23,7 @@
             </div>
         </div>
     </div>
+    <span *ngIf="selectedlist.length>0"> <strong> Selected Friends:</strong> {{selectedlist.join(', ')}}</span>
     <div class="mt-2">
         <button class="btn btn-success me-2 mt-3" [disabled]="!groupForm.valid" (click)="createGroup()">Create Group</button>
     </div>

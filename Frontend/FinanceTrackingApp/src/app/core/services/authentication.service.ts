@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthenticationService {
 
-  baseApiUrl='http://localhost:46079/api/Authentication'
   constructor(private httpClient:HttpClient, private tokenService: TokenService) { }
 
   regsiter(data:string):Observable<any>{
@@ -21,11 +20,9 @@ export class AuthenticationService {
   }
   
   getCurrentUserDetails(){
-    var url ="http://localhost:46079/api/UserProfile";
     return this.httpClient.get(`${environment.baseApiUrl}/api/UserProfile`); 
   }
   getAllUsers(){
-    var url = "http://localhost:46079/api/Authentication";
     return this.httpClient.get(`${environment.baseApiUrl}/api/Authentication`);
   }
 }

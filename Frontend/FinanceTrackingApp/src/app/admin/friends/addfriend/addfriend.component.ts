@@ -24,19 +24,29 @@ export class AddfriendComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getAllUsers().subscribe(res => {
       this.allUsers = res;
+      console.log("UserList", this.allUsers);
       this.friendsService.getFriends().subscribe(res => {
         console.log("res",res);
-        this.tempList = res[0].friendUserId;
-        console.log("Temp", this.tempList);
-        console.log("Got all users", this.allUsers);
-        for (let i = 0; i < this.allUsers.length; i++) {
-          let matchingUsername = this.tempList.filter((x:any)=> x == this.allUsers[i].userName);
-          console.log("Matching username", matchingUsername);
-          if(matchingUsername != this.allUsers[i].userName){
-            this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstname': this.allUsers[i].firstname, 'lastname': this.allUsers[i].lastname });
-            console.log("FriendList", this.friendsList);
+        if(res.length == 0){
+          for (let i = 0; i < this.allUsers.length; i++) {
+              this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstName': this.allUsers[i].firstName, 'lastName': this.allUsers[i].lastName });
+              console.log("FriendList", this.friendsList);
+            }
+            console.log("Temp", this.tempList);
+            console.log("Got all users", this.allUsers);
+          }
+        else {
+          this.tempList = res[0].friendUserId;
+          for (let i = 0; i < this.allUsers.length; i++) {
+            let matchingUsername = this.tempList.filter((x:any)=> x == this.allUsers[i].userName);
+            console.log("Matching username", matchingUsername);
+            if(matchingUsername != this.allUsers[i].userName){
+              this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstName': this.allUsers[i].firstName, 'lastName': this.allUsers[i].lastName });
+              console.log("FriendList", this.friendsList);
+            }
           }
         }
+      
       });
     });
 

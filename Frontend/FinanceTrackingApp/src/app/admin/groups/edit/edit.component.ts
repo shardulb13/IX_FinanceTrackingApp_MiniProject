@@ -76,7 +76,7 @@ export class EditComponent implements OnInit {
     this.friendService.getFriendsData().subscribe(res => {
       console.log(res);
       let tempFriendsList = res;
-      for (let i = 0; i < tempFriendsList.length; i++) {
+      for (let i = 0; i <= tempFriendsList.length; i++) {
         console.log("Username", tempFriendsList[i].username);
         let matchingUsername = exsitingGroupUsers.filter((x: any) => x == tempFriendsList[i].username);
         console.log("MAtcing id", matchingUsername);

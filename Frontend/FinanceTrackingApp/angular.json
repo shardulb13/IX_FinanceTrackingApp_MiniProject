@@ -28,7 +28,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/web.config"
             ],
             "styles": [
               "src/styles.scss",
@@ -43,6 +44,9 @@
           },
           "configurations": {
             "production": {
+              "assets": [
+                "src/dist/web.config"
+              ],
               "budgets": [
                 {
                   "type": "initial",
