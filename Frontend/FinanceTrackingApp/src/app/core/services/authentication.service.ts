@@ -9,20 +9,30 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthenticationService {
 
-  constructor(private httpClient:HttpClient, private tokenService: TokenService) { }
+  constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
 
-  regsiter(data:string):Observable<any>{
-    return this.httpClient.post(`${environment.baseApiUrl}/api/Authentication/register`,data)
- }
+  regsiter(data: string): Observable<any> {
+    return this.httpClient.post(`${environment.baseApiUrl}/api/Authentication/register`, data, {
+      reportProgress:true,
+      observe:'events'
+    })
+  }
 
-  login(data:string):Observable<any>{
-    return this.httpClient.post(`${environment.baseApiUrl}/api/Authentication/login`,data);
+  login(data: string): Observable<any> {
+    return this.httpClient.post(`${environment.baseApiUrl}/api/Authentication/login`, data);
   }
-  
-  getCurrentUserDetails(){
-    return this.httpClient.get(`${environment.baseApiUrl}/api/UserProfile`); 
+
+  getCurrentUserDetails() {
+    return this.httpClient.get(`${environment.baseApiUrl}/api/UserProfile`);
   }
-  getAllUsers(){
+  getAllUsers() {
     return this.httpClient.get(`${environment.baseApiUrl}/api/Authentication`);
+  }
+
+  UpdateUserProfile(data:string){
+    return this.httpClient.put(`${environment.baseApiUrl}/api/UserProfile`, data, {
+      reportProgress:true,
+      observe:'events'
+    });
   }
 }

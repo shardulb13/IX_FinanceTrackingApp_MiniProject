@@ -7,7 +7,6 @@ import { ListComponent } from './list/list.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { GroupExpensesComponent } from './group-expenses/group-expenses.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -18,7 +17,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ListComponent,
     AddComponent,
     EditComponent,
-    DashboardComponent,
     GroupExpensesComponent
   ],
   imports: [

@@ -9,20 +9,18 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 })
 export class FriendsListComponent implements OnInit {
   TempGetFriendsList: any = [];
-  tempfriendlist:any =[];
-  friendsList:any =[];
+  tempfriendlist: any = [];
+  friendsList: any = [];
 
   constructor(private friendService: FriendsService, private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
     this.friendService.getFriends().subscribe(res => {
-      console.log("Friends Data", res);
       this.TempGetFriendsList = res;
     });
 
-    this.friendService.getFriendsData().subscribe(res=>{
-      console.log("Friends", res);
+    this.friendService.getFriendsData().subscribe(res => {
       this.tempfriendlist = res;
     })
 
@@ -36,8 +34,5 @@ export class FriendsListComponent implements OnInit {
       err => {
         this.toastrService.warning("Error in deleting friend");
       })
-    console.log("Deleting the data", id);
   }
-
-
 }

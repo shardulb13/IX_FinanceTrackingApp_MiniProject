@@ -1,4 +1,4 @@
-<div class="mx-auto col-sm-5 mt-5 pt-5">
+<div class="mx-auto col-lg-4 mt-5 p-3">
     <h2>Create Group</h2>
     <form [formGroup]="groupForm" class="mb-3 mt-3">
         <div>
@@ -9,7 +9,7 @@
         </div> 
     </form>
     <div class="select">
-        <div class="col-lg-6 " (mouseleave)=" mouseleavefunc($event)">
+        <div (mouseleave)=" mouseleavefunc($event)">
             <label class="form-label">Select Friends</label><br>
             <button class="drop-toggle btn"  (click)="showDropDown=!showDropDown">
                 <i class="fa fa-angle-down"></i>

@@ -5,23 +5,37 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { TokenService } from '../services/token.service';
+import { LoaderService } from '../services/loader.service';
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {
 
-  constructor(private tokenservice: TokenService) {}
+  constructor(private tokenservice: TokenService , private loaderService: LoaderService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.loaderService.isLoading.next(true);
     const token = this.tokenservice.getToken();
     if(token && token !== '')
     {
       const tokenreq = request.clone({
         headers:request.headers.set('Authorization', 'Bearer ' + token),
       });
-      return next.handle(tokenreq)
+      return next.handle(tokenreq).pipe(
+        finalize(
+          ()=>{
+            this.loaderService.isLoading.next(false);
+          }
+        )
+      )
     }
-    return next.handle(request);
+    return next.handle(request).pipe(
+      finalize(
+        ()=>{
+          this.loaderService.isLoading.next(false);
+        }
+      )
+    );
   }
 }

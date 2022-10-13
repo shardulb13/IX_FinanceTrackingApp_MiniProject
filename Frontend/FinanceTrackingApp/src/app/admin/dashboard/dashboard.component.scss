@@ -1,13 +1,19 @@
-.container{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+// .container{
+//     display: flex;
+//     justify-content: center;
+//     flex-wrap: wrap;
+// }
+
+.cards-container{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.dashboard{
-  overflow: auto;
-  max-height: 90%;
-}
+// .dashboard{
+//   overflow: auto;
+//   max-height: 90%;
+// }
 th{
   background-color: rgb(230, 240, 230) !important;
   color: black;

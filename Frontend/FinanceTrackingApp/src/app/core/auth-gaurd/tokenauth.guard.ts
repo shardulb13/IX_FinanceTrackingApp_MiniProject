@@ -13,10 +13,13 @@ export class TokenauthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const token = this.tokenService.getToken();
       if(token && token != ''){
+        // this.route.navigate(['user/dashboard'])
         return true;
       }
-      this.route.navigate(['']);
-      return false;
+      else{
+        this.route.navigate(['']);
+        return false;
+      }
   }
   
 }

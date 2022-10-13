@@ -24,37 +24,27 @@ export class AddfriendComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getAllUsers().subscribe(res => {
       this.allUsers = res;
-      console.log("UserList", this.allUsers);
       this.friendsService.getFriends().subscribe(res => {
-        console.log("res",res);
-        if(res.length == 0){
+        if (res.length == 0) {
           for (let i = 0; i < this.allUsers.length; i++) {
-              this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstName': this.allUsers[i].firstName, 'lastName': this.allUsers[i].lastName });
-              console.log("FriendList", this.friendsList);
-            }
-            console.log("Temp", this.tempList);
-            console.log("Got all users", this.allUsers);
+            this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstName': this.allUsers[i].firstName, 'lastName': this.allUsers[i].lastName });
           }
+        }
         else {
           this.tempList = res[0].friendUserId;
           for (let i = 0; i < this.allUsers.length; i++) {
-            let matchingUsername = this.tempList.filter((x:any)=> x == this.allUsers[i].userName);
-            console.log("Matching username", matchingUsername);
-            if(matchingUsername != this.allUsers[i].userName){
+            let matchingUsername = this.tempList.filter((x: any) => x == this.allUsers[i].userName);
+            if (matchingUsername != this.allUsers[i].userName) {
               this.friendsList.push({ 'id': this.allUsers[i].id, 'userName': this.allUsers[i].userName, 'firstName': this.allUsers[i].firstName, 'lastName': this.allUsers[i].lastName });
-              console.log("FriendList", this.friendsList);
             }
           }
         }
-      
       });
     });
 
-    this.authService.getCurrentUserDetails().subscribe(res=>{
+    this.authService.getCurrentUserDetails().subscribe(res => {
       this.loggedInUser = res;
-      console.log("Logged in User", this.loggedInUser);
-    })
-
+    });
 
     this.addFriendForm = new FormGroup({
       userId: new FormControl(),
@@ -68,9 +58,6 @@ export class AddfriendComponent implements OnInit {
     if (status) {
       this.checkedList.push(id);
       this.selectedlist.push(value);
-      // console.log("CheckedList",this.checkedList);
-      // this.friendsList.push({'id':id, 'userName': value});
-      // console.log("friendsList:",this.friendsList);
     } else {
       var index = this.checkedList.indexOf(value);
       var index1 = this.selectedlist.indexOf(value);
@@ -81,7 +68,6 @@ export class AddfriendComponent implements OnInit {
 
   mouseleavefunc(e: any) {
     this.showDropDown = false;
-    // console.log("mouse enter");
   }
 
   addFriend() {
@@ -100,12 +86,6 @@ export class AddfriendComponent implements OnInit {
           this.toastrService.error("Error in adding friend");
         });
     }
-    console.log(this.addFriendForm.value);
   }
 
-  getFriendList() {
-    for (let i = 0; i < this.friendsList.length; i) {
-      console.log("Data ala", this.friendsList[i]);
-    }
-  }
 }

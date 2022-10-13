@@ -1,21 +1,22 @@
-<div class="dashboard">
+<div class="dashboard container">
+  <h1 class="text-center">Dashboard</h1>
   <!-- <button class="btn btn-primary mt-4 mx-3" (click)="settle()">Settle All Expense</button> -->
-  <div class="container mt-3">
-    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
+  <div class="cards-container mt-4">
+    <div class="card  shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
       <div class="card-body">
         <h5 class="card-title">Total Expenses</h5>
         <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span>
           {{this.result}}/- </p>
       </div>
     </div>
-    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210);  ">
+    <div class="card  shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210);  ">
       <div class="card-body">
         <h5 class="card-title">Owe Amount</h5>
         <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span>
           {{this.oweAmount}}/-</p>
       </div>
     </div>
-    <div class="card shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169); ">
+    <div class="card  shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169); ">
       <div class="card-body">
         <h5 class="card-title">Settle Amount</h5>
         <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span>
@@ -23,47 +24,7 @@
       </div>
     </div>
   </div>
-  <!-- <div class="table-overflow mx-auto col-lg-10 mt-4 mb-5">
-    <h2 class="text-center">Owe Details</h2>
-    <table class="table text-center table-bordered shadow">
-      <thead>
-        <tr>
-          <th>Expense Name</th>
-          <th>Person Name</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let result of showOweAmount">
-          <td>{{result.ExpenseName}}</td>
-          <td>{{result.userName}}</td>
-          <td><span><i class="fa fa-inr" aria-hidden="true"></i></span>{{result.amount}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="table-overflow mx-auto  col-lg-10 mt-2">
-    <h2 class="text-center">Settle Details</h2>
-    <table class="table text-center table-bordered shadow">
-      <thead>
-        <tr>
-          <th>Expense Name</th>
-          <th>Person Name</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let result of showLentAmount">
-          <td>{{result.ExpenseName}}</td>
-          <td>{{result.userName}}</td>
-          <td><span><i class="fa fa-inr"
-            aria-hidden="true"></i></span> {{result.amount}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-  <div class="TabDetails pt-3 col-auto m-5">
+  <div class="TabDetails pt-3 m-4">
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link fw-bold active" aria-current="page" data-bs-toggle="tab" href="#oweDetails">Owe Details</a>
@@ -72,10 +33,10 @@
         <a class="nav-link fw-bold" data-bs-toggle="tab" href="#settleDetails">Settle Details</a>
       </li>
     </ul>
-    <div class="tab-content col-auto border rounded shadow">
+    <div class="tab-content border rounded shadow">
       <div class="tab-pane active" id="oweDetails">
-        <div class="table-overflow mx-auto col-lg-10 mt-4 mb-5">
-          <table class="table text-center table-bordered shadow">
+        <div class="table-overflow p-2 mx-auto col-lg-10 mt-4">
+          <table class="table text-center align-middle table-bordered shadow">
             <thead>
               <tr>
                 <th>Expense Name</th>
@@ -84,7 +45,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let result of showOweAmount | paginate: { id: 'oweDetails', itemsPerPage: 3, currentPage: pageNo };let i=index" >
+              <tr *ngFor="let result of showOweAmount | paginate: { id: 'oweDetails', itemsPerPage: 2, currentPage: pageNo };let i=index" >
                 <td>{{result.ExpenseName}}</td>
                 <td>{{result.userName}}</td>
                 <td><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{result.amount}}/-</td>
@@ -94,9 +55,9 @@
           <pagination-controls (pageChange)="pageNo = $event" id="oweDetails" class="text-center"></pagination-controls>
         </div>
       </div>
-      <div class="tab-pane" id="settleDetails">
-        <div class="table-overflow mx-auto col-lg-10 mt-4 mb-5">
-          <table class="table text-center table-bordered shadow">
+      <div class="tab-pane col-lg-12" id="settleDetails">
+        <div class="table-overflow p-2 mx-auto col-lg-10 mt-4 ">
+          <table class="table text-center align-middle table-bordered shadow">
             <thead>
               <tr>
                 <th>Expense Name</th>
@@ -105,7 +66,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let result of showLentAmount | paginate: { id: 'settleDetails', itemsPerPage: 3, currentPage: pageNo };let i=index">
+              <tr *ngFor="let result of showLentAmount | paginate: { id: 'settleDetails', itemsPerPage: 2, currentPage: pageNo };let i=index">
                 <td>{{result.ExpenseName}}</td>
                 <td>{{result.userName}}</td>
                 <td><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{result.amount}}/-</td>

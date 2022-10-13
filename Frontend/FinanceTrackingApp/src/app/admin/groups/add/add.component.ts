@@ -31,17 +31,13 @@ export class AddComponent implements OnInit {
     });
 
     this.authService.getAllUsers().subscribe(res =>{
-      console.log("All users",res)
       this.allUsers = res;
       this.friendService.getFriends().subscribe(res=>{
         this.tempFriendsList = res[0].friendUserId;
-        console.log("List of Friends", this.tempFriendsList);
         for(let i= 0; i<this.allUsers.length; i++){
           let matchingUsername = this.tempFriendsList.filter((x:any) => x == this.allUsers[i].userName);
-          console.log("Matching Username", matchingUsername);
           if(this.allUsers[i].userName == matchingUsername){
             this.allFriends.push({'id': this.allUsers[i].id, 'userName':this.allUsers[i].userName});
-            console.log("All Friends", this.allFriends);
           }
         }
       });
@@ -49,7 +45,6 @@ export class AddComponent implements OnInit {
 
     this.authService.getCurrentUserDetails().subscribe(res=>{
       this.loggedInUser = res;
-      console.log("Logged in user", this.loggedInUser);
       this.checkedList.push( this.loggedInUser.id);
       console.log(this.checkedList);
     })
@@ -60,7 +55,6 @@ export class AddComponent implements OnInit {
     if(status){
       this.checkedList.push(id);
       this.selectedlist.push(value);  
-      console.log("CheckedList",this.checkedList);
     }else{
         var index = this.checkedList.indexOf(value);
         var index1 = this.selectedlist.indexOf(value);
@@ -71,7 +65,6 @@ export class AddComponent implements OnInit {
   }
   mouseleavefunc(e:any){
     this.showDropDown = false;
-    console.log("mouse enter");
   }
 
   createGroup(){

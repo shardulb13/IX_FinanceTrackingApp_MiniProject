@@ -25,6 +25,8 @@
     -moz-box-shadow: 0 6px 10px rgba(0,0,0,.15);
     box-shadow: 0 6px 10px rgba(0,0,0,.15);
     margin-left: 1px;
+    overflow: auto;
+    height: 40%;
 }
 .drop-show label{
     display:block;
@@ -37,4 +39,29 @@
 }
 .drop-show label span{
     display:inline-block;
+}
+
+@media (max-width:667px) {
+    .drop-toggle {
+        width: 100%;
+    }
+    .drop-show {
+        width: 93vw;
+    }
+}
+@media (min-width:767.98px) {
+    .drop-toggle {
+        width: 100%;
+    }
+    .drop-show {
+        width: 84.3vw;
+    }
+}
+@media (min-width:991.98px) {
+    .drop-toggle {
+        width: 100%;
+    }
+    .drop-show {
+        width: 31.5vw;
+    }
 }

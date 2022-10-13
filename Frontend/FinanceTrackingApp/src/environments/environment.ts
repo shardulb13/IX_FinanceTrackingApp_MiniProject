@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseApiUrl: "https://financetrackingapi.azurewebsites.net"
+  // baseApiUrl: "http://localhost:46079"
 };
 
 /*

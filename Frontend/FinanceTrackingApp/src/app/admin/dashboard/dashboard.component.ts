@@ -27,6 +27,41 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.splitingExpense();
   }
+  
+  splitingExpense(){
+    this.expService.getAllExpenses().subscribe(res => {
+      this.allExpense = res;
+      this.authService.getCurrentUserDetails().subscribe(res => {
+        this.currentUser = res;
+        for (let i = 0; i <= this.allExpense.length; i++) {
+          if (this.allExpense[i].paidBy.toLowerCase() == this.currentUser.userName.toLowerCase()) {
+            let tempResult = this.allExpense[i].amount / (this.allExpense[i].userId.length);
+            this.result += Math.round(tempResult);
+            this.temp = (this.allExpense[i].amount) / this.allExpense[i].userId.length;
+            this.oweAmount += Math.round(this.temp) * (this.allExpense[i].userId.length - 1);
+            this.arrayofowe = this.allExpense[i].userId;
+            for (let j = 0; j < this.arrayofowe.length; j++) {
+              if (this.arrayofowe[j].toLowerCase() != this.currentUser.userName.toLowerCase()) {
+                this.showOweAmount.push({ 'userName': this.arrayofowe[j], 'amount': Math.round(this.temp), 'ExpenseName': this.allExpense[i].expenseName });
+              }
+            }
+          }
+          else {
+            this.lentTemp = (this.allExpense[i].amount) / this.allExpense[i].userId.length;
+            this.lentAmount += Math.round(this.lentTemp);
+            this.arrayoflent = this.allExpense[i].userId;
+            for (let j = 0; j < this.arrayoflent.length; j++) {
+              if (this.allExpense[i].paidBy == this.arrayoflent[j]) {
+                this.showLentAmount.push({ 'userName': this.arrayoflent[j], 'amount': Math.round(this.lentTemp), 'ExpenseName': this.allExpense[i].expenseName });
+              }
+            }
+          }
+        }
+      });
+    });
+  }
+
+
 
   settle() {
     for (let i = 0; i < this.showOweAmount.length; i++) {
@@ -43,7 +78,7 @@ export class DashboardComponent implements OnInit {
           }
           this.showLentAmount[j].amount = 0;
           this.lentAmount += this.showLentAmount[j].amount;
-
+  
           this.oweAmount = Math.abs(this.absoluteShowLentAmount);
           this.showOweAmount[i].amount = Math.abs(this.absoluteShowLentAmount);
           // console.log(this.lentAmount);
@@ -52,54 +87,5 @@ export class DashboardComponent implements OnInit {
       }
       break;
     }
-  }
-
-  splitingExpense(){
-    this.expService.getAllExpenses().subscribe(res => {
-      this.allExpense = res;
-      console.log("All Expenses Filtered", this.allExpense);
-      this.authService.getCurrentUserDetails().subscribe(res => {
-        this.currentUser = res;
-        for (let i = 0; i <= this.allExpense.length; i++) {
-          if (this.allExpense[i].paidBy.toLowerCase() == this.currentUser.userName.toLowerCase()) {
-            let tempResult = this.allExpense[i].amount / (this.allExpense[i].userId.length);
-            this.result += Math.floor(tempResult);
-            console.log("Usernames matched");
-            this.temp = (this.allExpense[i].amount) / this.allExpense[i].userId.length;
-            this.oweAmount += Math.floor(this.temp) * (this.allExpense[i].userId.length - 1);
-            console.log("Denyache Paise", this.oweAmount);
-            this.arrayofowe = this.allExpense[i].userId;
-            console.log("Mala" + this.arrayofowe + "Amount" + this.oweAmount);
-            console.log("Array of owe amount", this.arrayofowe);
-            for (let j = 0; j < this.arrayofowe.length; j++) {
-              if (this.arrayofowe[j].toLowerCase() != this.currentUser.userName.toLowerCase()) {
-                this.showOweAmount.push({ 'userName': this.arrayofowe[j], 'amount': Math.floor(this.temp), 'ExpenseName': this.allExpense[i].expenseName });
-                console.log("Unmatched id", this.arrayofowe[j] + "owes me" + this.temp);
-                console.log("Array madhe kiti ahe", this.showOweAmount);
-                console.log(this.showOweAmount.userName + "owes me" + this.showOweAmount.amount);
-              }
-              console.log("Found Matching ids in the array");
-            }
-          }
-          else {
-            this.lentTemp = (this.allExpense[i].amount) / this.allExpense[i].userId.length;
-            this.lentAmount += Math.floor(this.lentTemp);
-            console.log("Mala deyache paise", this.lentAmount);
-            this.arrayoflent = this.allExpense[i].userId;
-            console.log("Mala" + this.arrayoflent + "Amount" + this.lentAmount);
-            console.log("Array of owe amount", this.lentAmount);
-            for (let j = 0; j < this.arrayoflent.length; j++) {
-              if (this.allExpense[i].paidBy == this.arrayoflent[j]) {
-                this.showLentAmount.push({ 'userName': this.arrayoflent[j], 'amount': Math.floor(this.lentTemp), 'ExpenseName': this.allExpense[i].expenseName });
-                console.log("Unmatched id", this.arrayofowe[j] + "owes me" + this.lentTemp);
-                console.log("Array madhe kiti ahe", this.showOweAmount);
-                console.log(this.showLentAmount.userName + "owes me" + this.showLentAmount.amount);
-                console.log("unmatched user id");
-              }
-            }
-          }
-        }
-      });
-    });
   }
 }

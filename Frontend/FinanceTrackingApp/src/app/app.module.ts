@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
       positionClass: 'toast-bottom-right'
     }),
     BrowserAnimationsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
     
   ],
   providers: [{provide:HTTP_INTERCEPTORS, useClass:HeadersInterceptor , multi:true}],

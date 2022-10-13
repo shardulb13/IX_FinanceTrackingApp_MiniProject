@@ -1,6 +1,9 @@
-<button class="btn btn-success m-4 shadow float-end" routerLink="addGroup">Create Group</button>
+<h1 class="text-center">Groups</h1>
+<div class="add-button container ">
+    <button class="btn btn-success m-4 shadow float-end" routerLink="addGroup">Create Group</button>
+</div>
 <div>
-    <div class="container">
+    <div class="container table-responsive">
         <table class="table text-center table-hover shadow table-bordered">
             <thead class="sticky-top bg-white">
                 <tr>
@@ -14,9 +17,9 @@
                     <td>{{grp.groupName}}</td>
                     <td>{{grp.userId}}</td>
                     <td>
-                        <button class="btn btn-success me-2" (click)="edit(grp.id)"><i class="fa fa-pencil"
+                        <button class="btn btn-success" (click)="edit(grp.id)"><i class="fa fa-pencil"
                                 aria-hidden="true"></i></button>
-                        <button class="btn btn-danger me-2" (click)="deleteGroup(grp.id)"><i class="fa fa-trash-o"
+                        <button class="btn btn-danger m-1" (click)="deleteGroup(grp.id)"><i class="fa fa-trash-o"
                                 aria-hidden="true"></i></button>
                         <button class="btn btn-secondary" (click)="view(grp.id)"><i class="fa fa-eye"
                                 aria-hidden="true"></i></button>

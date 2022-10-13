@@ -9,7 +9,7 @@
     cursor: pointer;
     cursor: hand;
     border: 1px solid #ccc;
-    width: 33.3vw;
+    width: 34vw;
     text-align: left;
 }
 .drop-toggle i{
@@ -17,7 +17,7 @@
 }
 .drop-show {
     padding: 4px;
-    width: 33.3vw;
+    width: 34vw;
     background-color: #FFF;
     border: 1px solid #BABABA;
     position: absolute;
@@ -42,4 +42,29 @@
 .alert{
     color: red;
     padding: 0!important;
+}
+
+@media (max-width:667px) {
+    .drop-toggle {
+        width: 100%;
+    }
+    .drop-show {
+        width: 91.5vw;
+    }
+}
+@media (min-width:767.98px) {
+    .drop-toggle {
+        width: 100%;
+    }
+    .drop-show {
+        width: 95.7vw;
+    }
+}
+@media (min-width:991.98px) {
+    .drop-toggle {
+        width: 100%;
+    }
+    .drop-show {
+        width: 31.2vw;
+    }
 }

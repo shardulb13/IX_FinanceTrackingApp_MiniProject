@@ -7,13 +7,12 @@ import { Location } from '@angular/common';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-
   constructor(private location: Location) { }
 
   ngOnInit(): void {
   }
 
-  back(){
+  back() {
     this.location.back();
-   }
+  }
 }

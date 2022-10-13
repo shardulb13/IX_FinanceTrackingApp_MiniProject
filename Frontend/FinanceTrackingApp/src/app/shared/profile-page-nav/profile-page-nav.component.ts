@@ -15,7 +15,6 @@ export class ProfilePageNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getCurrentUserDetails().subscribe(val => {
-      console.log(val);
       this.userDetails = val;
     })
   }
@@ -23,6 +22,25 @@ export class ProfilePageNavComponent implements OnInit {
   logout(){
     this.tokenService.deleteToken();
     this.route.navigate(['']);
+  }
+
+  dashboard(){
+    this.route.navigate(['user/dashboard']);
+  }
+
+  allExpenses(){
+    this.route.navigate(['user/allexpenses']);
+  }
+
+  groups(){
+    this.route.navigate(['user/groups']);
+  }
+  friends(){
+    this.route.navigate(['user/friends']);
+  }
+
+  profile(){
+    this.route.navigate(['user/profile']);
   }
 
 }

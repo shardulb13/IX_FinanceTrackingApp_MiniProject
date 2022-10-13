@@ -43,29 +43,21 @@ export class AddComponent implements OnInit {
 
     this.authService.getCurrentUserDetails().subscribe(res => {
       this.currentUserDetails = res;
-      console.log(res);
       this.checkedList.push(this.currentUserDetails.id);
       this.paidBylist.push({ 'id': this.currentUserDetails.id, 'userName': this.currentUserDetails.userName })
-      console.log("Checkedlist", this.checkedList);
-      console.log("paidByList", this.paidBylist);
     });
 
     this.authService.getAllUsers().subscribe(res => {
-      console.log("All users", res)
       this.allUsers = res;
       this.friendService.getFriends().subscribe(res => {
-        console.log("Got the list of Friends", res[0].friendUserId);
         this.tempFriendList = res[0].friendUserId;
         for (let i = 0; i < this.allUsers.length; i++) {
           let matchingUserName = this.tempFriendList.filter((x: any) => x == this.allUsers[i].userName);
-          console.log(matchingUserName);
           if (this.allUsers[i].userName == matchingUserName) {
-            console.log("Matching Username", matchingUserName);
             this.friendList.push({
               'id': this.allUsers[i].id,
               'userName': this.allUsers[i].userName
             });
-            console.log("FriendList madhe ky ala", this.friendList);
           }
         }
       })
@@ -73,11 +65,8 @@ export class AddComponent implements OnInit {
     });
 
     this.date = new Date().toISOString().slice(0, 10);
-    console.log(this.date);
-
     this.groupService.getGroups().subscribe(res => {
       this.usersGroup = res;
-      console.log("Users Group", this.usersGroup);
     })
   }
 
@@ -86,53 +75,48 @@ export class AddComponent implements OnInit {
   }
 
   addExpense() {
-    if (this.expform.controls['GroupId'].value == null) {
-      this.expform.controls['UserId'].setValue(this.checkedList);
-      this.expenseService.AddExpenses(this.expform.value).subscribe(res => {
-        console.log(res);
-        this.toastrService.success("Expenes Added Successfully");
-        this.router.navigate(['user/allexpenses']);
-      },
-        err => {
-          this.toastrService.error("Something went wrong");
-        });
+    if(this.expform.valid){
+      if (this.expform.controls['GroupId'].value == null) {
+        this.expform.controls['UserId'].setValue(this.checkedList);
+        this.expenseService.AddExpenses(this.expform.value).subscribe(res => {
+          this.toastrService.success("Expenes Added Successfully");
+          this.router.navigate(['user/allexpenses']);
+        },
+          err => {
+            this.toastrService.error("Something went wrong");
+          });
+      }
+      else {
+        this.expenseService.AddExpenses(this.expform.value).subscribe(res => {
+          this.toastrService.success("Expenes Added Successfully");
+          this.router.navigate(['user/groups']);
+        },
+          err => {
+            this.toastrService.error("Something went wrong");
+          });
+      }
     }
-    else {
-      this.expenseService.AddExpenses(this.expform.value).subscribe(res => {
-        console.log(res);
-        this.toastrService.success("Expenes Added Successfully");
-        this.router.navigate(['user/groups']);
-      },
-        err => {
-          this.toastrService.error("Something went wrong");
-        });
+    else{
+      alert("Please fill up the expense details");
     }
-    console.log("Form Details", this.expform.value);
-    console.log(this.checkedList);
-    console.log(this.selectedlist);
   }
 
   getSelectedValue(status: Boolean, value: String, id: string) {
     if (status) {
-      console.log("Current user id", this.currentUserDetails.id);
       this.checkedList.push(id);
       this.selectedlist.push(value);
-      console.log("CheckedList", this.checkedList);
       this.paidBylist.push({ 'id': id, 'userName': value });
-      console.log("PaidByList:", this.paidBylist);
     } else {
       var index = this.checkedList.indexOf(value);
       var index1 = this.selectedlist.indexOf(value);
       this.checkedList.splice(index, 1);
       this.selectedlist.splice(index1, 1);
       this.paidBylist.splice(index, 1);
-      console.log("Empty Hotiye ka list", this.paidBylist);
     }
   }
 
   mouseleavefunc(e: any) {
     this.showDropDown = false;
-    console.log("mouse enter");
   }
 
   onchange() {
@@ -144,14 +128,11 @@ export class AddComponent implements OnInit {
           for (let j = 0; j < this.usersGroup[i].userId.length; j++) {
             for (let k = 0; k < this.allUsers.length; k++) {
               let matchingUserName = this.usersGroup[i].userId.filter((x: any) => x == this.allUsers[k].userName);
-              console.log("Abc madhe ky ala", matchingUserName);
               if (this.allUsers[k].userName == matchingUserName) {
-                console.log("Matching Username", matchingUserName);
                 this.paidBylist.push({
                   'id': this.allUsers[k].id,
                   'userName': this.allUsers[k].userName
                 });
-                console.log("PaidBylist madhe ky ala", this.paidBylist);
               }
             }
             break;
