@@ -81,10 +81,7 @@ export class AddfriendComponent implements OnInit {
       this.friendsService.addFriend(this.addFriendForm.value).subscribe(res => {
         this.toastrService.success("Friend Added Successfully");
         this.route.navigate(['user/friends']);
-      },
-        err => {
-          this.toastrService.error("Error in adding friend");
-        });
+      });
     }
   }
 

@@ -12,3 +12,45 @@ th {
     background-color: rgb(230, 240, 230) !important;
     color: black;
 }
+.mobile-cards{
+    display: none !important;
+}
+.scroll-to-top {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+   }
+   .show-scrollTop {
+    opacity: 1;
+    transition: all .2s ease-in-out;
+   }
+@media (max-width:667px) {
+    .mobile-cards{
+        display: flex !important;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    
+    }
+    .btn-scroll{
+        position: fixed !important;
+        right: 0;
+        bottom: 0;
+        margin: 8px;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 50%;
+        outline: none;
+        border: none !important;
+        width: 50px;
+        height: 50px;
+        z-index: 99;
+        background-color: rgb(230, 240, 230) !important ;
+        padding-bottom: 5px;
+    }
+    .table-responsive{
+        display: none !important;
+    }
+}

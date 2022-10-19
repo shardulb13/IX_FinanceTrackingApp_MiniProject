@@ -122,7 +122,6 @@ export class EditComponent implements OnInit {
   }
 
   updateExpense() {
-    this.loaderService.isLoading.next(true);
     this.expenseService.updateExpense(this.expform.value).subscribe(res => {
       this.toastrService.success("Expense Updated Successfully");
       if (this.expform.controls['GroupId'].value > 0) {
@@ -131,10 +130,6 @@ export class EditComponent implements OnInit {
       else {
         this.route.navigate(['user/allexpenses'])
       }
-    },
-    err => {
-      this.toastrService.error("Something went wrong");
-    })
-    this.loaderService.isLoading.next(false);
+    });
   }
 }

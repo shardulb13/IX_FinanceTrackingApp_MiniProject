@@ -30,9 +30,6 @@ export class FriendsListComponent implements OnInit {
     this.friendService.deleteFriend(id).subscribe(res => {
       this.toastrService.error("Friend Deleted Successfully");
       this.ngOnInit();
-    },
-      err => {
-        this.toastrService.warning("Error in deleting friend");
-      })
+    });
   }
 }

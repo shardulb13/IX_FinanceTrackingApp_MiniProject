@@ -40,10 +40,7 @@ export class LoginComponent implements OnInit {
           this.tokenService.setToken(res.token);
           this.route.navigate(['user/dashboard']);
         }
-      },
-        err => {
-          this.toastrService.error("Invalid Login Details");
-        })
+      });
     }
   }
 }

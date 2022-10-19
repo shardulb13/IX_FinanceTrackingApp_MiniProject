@@ -27,7 +27,8 @@ export class AddComponent implements OnInit {
   ngOnInit(): void {
     this.groupForm = new FormGroup({
       groupName: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      userId: new FormControl(this.checkedList)
+      userId: new FormControl(this.checkedList),
+      GroupAdmin: new FormControl('')
     });
 
     this.authService.getAllUsers().subscribe(res =>{
@@ -61,19 +62,18 @@ export class AddComponent implements OnInit {
         this.checkedList.splice(index,1);
         this.selectedlist.splice(index1,1);
     }
-    // this.currentSelected = {checked : status,name:value};
   }
   mouseleavefunc(e:any){
     this.showDropDown = false;
   }
 
   createGroup(){
+    this.groupForm.controls.GroupAdmin.setValue(this.loggedInUser.id);
     if(this.checkedList.length < 2){
       alert("Select Friends");
     }
     else{
       this.groupService.addGroup(this.groupForm.value).subscribe(res=>{
-        console.log(res);
         this.toastrService.success("Group Created Successfully");
         console.log(this.groupForm.value);
         this.route.navigate(['user/groups']);
@@ -88,5 +88,7 @@ export class AddComponent implements OnInit {
   get form(){
     return this.groupForm.controls;
   }
+
+
 
 }

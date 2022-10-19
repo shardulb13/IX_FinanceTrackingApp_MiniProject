@@ -86,7 +86,7 @@
           <table class="table text-center align-middle table-bordered">
             <thead>
               <tr>
-                <th>Expense Name</th>
+                <th>Name</th>
                 <th>Amount</th>
                 <th>Date</th>
                 <th>PaidBy</th>
@@ -100,8 +100,10 @@
                 <td>{{groups.expenseDate | date : 'dd/MM/yyyy'}}</td>
                 <td>{{groups.paidBy}}</td>
                 <td>
-                  <button class="btn btn-success m-1" (click)="editExpense(groups.expensesId)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                  <button class="btn btn-danger" (click)="deleteGroupExpense(groups.expensesId)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                  <button class="btn btn-success m-1" (click)="editExpense(groups.expensesId)" [disabled]="(groups.groupAdmin==this.currentUser.userName)? groupRights : !groupRights" >
+                    <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <button class="btn btn-danger" (click)="deleteGroupExpense(groups.expensesId)" [disabled]="(groups.groupAdmin==this.currentUser.userName)? groupRights : !groupRights" >
+                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>
                 </td>
               </tr>
             </tbody>

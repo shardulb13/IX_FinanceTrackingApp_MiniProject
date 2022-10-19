@@ -13,13 +13,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let grp of listOfGroups ;let i=index">
+                <tr *ngFor="let grp of listOfGroups;let i=index">
                     <td>{{grp.groupName}}</td>
                     <td>{{grp.userId}}</td>
                     <td>
-                        <button class="btn btn-success" (click)="edit(grp.id)"><i class="fa fa-pencil"
+                        <button class="btn btn-success" (click)="edit(grp.id)" *ngIf="(grp.groupAdmin==this.loggedInUser.userName)? groupRights : !groupRights"><i class="fa fa-pencil"
                                 aria-hidden="true"></i></button>
-                        <button class="btn btn-danger m-1" (click)="deleteGroup(grp.id)"><i class="fa fa-trash-o"
+                        <button class="btn btn-danger m-1" (click)="deleteGroup(grp.id)" *ngIf="(grp.groupAdmin==this.loggedInUser.userName)? groupRights : !groupRights"><i class="fa fa-trash-o"
                                 aria-hidden="true"></i></button>
                         <button class="btn btn-secondary" (click)="view(grp.id)"><i class="fa fa-eye"
                                 aria-hidden="true"></i></button>

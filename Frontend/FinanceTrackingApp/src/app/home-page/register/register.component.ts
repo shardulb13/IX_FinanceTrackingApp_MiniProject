@@ -34,7 +34,6 @@ export class RegisterComponent implements OnInit {
 
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
-      console.log(event.target.files[0]);
       this.registerForm.patchValue({
         File: event.target.files[0]
       });
@@ -72,17 +71,12 @@ export class RegisterComponent implements OnInit {
               this.route.navigate(['login']);
           }
         }),
-        catchError((error: HttpErrorResponse) => {
-          this.toastrService.error("Registration Unsuccessful");
-          return of(error);
-        })
+        // catchError((error: HttpErrorResponse) => {
+        //   this.toastrService.error(error.message);
+        //   return of(error);
+        // })
       ).subscribe(res => {
-        // setTimeout(() => {
-        //   this.toastrService.success("Successfully Registered");
-        //   this.route.navigate(['login']);
-        // }, 5000);
       });
     }
-    console.log("form Value", this.registerForm.value);
   }
 }

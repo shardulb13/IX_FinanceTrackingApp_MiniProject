@@ -25,8 +25,8 @@ export class GroupExpensesComponent implements OnInit {
   arrayofSettle: any = [];
   showOweAmount: any = [];
   showSettleAmount: any = [];
-
-
+  currentUser:any;
+  groupRights = false;
   constructor(private groupService: GroupsService, private expenseService: ExpenseService, private activatedRoute: ActivatedRoute, private authService: AuthenticationService,
     private toastrService: ToastrService, private route: Router) { }
 
@@ -35,10 +35,16 @@ export class GroupExpensesComponent implements OnInit {
       this.allGroups = res;
     });
 
+    this.authService.getCurrentUserDetails().subscribe(res=>{
+      this.currentUser = res;
+      console.log("Current User", this.currentUser);
+    })
+
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.expenseService.getExpensebyGroup(this.id).subscribe(res => {
       this.groupExpenses = res;
+      console.log("group expense", this.groupExpenses);
       this.authService.getCurrentUserDetails().subscribe(res => {
         this.loggedInUser = res;
         for (let i = 0; i <= this.groupExpenses.length; i++) {

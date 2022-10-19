@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, of } from 'rxjs';
 // import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { ExpenseService } from 'src/app/core/services/expense.service';
@@ -26,7 +28,7 @@ export class AddComponent implements OnInit {
   usersGroup: any = [];
   paidBylist: any = [];
   isdisable = false;
-  btnDisable:boolean = true;
+  btnDisable: boolean = true;
   constructor(private authService: AuthenticationService, private expenseService: ExpenseService, private router: Router, private toastrService: ToastrService,
     private groupService: GroupsService, private friendService: FriendsService) { }
 
@@ -75,28 +77,22 @@ export class AddComponent implements OnInit {
   }
 
   addExpense() {
-    if(this.expform.valid){
+    if (this.expform.valid) {
       if (this.expform.controls['GroupId'].value == null) {
         this.expform.controls['UserId'].setValue(this.checkedList);
         this.expenseService.AddExpenses(this.expform.value).subscribe(res => {
           this.toastrService.success("Expenes Added Successfully");
           this.router.navigate(['user/allexpenses']);
-        },
-          err => {
-            this.toastrService.error("Something went wrong");
-          });
+        })
       }
       else {
         this.expenseService.AddExpenses(this.expform.value).subscribe(res => {
           this.toastrService.success("Expenes Added Successfully");
           this.router.navigate(['user/groups']);
-        },
-          err => {
-            this.toastrService.error("Something went wrong");
-          });
+        });
       }
     }
-    else{
+    else {
       alert("Please fill up the expense details");
     }
   }
@@ -142,7 +138,7 @@ export class AddComponent implements OnInit {
     }
   }
 
-  reset(){
+  reset() {
     location.reload();
   }
 

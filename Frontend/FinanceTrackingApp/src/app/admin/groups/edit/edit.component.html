@@ -24,10 +24,10 @@
     </div>
     <div class="selected-users-div mx-2">
         <strong>Existing Users:</strong><span class="selectedUser" *ngFor="let i of editUserId"> <strong>{{i}}</strong> 
-            <button (click)="deleteGroupUser(i)"><i class="fa fa-times" aria-hidden="true"></i></button></span>
+            <button (click)="deleteGroupUser(i)" *ngIf="(i == this.editGroupData.groupAdmin)? groupRights : !groupRights">
+            <i class="fa fa-times" aria-hidden="true"></i></button></span>
         </div>
     <div class="mt-2 mx-2">
         <button class="btn btn-success me-2" (click)="updateGroup()">Update Group</button>
     </div>
-    <!-- <button (click)="editUsers()">Edit</button> -->
 </div>

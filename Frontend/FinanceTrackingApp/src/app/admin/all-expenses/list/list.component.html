@@ -3,32 +3,68 @@
     <button class="btn btn-success m-4 shadow float-end" routerLink="add">Add Expenses</button>
 </div>
 <div class="container table-responsive">
-        <table class="table text-center align-middle shadow table-bordered table-hover ">
-            <thead class="sticky-top bg-white">
-                <tr>
-                    <!-- <th>ID</th> -->
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>PaidBy</th>
-                    <th>Users</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let exp of expenses | paginate: { itemsPerPage: 10, currentPage: pageNo };let i=index">
-                    <!-- <td>{{exp.expensesId}}</td> -->
-                    <td>{{exp.expenseName}}</td>
-                    <td>{{exp.expenseDate | date : 'dd/MM/yyyy' }}</td>
-                    <td>{{exp.amount}}</td>
-                    <td>{{exp.paidBy}}</td>
-                    <td>{{exp.userId}} </td>
-                    <td>
-                        <button class="btn btn-success m-1 shadow"(click)="edit(exp.expensesId)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                        <button class="btn btn-danger shadow"(click)="deleteExpense(exp.expensesId)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
+    <table class="table text-center align-middle shadow table-bordered table-hover ">
+        <thead class="sticky-top bg-white">
+            <tr>
+                <!-- <th>ID</th> -->
+                <th>Name</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>PaidBy</th>
+                <th>Users</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let exp of expenses | paginate: { itemsPerPage: 10, currentPage: pageNo };let i=index">
+                <!-- <td>{{exp.expensesId}}</td> -->
+                <td>{{exp.expenseName}}</td>
+                <td>{{exp.expenseDate | date : 'dd/MM/yyyy' }}</td>
+                <td>{{exp.amount}}</td>
+                <td>{{exp.paidBy}}</td>
+                <td>{{exp.userId}} </td>
+                <td>
+                    <button class="btn btn-success m-1 shadow" (click)="edit(exp.expensesId)"><i class="fa fa-pencil"
+                            aria-hidden="true"></i></button>
+                    <button class="btn btn-danger shadow" (click)="deleteExpense(exp.expensesId)"><i
+                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
+</div>
+<button class="btn-scroll" *ngIf="isShow" (click)="gotoTop()"><i class="fa fa-chevron-up"
+        aria-hidden="true"></i></button>
+<div class="mobile-cards">
+    <div class="card m-1" style="width: 18rem;"
+        *ngFor="let exp of expenses | paginate: { itemsPerPage: 5, currentPage: pageNo } ">
+        <div class="card-body">
+            <div>
+                <span><strong>Name:</strong> {{exp.expenseName}}</span>
+            </div>
+            <div>
+                <span><strong>Date:</strong> {{exp.expenseDate | date : 'dd/MM/yyyy' }}</span>
+            </div>
+            <div>
+                <span><strong>Amount:</strong> {{exp.amount}}</span>
+            </div>
+            <div>
+                <span><strong>PaidBy:</strong> {{exp.paidBy}}</span>
+            </div>
+            <div>
+                <span><strong>Users:</strong> {{exp.userId}}</span>
+            </div>
+
+            <div>
+                <span>
+                    <button class="btn btn-success m-1 shadow" (click)="edit(exp.expensesId)"><i class="fa fa-pencil"
+                            aria-hidden="true"></i></button>
+                    <button class="btn btn-danger shadow" (click)="deleteExpense(exp.expensesId)"><i
+                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
 </div>

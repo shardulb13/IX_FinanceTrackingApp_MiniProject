@@ -2,17 +2,17 @@
   <form [formGroup]="registerForm" class="col-xs-12 col-sm-10 col-md-10 col-lg-8 col-xl-6">
     <h1>Sign Up</h1>
     <div class="mb-3">
-      <label for="firstname" class="form-label">Firstname</label>
+      <label for="firstname" class="form-label">First Name</label>
       <input type="text" class="form-control" placeholder="Enter Firstname" formControlName="Firstname">
       <span *ngIf="form['Firstname']?.errors?.['required'] && form['Firstname']?.touched">Firstname required</span>
-      <span *ngIf="form['Firstname']?.errors?.['maxlength']">Firstname must be less than 20 characters</span>
+      <span *ngIf="form['Firstname']?.errors?.['maxlength']">First Name must be less than 20 characters</span>
 
     </div>
     <div class="mb-3">
-      <label for="lastname" class="form-label">Lastname</label>
+      <label for="lastname" class="form-label">Last Name</label>
       <input type="text" class="form-control" placeholder="Enter Lastname" formControlName="Lastname">
       <span *ngIf="form['Lastname']?.errors?.['required'] && form['Lastname']?.touched">Lastname required</span>
-      <span *ngIf="form['Lastname']?.errors?.['maxlength']">Lastname must be less than 20 characters</span>
+      <span *ngIf="form['Lastname']?.errors?.['maxlength']">Last Name must be less than 20 characters</span>
     </div>
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
@@ -36,7 +36,7 @@
     </div>
     <div class="mb-3">
       <label for="file" class="form-label">Upload Profile Photo</label>
-      <input type="file" class="form-control" formControlName="File" (change)="onFileSelected($event)">
+      <input type="file" class="form-control" (change)="onFileSelected($event)">
       <p class="alert" *ngIf="form['File']?.errors?.['required'] && form['File']?.touched">Profile picture required</p>
       <!-- Progress bar -->
       <div class="progress" *ngIf="barwidth">
