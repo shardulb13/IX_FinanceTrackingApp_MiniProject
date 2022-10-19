@@ -4,14 +4,16 @@ using FinanceTrackingWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceTrackingWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextNewModelSnapshot : ModelSnapshot
+    [Migration("20221003155307_adding_relationship_to_tables_financeDB")]
+    partial class adding_relationship_to_tables_financeDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,10 +41,14 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -66,9 +72,6 @@ namespace FinanceTrackingWebAPI.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfilePhoto")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -171,14 +174,11 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("GroupAdmin")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("GroupName")
                         .IsRequired()
@@ -195,8 +195,6 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GroupAdmin");
 
                     b.ToTable("Groups");
                 });
@@ -408,15 +406,6 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Navigation("applicationUser");
 
                     b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Group", b =>
-                {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "applicationUser")
-                        .WithMany()
-                        .HasForeignKey("GroupAdmin");
-
-                    b.Navigation("applicationUser");
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserExpenses", b =>

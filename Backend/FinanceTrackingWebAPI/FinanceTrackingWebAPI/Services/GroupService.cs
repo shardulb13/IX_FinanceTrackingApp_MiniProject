@@ -44,7 +44,7 @@ namespace FinanceTrackingWebAPI.Services
                         {
                             Id = grp.groupId,
                             GroupName = grp.groupName,
-                            Count = grp.Count,
+                            GroupAdmin = grp.groupAdmin,
                             UserId = grp.userIds
                         }).ToList();
             }
@@ -55,9 +55,9 @@ namespace FinanceTrackingWebAPI.Services
             var group = new Group
             {
                 GroupName = groupModel.GroupName,
-                CreatedBy = groupModel.Id,
+                GroupAdmin = groupModel.GroupAdmin,
+                CreatedBy = groupModel.GroupAdmin,
                 CreatedOn = DateTime.Now,
-                IsActive = groupModel.IsActive,
             };
             var groupId = await _groupDA.AddGroup(group);
             foreach (var id in groupModel.UserId)
@@ -77,6 +77,7 @@ namespace FinanceTrackingWebAPI.Services
             {
                 Id = groupModel.Id,
                 GroupName = groupModel.GroupName,
+                GroupAdmin = groupModel.GroupAdmin
             };
             var modifiedGroupId = await _groupDA.UpdateGroup(group);
             foreach (var id in groupModel.UserId)

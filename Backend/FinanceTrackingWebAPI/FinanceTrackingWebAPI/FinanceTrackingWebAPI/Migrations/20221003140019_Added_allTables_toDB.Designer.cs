@@ -4,14 +4,16 @@ using FinanceTrackingWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceTrackingWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextNewModelSnapshot : ModelSnapshot
+    [Migration("20221003140019_Added_allTables_toDB")]
+    partial class Added_allTables_toDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,6 +22,68 @@ namespace FinanceTrackingWebAPI.Migrations
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Authentication.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -39,10 +103,14 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -66,9 +134,6 @@ namespace FinanceTrackingWebAPI.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfilePhoto")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -149,6 +214,9 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserNewId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("FriendUserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -156,6 +224,8 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("FriendId");
+
+                    b.HasIndex("ApplicationUserNewId");
 
                     b.HasIndex("FriendUserId");
 
@@ -171,14 +241,11 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("GroupAdmin")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("GroupName")
                         .IsRequired()
@@ -196,8 +263,6 @@ namespace FinanceTrackingWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupAdmin");
-
                     b.ToTable("Groups");
                 });
 
@@ -208,6 +273,9 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserNewId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("ExpenseId")
                         .HasColumnType("int");
 
@@ -215,6 +283,8 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserNewId");
 
                     b.HasIndex("ExpenseId");
 
@@ -230,6 +300,9 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserNewId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
@@ -237,6 +310,8 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserNewId");
 
                     b.HasIndex("GroupId");
 
@@ -396,6 +471,10 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Friend", b =>
                 {
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
+                        .WithMany("Friend")
+                        .HasForeignKey("ApplicationUserNewId");
+
                     b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "applicationUser")
                         .WithMany()
                         .HasForeignKey("FriendUserId");
@@ -410,17 +489,12 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Group", b =>
-                {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "applicationUser")
-                        .WithMany()
-                        .HasForeignKey("GroupAdmin");
-
-                    b.Navigation("applicationUser");
-                });
-
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserExpenses", b =>
                 {
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
+                        .WithMany("userExpenses")
+                        .HasForeignKey("ApplicationUserNewId");
+
                     b.HasOne("FinanceTrackingWebAPI.Entities.Expense", "Expenses")
                         .WithMany("userExpenses")
                         .HasForeignKey("ExpenseId")
@@ -437,6 +511,10 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UsersGroup", b =>
                 {
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
+                        .WithMany("usersGroup")
+                        .HasForeignKey("ApplicationUserNewId");
+
                     b.HasOne("FinanceTrackingWebAPI.Entities.Group", "Groups")
                         .WithMany("usersGroup")
                         .HasForeignKey("GroupId")
@@ -462,7 +540,7 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", null)
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -471,7 +549,7 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", null)
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -486,7 +564,7 @@ namespace FinanceTrackingWebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", null)
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -495,7 +573,7 @@ namespace FinanceTrackingWebAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", null)
+                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -503,6 +581,15 @@ namespace FinanceTrackingWebAPI.Migrations
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Authentication.ApplicationUser", b =>
+                {
+                    b.Navigation("Friend");
+
+                    b.Navigation("userExpenses");
+
+                    b.Navigation("usersGroup");
+                });
+
+            modelBuilder.Entity("FinanceTrackingWebAPI.Authentication.ApplicationUserNew", b =>
                 {
                     b.Navigation("Friend");
 

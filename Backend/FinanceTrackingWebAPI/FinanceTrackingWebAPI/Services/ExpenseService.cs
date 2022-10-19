@@ -93,6 +93,7 @@ namespace FinanceTrackingWebAPI.Services
                             Amount = exp.Amount,
                             PaidBy = exp.PaidBy,
                             GroupId = exp.GroupId,
+                            GroupAdmin = exp.GroupAdmin,
                             UserId = exp.UserIds
                         }).ToList();
             }

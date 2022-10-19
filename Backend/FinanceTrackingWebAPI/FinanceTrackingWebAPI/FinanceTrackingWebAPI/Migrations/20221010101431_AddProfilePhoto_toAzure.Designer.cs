@@ -4,14 +4,16 @@ using FinanceTrackingWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceTrackingWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextNewModelSnapshot : ModelSnapshot
+    [Migration("20221010101431_AddProfilePhoto_toAzure")]
+    partial class AddProfilePhoto_toAzure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +69,7 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePhoto")
+                    b.Property<string>("ProfilePhotoName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -171,14 +173,11 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("GroupAdmin")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("GroupName")
                         .IsRequired()
@@ -195,8 +194,6 @@ namespace FinanceTrackingWebAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GroupAdmin");
 
                     b.ToTable("Groups");
                 });
@@ -408,15 +405,6 @@ namespace FinanceTrackingWebAPI.Migrations
                     b.Navigation("applicationUser");
 
                     b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("FinanceTrackingWebAPI.Entities.Group", b =>
-                {
-                    b.HasOne("FinanceTrackingWebAPI.Authentication.ApplicationUser", "applicationUser")
-                        .WithMany()
-                        .HasForeignKey("GroupAdmin");
-
-                    b.Navigation("applicationUser");
                 });
 
             modelBuilder.Entity("FinanceTrackingWebAPI.Entities.UserExpenses", b =>
