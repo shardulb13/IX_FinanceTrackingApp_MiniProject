@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -24,10 +27,61 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Expenses()
+        public IActionResult Expenses([FromQuery] Paging pagingParameter)
         {
             string userId = User.FindFirstValue(ClaimTypes.Name);
-            return Ok(_expenseService.GetAllExpenses(userId));
+
+            var result = _expenseService.GetAllExpenses(userId);
+            // Return List of Customer  
+
+            // Get's No of Rows Count   
+            int count = result.Count();
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
+            int? CurrentPage = pagingParameter.pageNumber;
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
+            int? PageSize = pagingParameter.pageSize;
+
+            // Display TotalCount to Records to User  
+            int TotalCount = count;
+
+            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
+
+            if (CurrentPage != null && PageSize != null)
+            {
+                int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+                var data = result.Skip((CurrentPage - 1).Value * PageSize.Value).Take(PageSize.Value).ToList();
+                // Returns List of Customer after applying Paging   
+
+                // if CurrentPage is greater than 1 means it has previousPage  
+                var previousPage = CurrentPage > 1 ? "Yes" : "No";
+
+                // if TotalPages is greater than CurrentPage means it has nextPage  
+                var nextPage = CurrentPage < TotalPages ? "Yes" : "No";
+
+                // Object which we are going to send in header   
+                var paginationMetadata = new
+                {
+                    totalCount = TotalCount,
+                    pageSize = PageSize,
+                    currentPage = CurrentPage,
+                    totalPages = TotalPages,
+                    previousPage,
+                    nextPage
+                };
+
+                // Setting Header  
+                Response.Headers.Add("Paging-Headers", JsonConvert.SerializeObject(paginationMetadata));
+                // Returing List of Customers Collections  
+                return Ok(data);
+            }
+            else
+            {
+                return Ok(result);
+            }
+
+
         }
 
         [HttpGet]
@@ -73,7 +127,7 @@ namespace FinanceTrackingWebAPI.Controllers
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest,new Response { Status = "Error", Message = "Required fields cannot be empty" });
+                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Required fields cannot be empty" });
                 }
             }
             catch (Exception)
