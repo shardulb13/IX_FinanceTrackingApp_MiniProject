@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let exp of expenses | paginate: { itemsPerPage: 10, currentPage: pageNo };let i=index">
+            <tr *ngFor="let exp of expenses | paginate: { itemsPerPage: pageSize, currentPage: pageNo, totalItems: totalItems};let i=index">
                 <!-- <td>{{exp.expensesId}}</td> -->
                 <td>{{exp.expenseName}}</td>
                 <td>{{exp.expenseDate | date : 'dd/MM/yyyy' }}</td>
@@ -32,13 +32,13 @@
             </tr>
         </tbody>
     </table>
-    <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
+    <pagination-controls (pageChange)="onPageChange($event)" class="text-center"></pagination-controls>
 </div>
 <button class="btn-scroll" *ngIf="isShow" (click)="gotoTop()"><i class="fa fa-chevron-up"
         aria-hidden="true"></i></button>
 <div class="mobile-cards">
     <div class="card m-1" style="width: 18rem;"
-        *ngFor="let exp of expenses | paginate: { itemsPerPage: 5, currentPage: pageNo } ">
+        *ngFor="let exp of expenses | paginate: { itemsPerPage: pageSize, currentPage: pageNo, totalItems: totalItems}">
         <div class="card-body">
             <div>
                 <span><strong>Name:</strong> {{exp.expenseName}}</span>
@@ -66,5 +66,5 @@
             </div>
         </div>
     </div>
-    <pagination-controls (pageChange)="pageNo = $event" class="text-center"></pagination-controls>
+    <pagination-controls (pageChange)="onPageChange($event)" class="text-center"></pagination-controls>
 </div>

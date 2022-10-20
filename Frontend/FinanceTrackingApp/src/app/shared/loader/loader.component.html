@@ -1,4 +1,11 @@
-<div class="loader" *ngIf="loaderService.isLoading | async">
-  <div  class="spinner-border text-success" role="status">
-    </div>
+<div class="loaderdiv" *ngIf="loaderService.isLoading | async">
+  <div class="loader">
+    <!-- <div  class="spinner-border text-success" role="status">
+      </div> -->
+      <div class="dot white"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+  </div>
 </div>

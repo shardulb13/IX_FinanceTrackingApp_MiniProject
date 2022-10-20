@@ -13,6 +13,8 @@ import { GroupsService } from 'src/app/core/services/groups.service';
 })
 export class ListComponent implements OnInit {
   pageNo = 1;
+  pageSize = 3;
+  totalItems:any;
   expenses: any = [];
   allUsers: any = [];
   allGroups: any = [];
@@ -31,9 +33,8 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.expenseService.getAllExpenses().subscribe(res => {
-      this.expenses = res;
-    });
+    this.getAllExpenses();
+    this.getTotalExpenseCount();
 
     this.authService.getAllUsers().subscribe(res => {
       this.allUsers = res;
@@ -41,6 +42,22 @@ export class ListComponent implements OnInit {
 
   }
 
+  
+  getAllExpenses(){
+    this.expenseService.getAllExpenses(this.pageNo, this.pageSize).subscribe(res => {
+      this.expenses = res;
+    });
+  }
+  onPageChange(event:any){
+    this.pageNo = event;
+    this.getAllExpenses();
+  }
+
+  getTotalExpenseCount(){
+    this.expenseService.getAllExpenses().subscribe(res=>{
+      this.totalItems = res.length;
+    })
+  }
   deleteExpense(id: number) {
     this.expenseService.DeleteExpense(id).subscribe(res => {
       this.toastrService.error("Expense Deleted Successfully");
