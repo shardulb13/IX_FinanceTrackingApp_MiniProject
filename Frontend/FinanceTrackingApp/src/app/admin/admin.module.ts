@@ -7,6 +7,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     AdminRoutingModule,
     NgxPaginationModule,
-    SharedModule
+    SharedModule,
+    NgbModule,
   ]
 })
 export class AdminModule { }

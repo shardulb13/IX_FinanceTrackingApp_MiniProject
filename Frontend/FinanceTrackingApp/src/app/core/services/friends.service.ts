@@ -22,7 +22,7 @@ export class FriendsService {
     return this.httpClient.post(`${environment.baseApiUrl}/api/Friend`, data);
   }
 
-  deleteFriend(id: number): Observable<any> {
-    return this.httpClient.delete(`${environment.baseApiUrl}/api/Friend/${id}`);
+  deleteFriend(friendId: number, userId: number): Observable<any> {
+    return this.httpClient.delete(`${environment.baseApiUrl}/api/Friend/${friendId}?userId=${userId}`);
   }
 }

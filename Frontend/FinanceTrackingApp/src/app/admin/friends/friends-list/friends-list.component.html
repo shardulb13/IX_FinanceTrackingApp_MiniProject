@@ -13,7 +13,7 @@
         <tbody>
             <tr *ngFor="let data of tempfriendlist">
                 <td>{{data.friendname}} ({{data.username}})</td>
-                <td><button class="btn btn-danger"(click)="delete(data.username)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                <td><button class="btn btn-danger"(click)="delete(data.singleFriendUserId, data.userId)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
             </tr>
         </tbody>
     </table>

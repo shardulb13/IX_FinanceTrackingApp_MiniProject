@@ -2,25 +2,22 @@
   <h1 class="text-center">Dashboard</h1>
   <!-- <button class="btn btn-primary mt-4 mx-3" (click)="settle()">Settle All Expense</button> -->
   <div class="cards-container mt-4">
-    <div class="card  shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); ">
+    <div class="card text-center shadow m-2" style="width: 12rem; background-color: rgb(167, 205, 241); border: none;">
       <div class="card-body">
-        <h5 class="card-title">Total Expenses</h5>
-        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span>
-          {{this.result}}/- </p>
+        <h4 class="card-title"><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{this.result}}/-</h4>
+        <p class="card-text" style="font-weight: 500; text-decoration: underline;">Total Expenses</p>
       </div>
     </div>
-    <div class="card  shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210);  ">
+    <div class="card text-center  shadow m-2" style="width: 12rem; background-color: rgb(153, 240, 210); border: none;  ">
       <div class="card-body">
-        <h5 class="card-title">Owe Amount</h5>
-        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span>
-          {{this.oweAmount}}/-</p>
+        <h4 class="card-title"><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{this.oweAmount}}/-</h4>
+        <p class="card-text" style="font-weight: 500; text-decoration: underline;">Owe Amount</p>
       </div>
     </div>
-    <div class="card  shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169); ">
+    <div class="card text-center shadow m-2" style="width: 12rem; background-color: rgb(244, 169, 169); border: none; ">
       <div class="card-body">
-        <h5 class="card-title">Settle Amount</h5>
-        <p class="card-text" style="font-weight: bold;"> <span><i class="fa fa-inr" aria-hidden="true"></i></span>
-          {{this.lentAmount}}/-</p>
+        <h4 class="card-title"><span><i class="fa fa-inr" aria-hidden="true"></i></span> {{this.lentAmount}}/-</h4>
+        <p class="card-text" style="font-weight: 500; text-decoration: underline;">Settle Amount </p>
       </div>
     </div>
   </div>

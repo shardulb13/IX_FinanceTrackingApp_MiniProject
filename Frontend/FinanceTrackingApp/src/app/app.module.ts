@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { SharedModule } from './shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { SharedModule } from './shared/shared.module';
     }),
     BrowserAnimationsModule,
     NgxPaginationModule,
-    SharedModule
+    SharedModule,
+    NgbModule
     
   ],
   providers: [{provide:HTTP_INTERCEPTORS, useClass:HeadersInterceptor , multi:true}],

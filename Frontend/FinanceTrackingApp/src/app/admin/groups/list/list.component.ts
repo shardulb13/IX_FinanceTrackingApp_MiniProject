@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
   listOfGroups:any=[];
   groupRights:boolean= true;
   loggedInUser:any;
+  isCollapsed = true;
   constructor(private groupService: GroupsService, private route: Router, private toastrService: ToastrService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {

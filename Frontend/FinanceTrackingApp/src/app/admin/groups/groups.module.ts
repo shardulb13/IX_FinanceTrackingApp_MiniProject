@@ -9,6 +9,7 @@ import { EditComponent } from './edit/edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupExpensesComponent } from './group-expenses/group-expenses.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     GroupsRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgbModule
   ]
 })
 export class GroupsModule { }

@@ -8,6 +8,7 @@ import { EditComponent } from './edit/edit.component';
 import { ListComponent } from './list/list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     FormsModule,
     NgxPaginationModule,
-    // NgSelectModule,
+    NgbModule
   ]
 })
 export class AllExpensesModule { }

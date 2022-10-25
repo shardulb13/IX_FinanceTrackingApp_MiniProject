@@ -16,20 +16,15 @@ export class FriendsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.friendService.getFriends().subscribe(res => {
-      this.TempGetFriendsList = res;
-    });
-
     this.friendService.getFriendsData().subscribe(res => {
       this.tempfriendlist = res;
-    })
-
+    });
   }
 
-  delete(id: any) {
-    this.friendService.deleteFriend(id).subscribe(res => {
+  delete(friendId: any, userId:any) {
+    this.friendService.deleteFriend(friendId, userId).subscribe(res => {
       this.toastrService.error("Friend Deleted Successfully");
-      this.ngOnInit();
+      window.location.reload();
     });
   }
 }

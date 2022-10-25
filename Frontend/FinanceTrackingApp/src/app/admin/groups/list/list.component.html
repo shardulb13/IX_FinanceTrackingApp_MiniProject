@@ -4,7 +4,7 @@
 </div>
 <div>
     <div class="container table-responsive">
-        <table class="table text-center table-hover shadow table-bordered">
+        <table class="table text-center align-middle table-hover shadow table-bordered">
             <thead class="sticky-top bg-white">
                 <tr>
                     <th>Group Name</th>
@@ -15,7 +15,7 @@
             <tbody>
                 <tr *ngFor="let grp of listOfGroups;let i=index">
                     <td>{{grp.groupName}}</td>
-                    <td>{{grp.userId}}</td>
+                    <td>{{grp.userId | slice:0:2}}<span *ngIf="grp.userId.length > 2 ? isCollapsed : !isCollapsed">...<button type="button" id="tipTop"  class="userCount" triggers="click:blur" placement="top" ngbTooltip="{{grp.userId}}">+{{grp.userId.length-2}}</button></span></td>
                     <td>
                         <button class="btn btn-success" (click)="edit(grp.id)" *ngIf="(grp.groupAdmin==this.loggedInUser.userName)? groupRights : !groupRights"><i class="fa fa-pencil"
                                 aria-hidden="true"></i></button>

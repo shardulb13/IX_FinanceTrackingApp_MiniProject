@@ -16,13 +16,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let exp of expenses | paginate: { itemsPerPage: pageSize, currentPage: pageNo, totalItems: totalItems};let i=index">
+            <tr
+                *ngFor="let exp of expenses | paginate: { itemsPerPage: pageSize, currentPage: pageNo, totalItems: totalItems};let i=index">
                 <!-- <td>{{exp.expensesId}}</td> -->
                 <td>{{exp.expenseName}}</td>
                 <td>{{exp.expenseDate | date : 'dd/MM/yyyy' }}</td>
                 <td>{{exp.amount}}</td>
                 <td>{{exp.paidBy}}</td>
-                <td>{{exp.userId}} </td>
+                <td>
+                    <p> {{exp.userId | slice:0:2}}<span *ngIf="exp.userId.length > 2 ? isCollapsed : !isCollapsed">...<button type="button" id="tipTop"  class="userCount" triggers="click:blur" placement="top" ngbTooltip="{{exp.userId}}">+{{exp.userId.length-2}}</button></span>
+                    </p>
+                </td>
                 <td>
                     <button class="btn btn-success m-1 shadow" (click)="edit(exp.expensesId)"><i class="fa fa-pencil"
                             aria-hidden="true"></i></button>
@@ -53,7 +57,7 @@
                 <span><strong>PaidBy:</strong> {{exp.paidBy}}</span>
             </div>
             <div>
-                <span><strong>Users:</strong> {{exp.userId}}</span>
+                <span><strong>Users:</strong> {{exp.userId | slice:0:2}}<span *ngIf="exp.userId.length > 2 ? isCollapsed : !isCollapsed">...<button type="button" id="tipTop"  class="userCount" triggers="click" placement="top" ngbTooltip="{{exp.userId}}">+{{exp.userId.length-2}}</button></span></span>
             </div>
 
             <div>
@@ -68,3 +72,4 @@
     </div>
     <pagination-controls (pageChange)="onPageChange($event)" class="text-center"></pagination-controls>
 </div>
+
