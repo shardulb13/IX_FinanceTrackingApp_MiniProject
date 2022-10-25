@@ -14,7 +14,7 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
         IEnumerable<Friend> GetFriends(string userId);
         IEnumerable<FriendsDTO> GetFriendsData(string userId);
         bool AddFriend(List<Friend> friends);
-        bool DeleteFriend(string friendId);
+        bool DeleteFriend(string friendId, string userId);
 
     }
     public class FriendsDA : IFriendsDA
@@ -25,10 +25,11 @@ namespace FinanceTrackingWebAPI.DataAccessLayer
             _context = context;
         }
 
-        public bool DeleteFriend(string friendUserId)
+        public bool DeleteFriend(string friendUserId, string userId)
         {
-            var result = _context.Friends.Where(a => a.applicationUser.UserName.Equals(friendUserId) || a.ApplicationUser.UserName.Equals(friendUserId));
-            if (result.Count() == 2)
+            var result = _context.Friends.Where(a => a.FriendUserId == friendUserId && a.UserId == userId || a.UserId == friendUserId && a.FriendUserId == userId);
+            var count = result.Count();
+            if (count == 2)
             {
                 _context.Friends.RemoveRange(result);
                 _context.SaveChanges();

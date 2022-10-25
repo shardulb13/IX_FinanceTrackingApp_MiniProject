@@ -14,7 +14,7 @@ namespace FinanceTrackingWebAPI.Services
         IEnumerable<FriendVM> GetAllFriends(string userId);
         IEnumerable<FriendVM> GetFriendsData(string userId);
         bool AddFriend(FriendVM friends);
-        bool DeleteFriend(string friendUserId);
+        bool DeleteFriend(string friendUserId, string userId);
 
     }
     public class FriendService : IFriendsService
@@ -25,9 +25,9 @@ namespace FinanceTrackingWebAPI.Services
             _friendsDA = friendsDA;
         }
 
-        public bool DeleteFriend(string friendUserId)
+        public bool DeleteFriend(string friendUserId, string userId)
         {
-            return _friendsDA.DeleteFriend(friendUserId);
+            return _friendsDA.DeleteFriend(friendUserId, userId);
         }
 
         public bool AddFriend(FriendVM friends)

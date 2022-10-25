@@ -37,19 +37,19 @@ namespace FinanceTrackingWebAPI.Controllers
             // Get's No of Rows Count   
             int count = result.Count();
 
-            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
+            // Parameter is passed from Query string if it is null then it default Value will be null
             int? CurrentPage = pagingParameter.pageNumber;
 
-            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
+            // Parameter is passed from Query string if it is null then it default Value will be null 
             int? PageSize = pagingParameter.pageSize;
 
             // Display TotalCount to Records to User  
             int TotalCount = count;
 
-            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
 
             if (CurrentPage != null && PageSize != null)
             {
+                // Calculating Totalpage by Dividing (No of Records / Pagesize)  
                 int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
                 var data = result.Skip((CurrentPage - 1).Value * PageSize.Value).Take(PageSize.Value).ToList();
                 // Returns List of Customer after applying Paging   
@@ -73,7 +73,7 @@ namespace FinanceTrackingWebAPI.Controllers
 
                 // Setting Header  
                 Response.Headers.Add("Paging-Headers", JsonConvert.SerializeObject(paginationMetadata));
-                // Returing List of Customers Collections  
+                // Returing List of expenses list  
                 return Ok(data);
             }
             else

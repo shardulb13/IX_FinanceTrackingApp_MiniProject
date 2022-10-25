@@ -62,11 +62,11 @@ namespace FinanceTrackingWebAPI.Controllers
         }
 
         [HttpDelete("{friendUserId}")]
-        public IActionResult DeleteFriend(string friendUserId)
+        public IActionResult DeleteFriend(string friendUserId, string userId)
         {
             try
             {
-                var deleteFriend = _friendsService.DeleteFriend(friendUserId); ;
+                var deleteFriend = _friendsService.DeleteFriend(friendUserId, userId);
                 if (deleteFriend)
                 {
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Friend deleted successfully" });
